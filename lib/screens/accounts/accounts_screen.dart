@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/controllers/db_controller.dart';
+import 'package:vase/screens/accounts/accounts_controller.dart';
+
+import 'accounts_model.dart';
 
 class AccountsScreen extends StatelessWidget {
   AccountsScreen({Key? key}) : super(key: key);
@@ -8,10 +11,18 @@ class AccountsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: dbController.accounts.length,
-        itemBuilder: (context, pos) {
-          return Text(dbController.accounts[pos].accountName);
+    return GetBuilder<AccountsController>(
+      init: AccountsController(),
+      builder: (GetxController controller) {
+        return Obx(() {
+          return ListView.builder(
+              itemCount: dbController.accounts.length,
+              itemBuilder: (context, pos) {
+                Account account = dbController.accounts[pos];
+                return Text("${account.accountName} ${account.accountType}");
+              });
         });
+      },
+    );
   }
 }

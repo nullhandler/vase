@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
+import 'package:vase/enums.dart';
 
 class HomeController extends GetxController{
-  final RxInt currentIndex = 0.obs;
+  final Rx<HomeState> currentState = HomeState.transactions.obs;
 }

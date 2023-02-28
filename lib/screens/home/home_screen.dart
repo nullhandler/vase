@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_screen.dart';
 import 'package:vase/screens/home/home_controller.dart';
+
+import '../accounts/new_account.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -18,14 +21,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        int currentIndex = homeController.currentIndex.value;
+        int currentIndex = homeController.currentState.value.index;
         return Scaffold(
           // appBar: AppBar(
           //   title: const Text("Test"),
           // ),
           body: AccountsScreen(),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(NewAccount());
+            },
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
@@ -34,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // unselectedFontSize: 14,
             currentIndex: currentIndex,
             onTap: (newIndex) {
-              homeController.currentIndex.value = newIndex;
+              homeController.currentState.value = HomeState.values[newIndex];
             },
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
