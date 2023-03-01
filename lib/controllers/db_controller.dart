@@ -23,12 +23,12 @@ class DbController extends GetxController {
       // await db.execute(
       //     'CREATE TABLE Transactions (id INTEGER PRIMARY KEY, category_name TEXT)');
     });
-    await db.insert(
-        Const.accounts,
-        Account(accountName: "ICICI", accountType: AccountType.savings)
-            .toJson());
-    var test = await db.query("Accounts");
-    accounts.value = accountsFromJson(test);
+    // await db.insert(
+    //     Const.accounts,
+    //     Account(accountName: "ICICI", accountType: AccountType.savings)
+    //         .toJson());
+    var accountsList = await db.query("Accounts");
+    accounts.value = accountsFromJson(accountsList);
     vaseState.value = VaseState.loaded;
   }
 

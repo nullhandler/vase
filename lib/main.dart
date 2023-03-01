@@ -14,7 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ThemeData.dark()
+            .colorScheme
+            .copyWith(primary: const Color(0xff03dac6)),
+      ),
       title: 'Vase',
       home: GetBuilder<DbController>(
         init: DbController(),

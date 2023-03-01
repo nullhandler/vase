@@ -29,8 +29,22 @@ class Account {
       };
 }
 
-enum AccountType {
-  savings,
-  card,
-  credit
+enum AccountType { savings, card, credit }
+
+Map<AccountType, String> accountTypeMap = {
+  AccountType.savings: "Savings",
+  AccountType.card: "Debit Card",
+  AccountType.credit: "Credit Card"
+};
+
+AccountType accountTypeFromString(String s) {
+  return accountTypeMap.keys.firstWhere(
+      (element) => accountTypeMap[element] == s,
+      orElse: () => AccountType.savings);
+}
+
+extension AccountTypeExt on AccountType {
+  String toS() {
+    return accountTypeMap[this] ?? "Savings";
+  }
 }

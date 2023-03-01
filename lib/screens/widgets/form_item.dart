@@ -11,18 +11,28 @@ class FormItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(question),
-        Flexible(
-          child: TinkWell(
-            onTap: onTap,
-            child: TextField(
-              controller: controller,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          // Text(question),
+          Flexible(
+            child: TinkWell(
+              onTap: onTap,
+              child: TextField(
+                controller: controller,
+                style: Theme.of(context).inputDecorationTheme.counterStyle,
+                decoration: InputDecoration(
+                    labelText: question,
+                    border: const OutlineInputBorder(),
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    isDense: false),
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
