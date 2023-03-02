@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vase/screens/widgets/tinkwell.dart';
 
 class FormItem extends StatelessWidget {
   const FormItem(
@@ -15,20 +14,18 @@ class FormItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          // Text(question),
           Flexible(
-            child: TinkWell(
+            child: TextField(
+              controller: controller,
+              readOnly: onTap != null,
               onTap: onTap,
-              child: TextField(
-                controller: controller,
-                style: Theme.of(context).inputDecorationTheme.counterStyle,
-                decoration: InputDecoration(
-                    labelText: question,
-                    border: const OutlineInputBorder(),
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    isDense: false),
-              ),
+              style: Theme.of(context).inputDecorationTheme.counterStyle,
+              decoration: InputDecoration(
+                  labelText: question,
+                  border: const OutlineInputBorder(),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  isDense: false),
             ),
           )
         ],

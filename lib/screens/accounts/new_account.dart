@@ -10,7 +10,8 @@ class NewAccount extends StatelessWidget {
   NewAccount({Key? key}) : super(key: key);
   final AccountsController accountsController = Get.find();
   final TextEditingController accountName = TextEditingController();
-  final TextEditingController accountType = TextEditingController();
+  final TextEditingController accountType =
+      TextEditingController(text: AccountType.savings.toS());
   final Rx<Account> account =
       Account(accountName: '', accountType: AccountType.savings).obs;
 
@@ -21,45 +22,46 @@ class NewAccount extends StatelessWidget {
         title: const Text("New Account"),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
             FormItem(question: "Account Name", controller: accountName),
-            Obx(
-              () => Row(
-                children: [
-                  Text("Account Type: ${account.value.accountType.toS()}"),
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () async {
-                      String? newAccountType = await Get.dialog(AlertDialog(
-                          content: AccountsDialog(
-                        selectedAccount: account.value.accountType.toS(),
-                        accounts: accountTypeMap.values.toList(),
-                      )));
-                      if (newAccountType != null) {
-                        account.update((a) {
-                          a?.accountType =
-                              accountTypeFromString(newAccountType);
-                        });
-                      }
-                    },
-                  )
-                ],
-              ),
+            FormItem(
+              question: "Account Type",
+              controller: accountType,
+              onTap: () async {
+                String? newAccountType = await Get.dialog(AlertDialog(
+                    content: AccountsDialog(
+                  selectedAccount: account.value.accountType.toS(),
+                  accounts: accountTypeMap.values.toList(),
+                )));
+                if (newAccountType != null) {
+                  account.update((a) {
+                    a?.accountType = accountTypeFromString(newAccountType);
+                  });
+                  accountType.text = newAccountType;
+                }
+              },
             ),
-            // FormItem(
-            //   question: "Account Type",
-            //   controller: accountType,
-            //   onTap: () {},
-            // ),
-            ElevatedButton(
-                onPressed: () {
-                  account.value.accountName = accountName.text;
-                  accountsController.save(account.value);
-                  Get.back();
-                },
-                child: const Text("Save"))
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50))),
+                  onPressed: () {
+                    account.value.accountName = accountName.text;
+                    accountsController.save(account.value);
+                    Get.back();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text("Save"),
+                    ],
+                  )),
+            )
           ],
         ),
       ),
