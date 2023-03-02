@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_screen.dart';
 import 'package:vase/screens/home/home_controller.dart';
+import 'package:vase/screens/transactions/trans_controller.dart';
 
 import '../accounts/new_account.dart';
 
@@ -17,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
+  final TransController transController = Get.put(TransController());
+
   @override
   Widget build(BuildContext context) {
     return Obx(

@@ -13,13 +13,27 @@ class DbController extends GetxController {
   Future<void> initDB() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'vase.db');
-    // await deleteDatabase(path);
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute(
-          'CREATE TABLE ${Const.accounts} (id INTEGER PRIMARY KEY, account_name TEXT, account_type INT)');
-      await db.execute(
-          'CREATE TABLE Categories (id INTEGER PRIMARY KEY, category_name TEXT)');
+    await deleteDatabase(path);
+    db = await openDatabase(path, version: 1, onConfigure: (Database db) async {
+      await db.execute('PRAGMA foreign_keys = ON');
+    }, onCreate: (Database db, int version) async {
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.accounts} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, 
+          account_name TEXT, 
+          account_type INT)''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, 
+          category_name TEXT)''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, 
+          created_at INTEGER,
+          amount REAL,
+          desc TEXT, 
+          account_id INTEGER, 
+          category_id INTEGER, 
+          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE, 
+          FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
+      // print(await db.rawQuery("PRAGMA foreign_keys;"));
       // await db.execute(
       //     'CREATE TABLE Transactions (id INTEGER PRIMARY KEY, category_name TEXT)');
     });
