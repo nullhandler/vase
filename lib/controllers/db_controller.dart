@@ -23,7 +23,7 @@ class DbController extends GetxController {
           account_type INT)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          category_name TEXT)''');
+          category_name TEXT, category_type INT)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           created_at INTEGER,
@@ -31,6 +31,7 @@ class DbController extends GetxController {
           desc TEXT, 
           account_id INTEGER, 
           category_id INTEGER, 
+          to_account_id INTEGER,
           FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE, 
           FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
       // print(await db.rawQuery("PRAGMA foreign_keys;"));

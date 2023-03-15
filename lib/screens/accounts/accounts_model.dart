@@ -27,6 +27,9 @@ class Account {
         "account_name": accountName,
         "account_type": accountType.index
       };
+
+  @override
+  String toString() => accountName;
 }
 
 enum AccountType { savings, card, credit }

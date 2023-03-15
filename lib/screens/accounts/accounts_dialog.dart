@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AccountsDialog extends StatelessWidget {
+class AccountsDialog<S> extends StatelessWidget {
   const AccountsDialog(
       {Key? key, required this.selectedAccount, required this.accounts})
       : super(key: key);
-  final String selectedAccount;
-  final List<String> accounts;
+  final S? selectedAccount;
+  final List<S> accounts;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class AccountsDialog extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(accounts[pos]),
+              child: Text(accounts[pos].toString()),
             ),
           );
         });

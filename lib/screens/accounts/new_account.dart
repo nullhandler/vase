@@ -31,7 +31,7 @@ class NewAccount extends StatelessWidget {
               controller: accountType,
               onTap: () async {
                 String? newAccountType = await Get.dialog(AlertDialog(
-                    content: AccountsDialog(
+                    content: AccountsDialog<String>(
                   selectedAccount: account.value.accountType.toS(),
                   accounts: accountTypeMap.values.toList(),
                 )));
