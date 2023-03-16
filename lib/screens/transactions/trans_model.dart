@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:sqflite/sqflite.dart';
+
 List<Transaction> transactionFromJson(List<Map<String, Object?>> list) =>
     List<Transaction>.from(list.map((x) => Transaction.fromJson(x)));
 
@@ -12,13 +14,13 @@ String transactionToJson(List<Transaction> data) =>
 
 class Transaction {
   Transaction({
-    required this.id,
+    this.id,
     required this.createdAt,
     required this.amount,
     required this.desc,
     required this.accountId,
     required this.categoryId,
-    required this.toAccountId,
+    this.toAccountId,
   });
 
   int? id;

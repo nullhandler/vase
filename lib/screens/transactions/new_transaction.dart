@@ -19,54 +19,93 @@ class NewTransaction extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: GetBuilder<NewTransController>(
-          init: NewTransController(),
-          builder: (controller){
-            return Column(
-              children: [
-                FormItem(question: "Account", controller: controller.accountController, onTap: () async{
-                  Account? account = await ListDialog<Account>().showListDialog(Get.find<DbController>().accounts.value,);
-                  print(account?.accountName);
-                },),
-                // FormItem(
-                //   question: "Account Type",
-                //   controller: accountType,
-                //   onTap: () async {
-                //     String? newAccountType = await Get.dialog(AlertDialog(
-                //         content: AccountsDialog(
-                //           selectedAccount: account.value.accountType.toS(),
-                //           accounts: accountTypeMap.values.toList(),
-                //         )));
-                //     if (newAccountType != null) {
-                //       account.update((a) {
-                //         a?.accountType = accountTypeFromString(newAccountType);
-                //       });
-                //       accountType.text = newAccountType;
-                //     }
-                //   },
-                // ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                      onPressed: () {
-                        // account.value.accountName = accountName.text;
-                        // controller.save(account.value);
-                        Get.back();
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text("Save"),
-                        ],
-                      )),
-                )
-              ],
-            );
-          },
+        child: SingleChildScrollView(
+          child: GetBuilder<NewTransController>(
+            init: NewTransController(),
+            builder: (controller) {
+              return Column(
+                children: [
+                  FormItem(
+                    question: "Account",
+                    controller: controller.accountController,
+                    onTap: () async {
+                      Account? account =
+                          await ListDialog<Account>().showListDialog(
+                        Get.find<DbController>().accounts.value,
+                      );
+                      controller.setAccount(account);
+                    },
+                  ),
+                  FormItem(
+                    question: "Category",
+                    controller: controller.categoryController,
+                  ),
+                  FormItem(
+                    question: "Amount",
+                    controller: controller.amountController,
+                    textInputType: TextInputType.number,
+                  ),
+                  FormItem(
+                    question: "Description",
+                    controller: controller.descController,
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 6,
+                        child: FormItem(
+                          question: "Date",
+                          controller: controller.dateController,
+                          onTap: () async {
+                            DateTime? dateTime = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000, 2, 13),
+                                lastDate: DateTime(2100, 2, 13));
+                            controller.setDate(dateTime);
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Flexible(
+                        flex: 4,
+                        child: FormItem(
+                          question: "Time",
+                          controller: controller.timeController,
+                          onTap: () async {
+                            TimeOfDay? time = await showTimePicker(
+                                context: context, initialTime: TimeOfDay.now());
+                            controller.setTime(time);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50))),
+                        onPressed: () {
+                          // account.value.accountName = accountName.text;
+                          // controller.save(account.value);
+                          Get.back();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text("Save"),
+                          ],
+                        )),
+                  )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
