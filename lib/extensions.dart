@@ -11,6 +11,6 @@ extension DateExtension on DateTime {
   }
 
   String formatTime(){
-    return DateFormat("h:m a").format(this);
+    return DateFormat("hh:mm a").format(this);
   }
 }
