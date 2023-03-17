@@ -5,10 +5,13 @@ import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
 
+import '../screens/categories/category_model.dart';
+
 class DbController extends GetxController {
   late Database db;
   Rx<VaseState> vaseState = VaseState.loading.obs;
   RxList<Account> accounts = <Account>[].obs;
+  RxList<Category> categories = <Category>[].obs;
 
   Future<void> initDB() async {
     String databasesPath = await getDatabasesPath();
@@ -23,7 +26,8 @@ class DbController extends GetxController {
           account_type INT)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          category_name TEXT, category_type INT)''');
+          category_name TEXT, 
+          category_type INT)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           created_at INTEGER,
@@ -44,6 +48,8 @@ class DbController extends GetxController {
     //         .toJson());
     var accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
+    var categoryList = await db.query(Const.categories);
+    categories.value = categoryFromJson(categoryList);
     vaseState.value = VaseState.loaded;
   }
 

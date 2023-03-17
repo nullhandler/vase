@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/accounts/accounts_controller.dart';
 
+import '../widgets/fab.dart';
 import 'accounts_model.dart';
+import 'new_account.dart';
 
 class AccountsScreen extends StatelessWidget {
   AccountsScreen({Key? key}) : super(key: key);
@@ -11,18 +13,23 @@ class AccountsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AccountsController>(
-      init: AccountsController(),
-      builder: (GetxController controller) {
-        return Obx(() {
-          return ListView.builder(
-              itemCount: dbController.accounts.length,
-              itemBuilder: (context, pos) {
-                Account account = dbController.accounts[pos];
-                return Text("${account.accountName} ${account.accountType}");
-              });
-        });
-      },
+    return Scaffold(
+      body: GetBuilder<AccountsController>(
+        init: AccountsController(),
+        builder: (GetxController controller) {
+          return Obx(() {
+            return ListView.builder(
+                itemCount: dbController.accounts.length,
+                itemBuilder: (context, pos) {
+                  Account account = dbController.accounts[pos];
+                  return Text("${account.accountName} ${account.accountType}");
+                });
+          });
+        },
+      ),
+      floatingActionButton: Fab(onTap: () {
+        Get.to(NewAccount());
+      }),
     );
   }
 }

@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:sqflite/sqflite.dart';
-
 List<Transaction> transactionFromJson(List<Map<String, Object?>> list) =>
     List<Transaction>.from(list.map((x) => Transaction.fromJson(x)));
 

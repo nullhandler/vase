@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/controllers/db_controller.dart';
-import 'package:vase/screens/accounts/accounts_controller.dart';
 import 'package:vase/screens/dialogs/list_dialog.dart';
 import 'package:vase/screens/transactions/new_trans_controller.dart';
 
