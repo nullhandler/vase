@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vase/screens/categories/add_categories_screen.dart';
+import 'package:vase/screens/categories/category_model.dart';
+import 'package:vase/screens/widgets/categories/category_list.dart';
 import 'package:vase/screens/widgets/fab.dart';
 
 class Categories extends StatelessWidget {
@@ -10,7 +14,7 @@ class Categories extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("hello"),
+          title: const Text("Categories"),
           bottom: const TabBar(
             tabs: [
               Tab(
@@ -24,11 +28,19 @@ class Categories extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            Text("hello"),
-            Text("hello 2"),
+            CategoryList(
+              categoryType: CategoryType.expense,
+            ),
+            CategoryList(
+              categoryType: CategoryType.income,
+            ),
           ],
         ),
-        floatingActionButton: Fab(onTap: () {}),
+        floatingActionButton: Fab(
+          onTap: () {
+            Get.to(() => const AddCategoriesScreen());
+          },
+        ),
       ),
     );
   }

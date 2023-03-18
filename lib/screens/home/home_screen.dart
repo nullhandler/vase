@@ -20,7 +20,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   final TransController transController = Get.put(TransController());
-  final _tabs = [const Transactions(), const Categories(), AccountsScreen()];
+  final _tabs = [
+    const Transactions(),
+    const Categories(),
+    AccountsScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
