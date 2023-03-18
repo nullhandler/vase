@@ -7,9 +7,13 @@ class Fab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      backgroundColor: const Color(0xff03dac6),
       onPressed: onTap,
       tooltip: 'Increment',
-      child: const Icon(Icons.add),
+      child: const Icon(
+        Icons.add,
+        color: Colors.black,
+      ),
     );
   }
 }
