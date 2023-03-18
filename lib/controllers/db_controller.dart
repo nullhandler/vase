@@ -27,7 +27,9 @@ class DbController extends GetxController {
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           category_name TEXT, 
-          category_type INT)''');
+          category_type INT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           created_at INTEGER,
@@ -48,7 +50,7 @@ class DbController extends GetxController {
     //         .toJson());
     var accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
-    var categoryList = await db.query(Const.categories);
+    final categoryList = await db.query(Const.categories);
     categories.value = categoryFromJson(categoryList);
     vaseState.value = VaseState.loaded;
   }
