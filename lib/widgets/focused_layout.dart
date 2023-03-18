@@ -7,12 +7,14 @@ class FocusedLayout extends StatelessWidget {
     this.appBarTitle,
     this.padding,
     this.isScrollable = false,
+    this.bottomWidget,
   }) : super(key: key);
 
   final Widget child;
   final String? appBarTitle;
   final EdgeInsets? padding;
   final bool isScrollable;
+  final Widget? bottomWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,10 @@ class FocusedLayout extends StatelessWidget {
             child: child,
           );
         },
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: bottomWidget,
       ),
     );
   }

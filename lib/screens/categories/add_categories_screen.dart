@@ -41,7 +41,7 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 8),
                 ...CategoryType.values.map(
                   (e) => RadioListTile<CategoryType>(
                     value: e,
@@ -56,7 +56,7 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
                     title: Text(e.toString().split(".").last.toTitleCase),
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

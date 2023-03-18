@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/screens/accounts/accounts_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
+import 'package:vase/widgets/focused_layout.dart';
 
 import 'accounts_dialog.dart';
 import 'accounts_model.dart';
@@ -17,11 +18,9 @@ class NewAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("New Account"),
-      ),
-      body: Padding(
+    return FocusedLayout(
+      appBarTitle: "New Account",
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
@@ -46,10 +45,6 @@ class NewAccount extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50))),
                   onPressed: () {
                     account.value.accountName = accountName.text;
                     accountsController.save(account.value);
