@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';
 
+import '../../../controllers/db_controller.dart';
+
 class CategoryList extends StatelessWidget {
   const CategoryList({
     Key? key,
@@ -14,28 +16,34 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CategoriesController>(
-      init: CategoriesController(),
+      tag: categoryType.name,
+      init: CategoriesController(categoryType: categoryType),
       builder: (controller) {
-        final List<Category> categories = controller.getCategoriesByType(categoryType);
+        return Obx(() {
+          final List<Category> categories = controller
+              .getCategories(Get.find<DbController>().categories.value);
 
-        if (categories.isEmpty) {
-          return const Center(
-            child: Text("No categories found"),
-          );
-        }
-
-        return ListView.builder(
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final Category category = categories[index];
-
-            return ListTile(
-              title: Text(category.categoryName),
-              subtitle: category.createdAt != null ? Text(category.createdAt!.toIso8601String()) : null,
-              trailing: const Icon(Icons.arrow_forward_ios),
+          if (categories.isEmpty) {
+            return const Center(
+              child: Text("No categories found"),
             );
-          },
-        );
+          }
+
+          return ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              final Category category = categories[index];
+
+              return ListTile(
+                title: Text(category.categoryName),
+                subtitle: category.createdAt != null
+                    ? Text(category.createdAt!.toIso8601String())
+                    : null,
+                trailing: const Icon(Icons.arrow_forward_ios),
+              );
+            },
+          );
+        });
       },
     );
   }

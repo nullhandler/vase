@@ -33,27 +33,30 @@ class _HomeScreenState extends State<HomeScreen> {
         int currentIndex = homeController.currentState.value.index;
         return Scaffold(
           body: _tabs[homeController.currentState.value.index],
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            // unselectedFontSize: 14,
-            currentIndex: currentIndex,
-            onTap: (newIndex) {
-              homeController.currentState.value = HomeState.values[newIndex];
-            },
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book_rounded),
-                label: 'Transactions',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.tag_rounded),
-                label: 'Categories',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance_rounded),
-                label: 'Accounts',
-              ),
-            ],
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(splashColor: Colors.transparent),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              // unselectedFontSize: 14,
+              currentIndex: currentIndex,
+              onTap: (newIndex) {
+                homeController.currentState.value = HomeState.values[newIndex];
+              },
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu_book_rounded),
+                  label: 'Transactions',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.tag_rounded),
+                  label: 'Categories',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_balance_rounded),
+                  label: 'Accounts',
+                ),
+              ],
+            ),
           ), // This trailing comma makes auto-formatting nicer for build methods.
         );
       },

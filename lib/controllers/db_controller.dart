@@ -48,7 +48,7 @@ class DbController extends GetxController {
     //     Const.accounts,
     //     Account(accountName: "ICICI", accountType: AccountType.savings)
     //         .toJson());
-    var accountsList = await db.query(Const.accounts);
+    final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
     final categoryList = await db.query(Const.categories);
     categories.value = categoryFromJson(categoryList);
