@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/extensions.dart';
+import 'package:vase/screens/transactions/trans_controller.dart';
+import 'package:vase/screens/transactions/trans_model.dart';
 
+import '../../const.dart';
+import '../../controllers/db_controller.dart';
 import '../accounts/accounts_model.dart';
+import '../categories/category_model.dart';
 
 class NewTransController extends GetxController {
   final TextEditingController accountController = TextEditingController();
@@ -12,13 +17,34 @@ class NewTransController extends GetxController {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
   Account? selectedAccount;
-  DateTime? transactionDate;
-  TimeOfDay? transactionTime;
+  Category? selectedCategory;
+  late DateTime transactionDate;
+  late TimeOfDay transactionTime;
+  RxString transactionType = "Expense".obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    setDate(DateTime.now());
+    setTime(TimeOfDay.now());
+  }
 
   void setAccount(Account? account) {
     if (account == null) return;
     selectedAccount = account;
     accountController.text = account.accountName;
+  }
+
+  void setCategory(Category? category) {
+    if (category == null) return;
+    selectedCategory = category;
+    categoryController.text = category.categoryName;
+  }
+
+  void setTransactionType(String newTransactionType) {
+    transactionType.value = newTransactionType;
+    selectedCategory = null;
+    categoryController.text = "";
   }
 
   void setDate(DateTime? dateTime) {
@@ -33,5 +59,17 @@ class NewTransController extends GetxController {
     timeController.text = DateTime.now().copyTime(time).formatTime();
   }
 
-  void saveTransaction() {}
+  void saveTransaction() async {
+    final DbController dbController = Get.find<DbController>();
+    Transaction newTransaction = Transaction(
+      createdAt: transactionDate.copyTime(transactionTime),
+      amount: double.parse(amountController.text),
+      desc: descController.text,
+      accountId: selectedAccount!.id!,
+      categoryId: selectedCategory!.id!,
+    );
+    newTransaction.id =
+        await dbController.db.insert(Const.trans, newTransaction.toJson());
+    Get.find<TransController>().transactions.add(newTransaction);
+  }
 }

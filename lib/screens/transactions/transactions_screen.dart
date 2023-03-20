@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../widgets/fab.dart';
+import '../widgets/month_calender.dart';
 import 'new_transaction.dart';
 import 'trans_controller.dart';
 import 'trans_model.dart';
@@ -12,6 +13,10 @@ class Transactions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0,
+        title: const MonthCalender(),
+      ),
       body: GetBuilder<TransController>(
         builder: (TransController controller) {
           return Obx(() {
@@ -25,7 +30,7 @@ class Transactions extends StatelessWidget {
         },
       ),
       floatingActionButton: Fab(onTap: () {
-        Get.to(NewTransaction());
+        Get.to(const NewTransaction());
       }),
     );
   }

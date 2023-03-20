@@ -6,9 +6,10 @@ import '../../controllers/db_controller.dart';
 import 'category_model.dart';
 
 class AddCategoryController extends GetxController {
-  Rxn<CategoryType> categoryType = Rxn<CategoryType>(null);
+  Rx<CategoryType> categoryType = CategoryType.expense.obs;
   final categoryNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  RxString transactionType = "Expense".obs;
 
   void onCategoryTypeChange(CategoryType? value) {
     if (value != null) {
@@ -16,12 +17,17 @@ class AddCategoryController extends GetxController {
     }
   }
 
+  void setTransactionType(String newTransactionType) {
+    transactionType.value = newTransactionType;
+    onCategoryTypeChange(categoryTypeMap[newTransactionType.toLowerCase()]);
+  }
+
   void validate() {
     if (formKey.currentState!.validate()) {
       addCategory(
         Category(
           categoryName: categoryNameController.text,
-          categoryType: categoryType.value!,
+          categoryType: categoryType.value,
         ),
       );
       Get.back();

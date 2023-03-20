@@ -8,12 +8,6 @@ class CategoriesController extends GetxController {
 
   CategoriesController({required this.categoryType});
 
-  List<Category> getCategories(List<Category> categories) {
-    return categories
-        .where((element) => element.categoryType == categoryType)
-        .toList();
-  }
-
   Future<void> deleteCategory(Category category) async {
     final DbController dbController = Get.find<DbController>();
     await dbController.db

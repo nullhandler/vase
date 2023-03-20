@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';
+import 'package:vase/utils.dart';
 
 import '../../../controllers/db_controller.dart';
 
@@ -20,8 +21,9 @@ class CategoryList extends StatelessWidget {
       init: CategoriesController(categoryType: categoryType),
       builder: (controller) {
         return Obx(() {
-          final List<Category> categories = controller
-              .getCategories(Get.find<DbController>().categories.value);
+          final List<Category> categories = Utils.getCategories(
+              Get.find<DbController>().categories.value,
+              controller.categoryType);
 
           if (categories.isEmpty) {
             return const Center(
