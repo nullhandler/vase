@@ -36,16 +36,6 @@ class AddCategoriesScreen extends StatelessWidget {
                   onSelect: controller.setTransactionType,
                   currentType: controller.transactionType,
                 ),
-                // Obx(() => Column(mainAxisSize: MainAxisSize.min, children: [
-                //       ...CategoryType.values.map(
-                //         (e) => RadioListTile<CategoryType>(
-                //           value: e,
-                //           groupValue: controller.categoryType.value,
-                //           onChanged: controller.onCategoryTypeChange,
-                //           title: Text(e.toString().split(".").last.toTitleCase),
-                //         ),
-                //       )
-                //     ])),
                 const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,
