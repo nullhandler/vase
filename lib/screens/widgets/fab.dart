@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vase/colors.dart';
 
 class Fab extends StatelessWidget {
   const Fab({Key? key, required this.onTap}) : super(key: key);
@@ -7,7 +8,7 @@ class Fab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: const Color(0xff03dac6),
+      backgroundColor: AppColors.accentColor,
       onPressed: onTap,
       tooltip: 'Increment',
       child: const Icon(

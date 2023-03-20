@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/colors.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_screen.dart';
 import 'package:vase/screens/home/home_controller.dart';
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(splashColor: Colors.transparent),
             child: BottomNavigationBar(
+              selectedItemColor: AppColors.accentColor,
               type: BottomNavigationBarType.fixed,
               // unselectedFontSize: 14,
               currentIndex: currentIndex,
