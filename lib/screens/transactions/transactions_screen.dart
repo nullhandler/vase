@@ -12,7 +12,7 @@ class Transactions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return themeWrapper(
+    return ThemeWrapper(
       child: Scaffold(
         body: GetBuilder<TransController>(
           builder: (TransController controller) {

@@ -32,11 +32,15 @@ class MyApp extends StatelessWidget {
         builder: (dbController) {
           return Obx(() {
             if (dbController.vaseState.value == VaseState.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return const ThemeWrapper(
+                child:  Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
               );
             }
-            return themeWrapper(child: const HomeScreen());
+            return const ThemeWrapper(child:  HomeScreen());
           });
         },
         dispose: (dbController) {

@@ -14,7 +14,7 @@ class AccountsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return themeWrapper(
+    return ThemeWrapper(
       child: Scaffold(
         body: GetBuilder<AccountsController>(
           init: AccountsController(),
@@ -24,7 +24,8 @@ class AccountsScreen extends StatelessWidget {
                   itemCount: dbController.accounts.length,
                   itemBuilder: (context, pos) {
                     Account account = dbController.accounts[pos];
-                    return Text("${account.accountName} ${account.accountType}");
+                    return Text(
+                        "${account.accountName} ${account.accountType}");
                   });
             });
           },

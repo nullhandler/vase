@@ -11,7 +11,7 @@ class Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return themeWrapper(
+    return ThemeWrapper(
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
