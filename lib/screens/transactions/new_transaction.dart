@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/dialogs/list_dialog.dart';
 import 'package:vase/screens/transactions/new_trans_controller.dart';
+import 'package:vase/screens/widgets/category_type_selector.dart';
 import 'package:vase/widgets/focused_layout.dart';
 
+import '../../utils.dart';
 import '../accounts/accounts_model.dart';
+import '../categories/category_model.dart';
 import '../widgets/form_item.dart';
 
 class NewTransaction extends StatelessWidget {
@@ -24,6 +27,10 @@ class NewTransaction extends StatelessWidget {
             builder: (controller) {
               return Column(
                 children: [
+                  CategoryTypeSelector(
+                    onSelect: controller.setTransactionType,
+                    currentType: controller.transactionType,
+                  ),
                   FormItem(
                     question: "Account",
                     controller: controller.accountController,
@@ -38,6 +45,17 @@ class NewTransaction extends StatelessWidget {
                   FormItem(
                     question: "Category",
                     controller: controller.categoryController,
+                    onTap: () async {
+                      Category? category =
+                          await ListDialog<Category>().showListDialog(
+                        Utils.getCategories(
+                            Get.find<DbController>().categories.value,
+                            categoryTypeMap[
+                                    controller.transactionType.toLowerCase()] ??
+                                CategoryType.expense),
+                      );
+                      controller.setCategory(category);
+                    },
                   ),
                   FormItem(
                     question: "Amount",
@@ -58,7 +76,7 @@ class NewTransaction extends StatelessWidget {
                           onTap: () async {
                             DateTime? dateTime = await showDatePicker(
                                 context: context,
-                                initialDate: DateTime.now(),
+                                initialDate: controller.transactionDate,
                                 firstDate: DateTime(2000, 2, 13),
                                 lastDate: DateTime(2100, 2, 13));
                             controller.setDate(dateTime);
@@ -75,7 +93,8 @@ class NewTransaction extends StatelessWidget {
                           controller: controller.timeController,
                           onTap: () async {
                             TimeOfDay? time = await showTimePicker(
-                                context: context, initialTime: TimeOfDay.now());
+                                context: context,
+                                initialTime: controller.transactionTime);
                             controller.setTime(time);
                           },
                         ),
@@ -86,8 +105,7 @@ class NewTransaction extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ElevatedButton(
                         onPressed: () {
-                          // account.value.accountName = accountName.text;
-                          // controller.save(account.value);
+                          controller.saveTransaction();
                           Get.back();
                         },
                         child: Row(
