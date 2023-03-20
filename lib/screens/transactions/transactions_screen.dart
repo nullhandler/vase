@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 import '../widgets/fab.dart';
+import '../widgets/month_calender.dart';
 import 'new_transaction.dart';
 import 'trans_controller.dart';
 import 'trans_model.dart';
@@ -14,6 +15,10 @@ class Transactions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(
       child: Scaffold(
+        appBar: AppBar(
+          titleSpacing: 0,
+          title: const MonthCalender(),
+        ),
         body: GetBuilder<TransController>(
           builder: (TransController controller) {
             return Obx(() {
