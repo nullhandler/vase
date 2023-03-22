@@ -22,7 +22,7 @@ class CategoryList extends StatelessWidget {
       builder: (controller) {
         return Obx(() {
           final List<Category> categories = Utils.getCategories(
-              Get.find<DbController>().categories.value,
+              Get.find<DbController>().categories,
               controller.categoryType);
 
           if (categories.isEmpty) {

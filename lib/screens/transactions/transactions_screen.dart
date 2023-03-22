@@ -32,7 +32,7 @@ class Transactions extends StatelessWidget {
           },
         ),
         floatingActionButton: Fab(onTap: () {
-          Get.to(const NewTransaction());
+          Get.to(()=>NewTransaction());
         }),
       ),
     );
