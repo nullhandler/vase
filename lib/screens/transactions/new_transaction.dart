@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:vase/colors.dart';
+import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/dialogs/list_dialog.dart';
 import 'package:vase/screens/transactions/new_trans_controller.dart';
 import 'package:vase/screens/widgets/category_type_selector.dart';
 import 'package:vase/widgets/focused_layout.dart';
-
 import '../../utils.dart';
 import '../accounts/accounts_model.dart';
 import '../categories/category_model.dart';
 import '../widgets/form_item.dart';
 
 class NewTransaction extends StatelessWidget {
-  const NewTransaction({Key? key}) : super(key: key);
+  NewTransaction({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return FocusedLayout(
       appBarTitle: "New Transaction",
-      isScrollable: true,
+      isScrollable: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: SingleChildScrollView(
-          child: GetBuilder<NewTransController>(
-            init: NewTransController(),
-            builder: (controller) {
-              return Column(
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        child: GetBuilder<NewTransController>(
+          init: NewTransController(),
+          builder: (controller) {
+            return Form(
+              key: _formKey,
+              child: Column(
                 children: [
                   CategoryTypeSelector(
                     onSelect: controller.setTransactionType,
@@ -34,37 +39,84 @@ class NewTransaction extends StatelessWidget {
                   FormItem(
                     question: "Account",
                     controller: controller.accountController,
+                      validator: (acc) {
+                      if (acc == null || acc.isEmpty) {
+                        return 'Transaction must have an account ';
+                      }
+                      return null;
+                    },
                     onTap: () async {
-                      Account? account =
-                          await ListDialog<Account>().showListDialog(
-                        Get.find<DbController>().accounts.value,
-                      );
-                      controller.setAccount(account);
+                      if (Get.find<DbController>().accounts.isEmpty) {
+                        Utils.showBottomSnackBar(
+                            title: Const.errorTitle,
+                            message:
+                                "Please add an account first to continue :) ",
+                            ic: const Icon(
+                              Icons.error_outline_rounded,
+                              color: AppColors.errorColor,
+                            ));
+                      } else {
+                        Account? account =
+                            await ListDialog<Account>().showListDialog(
+                          Get.find<DbController>().accounts,
+                        );
+                        controller.setAccount(account);
+                      }
                     },
                   ),
                   FormItem(
                     question: "Category",
                     controller: controller.categoryController,
+                     validator: (cat) {
+                      if (cat == null || cat.isEmpty) {
+                        return 'Transaction must have a category ';
+                      }
+                      return null;
+                    },
                     onTap: () async {
-                      Category? category =
-                          await ListDialog<Category>().showListDialog(
-                        Utils.getCategories(
-                            Get.find<DbController>().categories.value,
-                            categoryTypeMap[
-                                    controller.transactionType.toLowerCase()] ??
-                                CategoryType.expense),
-                      );
-                      controller.setCategory(category);
+                      if (Get.find<DbController>().categories.isEmpty) {
+                        Utils.showBottomSnackBar(
+                            title: Const.errorTitle,
+                            message:
+                                "Please add an category first to continue :) ",
+                            ic: const Icon(
+                              Icons.error_outline_rounded,
+                              color: AppColors.errorColor,
+                            ));
+                      } else {
+                        Category? category =
+                            await ListDialog<Category>().showListDialog(
+                          Utils.getCategories(
+                              Get.find<DbController>().categories,
+                              categoryTypeMap[controller.transactionType
+                                      .toLowerCase()] ??
+                                  CategoryType.expense),
+                        );
+                        controller.setCategory(category);
+                      }
                     },
                   ),
                   FormItem(
                     question: "Amount",
                     controller: controller.amountController,
                     textInputType: TextInputType.number,
+                    validator: (amount) {
+                      if (amount == null || amount.isEmpty) {
+                        return 'A transaction without any amount? idts :(';
+                      }
+                      return null;
+                    },
                   ),
                   FormItem(
                     question: "Description",
                     controller: controller.descController,
+                    textInputType: TextInputType.name,
+                    validator: (desc) {
+                      if (desc == null || desc.isEmpty) {
+                        return 'Add a short description';
+                      }
+                      return null;
+                    },
                   ),
                   Row(
                     children: [
@@ -78,7 +130,7 @@ class NewTransaction extends StatelessWidget {
                                 context: context,
                                 initialDate: controller.transactionDate,
                                 firstDate: DateTime(2000, 2, 13),
-                                lastDate: DateTime(2100, 2, 13));
+                                lastDate: DateTime.now());
                             controller.setDate(dateTime);
                           },
                         ),
@@ -101,24 +153,30 @@ class NewTransaction extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: ElevatedButton(
-                        onPressed: () {
+                  const Spacer(),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
                           controller.saveTransaction();
                           Get.back();
-                        },
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
-                            Text("Add Transaction"),
+                            Text(
+                              "Add Transaction",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ],
-                        )),
-                  ),
+                        ),
+                      )),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

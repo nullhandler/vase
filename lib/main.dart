@@ -4,7 +4,7 @@ import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/home/home_screen.dart';
 import 'package:vase/widgets/wrapper.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
 
 void main() {
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ThemeData.dark(useMaterial3: true).colorScheme.copyWith(
               primary: AppColors.accentColor,
             ),
+            textTheme: GoogleFonts.latoTextTheme().apply(bodyColor: Colors.white)
       ),
       title: 'Vase',
       home: GetBuilder<DbController>(

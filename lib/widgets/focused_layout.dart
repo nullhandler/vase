@@ -19,6 +19,7 @@ class FocusedLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : isScrollable,
       appBar: AppBar(
         title: Text(appBarTitle ?? ""),
       ),
