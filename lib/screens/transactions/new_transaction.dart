@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
