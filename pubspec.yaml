@@ -32,6 +32,7 @@ dependencies:
   path: ^1.8.3
   intl: ^0.18.0
   google_fonts: ^4.0.3
+  mat_month_picker_dialog: ^1.1.1
   flutter:
     sdk: flutter
 
@@ -41,8 +42,8 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
-#  flutter_test:
-#    sdk: flutter
+  #  flutter_test:
+  #    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
