@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
@@ -8,6 +7,7 @@ import 'package:vase/screens/dialogs/list_dialog.dart';
 import 'package:vase/screens/transactions/new_trans_controller.dart';
 import 'package:vase/screens/widgets/category_type_selector.dart';
 import 'package:vase/widgets/focused_layout.dart';
+
 import '../../utils.dart';
 import '../accounts/accounts_model.dart';
 import '../categories/category_model.dart';
@@ -39,7 +39,7 @@ class NewTransaction extends StatelessWidget {
                   FormItem(
                     question: "Account",
                     controller: controller.accountController,
-                      validator: (acc) {
+                    validator: (acc) {
                       if (acc == null || acc.isEmpty) {
                         return 'Transaction must have an account ';
                       }
@@ -67,7 +67,7 @@ class NewTransaction extends StatelessWidget {
                   FormItem(
                     question: "Category",
                     controller: controller.categoryController,
-                     validator: (cat) {
+                    validator: (cat) {
                       if (cat == null || cat.isEmpty) {
                         return 'Transaction must have a category ';
                       }
@@ -130,7 +130,7 @@ class NewTransaction extends StatelessWidget {
                                 context: context,
                                 initialDate: controller.transactionDate,
                                 firstDate: DateTime(2000, 2, 13),
-                                lastDate: DateTime.now());
+                                lastDate: DateTime(2100, 2, 13));
                             controller.setDate(dateTime);
                           },
                         ),
