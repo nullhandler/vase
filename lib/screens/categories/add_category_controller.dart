@@ -28,6 +28,7 @@ class AddCategoryController extends GetxController {
         Category(
           categoryName: categoryNameController.text,
           categoryType: categoryType.value,
+          createdAt: DateTime.now() 
         ),
       );
       Get.back();

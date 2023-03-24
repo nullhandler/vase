@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/utils.dart';
@@ -22,8 +23,7 @@ class CategoryList extends StatelessWidget {
       builder: (controller) {
         return Obx(() {
           final List<Category> categories = Utils.getCategories(
-              Get.find<DbController>().categories,
-              controller.categoryType);
+              Get.find<DbController>().categories, controller.categoryType);
 
           if (categories.isEmpty) {
             return const Center(
@@ -39,9 +39,14 @@ class CategoryList extends StatelessWidget {
               return ListTile(
                 title: Text(category.categoryName),
                 subtitle: category.createdAt != null
-                    ? Text(category.createdAt!.toIso8601String())
+                    ? Text(
+                        DateFormat.yMMMMd('en_US') .format(category.createdAt!),
+                        style: const TextStyle(color: Colors.grey),
+                      )
                     : null,
-                trailing: const Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios,
+                ),
               );
             },
           );
