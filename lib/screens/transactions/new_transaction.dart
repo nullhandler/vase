@@ -58,7 +58,7 @@ class NewTransaction extends StatelessWidget {
                       } else {
                         Account? account =
                             await ListDialog<Account>().showListDialog(
-                          Get.find<DbController>().accounts,
+                          Get.find<DbController>().accounts.values.toList(),
                         );
                         controller.setAccount(account);
                       }

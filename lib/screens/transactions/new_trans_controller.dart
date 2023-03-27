@@ -63,7 +63,8 @@ class NewTransController extends GetxController {
     final DbController dbController = Get.find<DbController>();
     Transaction newTransaction = Transaction(
       createdAt: transactionDate.copyTime(transactionTime),
-      amount: double.parse(amountController.text),
+      amount: double.parse(
+          "${transactionType.value == 'Expense' ? '-' : '+'}${amountController.text}"),
       desc: descController.text,
       accountId: selectedAccount!.id!,
       categoryId: selectedCategory!.id!,

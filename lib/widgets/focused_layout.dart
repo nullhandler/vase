@@ -8,6 +8,7 @@ class FocusedLayout extends StatelessWidget {
     this.padding,
     this.isScrollable = false,
     this.bottomWidget,
+    this.fab,
   }) : super(key: key);
 
   final Widget child;
@@ -15,11 +16,12 @@ class FocusedLayout extends StatelessWidget {
   final EdgeInsets? padding;
   final bool isScrollable;
   final Widget? bottomWidget;
+  final Widget? fab;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : isScrollable,
+      resizeToAvoidBottomInset: isScrollable,
       appBar: AppBar(
         title: Text(appBarTitle ?? ""),
       ),
@@ -37,6 +39,7 @@ class FocusedLayout extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: fab,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: bottomWidget,

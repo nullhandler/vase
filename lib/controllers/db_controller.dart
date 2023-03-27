@@ -10,7 +10,7 @@ import '../screens/categories/category_model.dart';
 class DbController extends GetxController {
   late Database db;
   Rx<VaseState> vaseState = VaseState.loading.obs;
-  RxList<Account> accounts = <Account>[].obs;
+  RxMap<int, Account> accounts = <int, Account>{}.obs;
   RxList<Category> categories = <Category>[].obs;
 
   Future<void> initDB() async {
