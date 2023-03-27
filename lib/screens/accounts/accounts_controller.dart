@@ -3,11 +3,10 @@ import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
 
 import '../../enums.dart';
-import 'account_stats.dart';
 import 'accounts_model.dart';
 
 class AccountsController extends GetxController {
-  RxMap<int, AccountStats> accountStats = <int, AccountStats>{}.obs;
+  RxMap<int, double> accountStats = <int, double>{}.obs;
   Rx<VaseState> accountsState = VaseState.loading.obs;
 
   Future<void> save(Account account) async {
@@ -24,11 +23,15 @@ class AccountsController extends GetxController {
 
   void fetchStats() async {
     DbController dbController = Get.find();
-    var statsList = await dbController.db.rawQuery(
-        """SELECT account_id, SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) income, 
-      SUM(CASE WHEN amount < 0 THEN amount ELSE 0 END) as expense
+    var statsList = await dbController.db
+        .rawQuery("""SELECT account_id, SUM(amount) as total
       FROM ${Const.trans} GROUP BY account_id""");
-    accountStats.value = accountStatsFromJson(statsList);
+    accountStats.value = Map<int, double>.fromEntries(statsList.map((e) {
+      return MapEntry<int, double>(
+          e['account_id'] as int, e['total'] as double);
+    }));
+    print(accountStats.value);
+    // accountStats.value = accountStatsFromJson(statsList);
     accountsState.value = VaseState.loaded;
   }
 }
