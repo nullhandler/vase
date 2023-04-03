@@ -31,7 +31,6 @@ class AccountsController extends GetxController {
           e['account_id'] as int, e['total'] as double);
     }));
     print(accountStats.value);
-    // accountStats.value = accountStatsFromJson(statsList);
     accountsState.value = VaseState.loaded;
   }
 }

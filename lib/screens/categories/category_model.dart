@@ -11,7 +11,7 @@ List<Category> categoryFromJson(List<Map<String, Object?>> list) =>
 
 String categoryToJson(List<Category> data) =>
     json.encode(List<dynamic>.from(data.map(
-          (x) => x.toJson(),
+      (x) => x.toJson(),
     )));
 
 class Category {
@@ -27,18 +27,17 @@ class Category {
   CategoryType categoryType;
   DateTime? createdAt;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      Category(
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         categoryName: json["category_name"],
-        categoryType: categoryTypeMap[json["category_type"]] ??
-            CategoryType.expense,
-        createdAt: json["created_at"] == null ? null : DateTime.parse(
-            json["created_at"]),
+        categoryType:
+            categoryTypeMap[json["category_type"]] ?? CategoryType.expense,
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         if (id != null) "id": id,
         "category_name": categoryName,
         "category_type": categoryType.name,
@@ -56,4 +55,4 @@ Map<String, CategoryType> categoryTypeMap = {
   "income": CategoryType.income,
 };
 
-enum CategoryType { expense, income }
+enum CategoryType { expense, income, transfer }

@@ -16,7 +16,7 @@ class DbController extends GetxController {
   Future<void> initDB() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'vase.db');
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
     db = await openDatabase(path, version: 1, onConfigure: (Database db) async {
       await db.execute('PRAGMA foreign_keys = ON');
     }, onCreate: (Database db, int version) async {

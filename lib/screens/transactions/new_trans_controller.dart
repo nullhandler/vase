@@ -20,7 +20,7 @@ class NewTransController extends GetxController {
   Category? selectedCategory;
   late DateTime transactionDate;
   late TimeOfDay transactionTime;
-  RxString transactionType = "Expense".obs;
+  Rx<CategoryType> categoryType = CategoryType.expense.obs;
 
   @override
   void onInit() {
@@ -41,8 +41,8 @@ class NewTransController extends GetxController {
     categoryController.text = category.categoryName;
   }
 
-  void setTransactionType(String newTransactionType) {
-    transactionType.value = newTransactionType;
+  void setTransactionType(CategoryType newTransactionType) {
+    categoryType.value = newTransactionType;
     selectedCategory = null;
     categoryController.text = "";
   }
@@ -64,7 +64,7 @@ class NewTransController extends GetxController {
     Transaction newTransaction = Transaction(
       createdAt: transactionDate.copyTime(transactionTime),
       amount: double.parse(
-          "${transactionType.value == 'Expense' ? '-' : '+'}${amountController.text}"),
+          "${categoryType.value == CategoryType.expense ? '-' : '+'}${amountController.text}"),
       desc: descController.text,
       accountId: selectedAccount!.id!,
       categoryId: selectedCategory!.id!,

@@ -9,27 +9,20 @@ class AddCategoryController extends GetxController {
   Rx<CategoryType> categoryType = CategoryType.expense.obs;
   final categoryNameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  RxString transactionType = "Expense".obs;
 
-  void onCategoryTypeChange(CategoryType? value) {
-    if (value != null) {
-      categoryType.value = value;
+  void setTransactionType(CategoryType? newTransactionType) {
+    if (newTransactionType != null) {
+      categoryType.value = newTransactionType;
     }
-  }
-
-  void setTransactionType(String newTransactionType) {
-    transactionType.value = newTransactionType;
-    onCategoryTypeChange(categoryTypeMap[newTransactionType.toLowerCase()]);
   }
 
   void validate() {
     if (formKey.currentState!.validate()) {
       addCategory(
         Category(
-          categoryName: categoryNameController.text,
-          categoryType: categoryType.value,
-          createdAt: DateTime.now() 
-        ),
+            categoryName: categoryNameController.text,
+            categoryType: categoryType.value,
+            createdAt: DateTime.now()),
       );
       Get.back();
     }

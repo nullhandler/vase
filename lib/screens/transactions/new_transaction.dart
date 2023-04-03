@@ -34,7 +34,7 @@ class NewTransaction extends StatelessWidget {
                 children: [
                   CategoryTypeSelector(
                     onSelect: controller.setTransactionType,
-                    currentType: controller.transactionType,
+                    currentType: controller.categoryType,
                   ),
                   FormItem(
                     question: "Account",
@@ -88,9 +88,7 @@ class NewTransaction extends StatelessWidget {
                             await ListDialog<Category>().showListDialog(
                           Utils.getCategories(
                               Get.find<DbController>().categories,
-                              categoryTypeMap[controller.transactionType
-                                      .toLowerCase()] ??
-                                  CategoryType.expense),
+                              controller.categoryType.value),
                         );
                         controller.setCategory(category);
                       }

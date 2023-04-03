@@ -34,7 +34,7 @@ class AddCategoriesScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 CategoryTypeSelector(
                   onSelect: controller.setTransactionType,
-                  currentType: controller.transactionType,
+                  currentType: controller.categoryType,
                 ),
                 // Obx(() => Column(mainAxisSize: MainAxisSize.min, children: [
                 //       ...CategoryType.values.map(
