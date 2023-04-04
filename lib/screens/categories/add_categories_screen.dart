@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
+import 'package:vase/colors.dart';
 import 'package:vase/screens/categories/add_category_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
 import 'package:vase/widgets/focused_layout.dart';
@@ -14,6 +16,7 @@ class AddCategoriesScreen extends StatelessWidget {
     return FocusedLayout(
       appBarTitle: "Add Category",
       padding: const EdgeInsets.all(16.0),
+      isScrollable: false,
       child: GetBuilder<AddCategoryController>(
         init: AddCategoryController(),
         builder: (AddCategoryController controller) {
@@ -36,16 +39,27 @@ class AddCategoriesScreen extends StatelessWidget {
                   onSelect: controller.setTransactionType,
                   currentType: controller.transactionType,
                 ),
-                // Obx(() => Column(mainAxisSize: MainAxisSize.min, children: [
-                //       ...CategoryType.values.map(
-                //         (e) => RadioListTile<CategoryType>(
-                //           value: e,
-                //           groupValue: controller.categoryType.value,
-                //           onChanged: controller.onCategoryTypeChange,
-                //           title: Text(e.toString().split(".").last.toTitleCase),
-                //         ),
-                //       )
-                //     ])),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: controller.categoryIcon.value,
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        IconData? icon = await FlutterIconPicker.showIconPicker(
+                            context,
+                            adaptiveDialog: true,
+                            backgroundColor: AppColors.darkGreyColor,
+                            iconPackModes: [IconPack.cupertino]);
+                        controller.onCategoryIconChange(icon);
+                      },
+                      child: const Text('Click to choose an Icon'),
+                    ),
+                  ],
+                ),
+                const Spacer(),
                 const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,

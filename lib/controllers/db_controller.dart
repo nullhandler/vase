@@ -21,24 +21,25 @@ class DbController extends GetxController {
       await db.execute('PRAGMA foreign_keys = ON');
     }, onCreate: (Database db, int version) async {
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.accounts} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          account_name TEXT, 
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          account_name TEXT,
           account_type INT)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          category_name TEXT, 
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          category_name TEXT,
           category_type INT,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          icon TEXT
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           created_at INTEGER,
           amount REAL,
-          desc TEXT, 
-          account_id INTEGER, 
-          category_id INTEGER, 
+          desc TEXT,
+          account_id INTEGER,
+          category_id INTEGER,
           to_account_id INTEGER,
-          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE, 
+          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE,
           FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
       // print(await db.rawQuery("PRAGMA foreign_keys;"));
       // await db.execute(

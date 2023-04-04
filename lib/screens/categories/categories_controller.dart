@@ -12,7 +12,7 @@ class CategoriesController extends GetxController {
     final DbController dbController = Get.find<DbController>();
     await dbController.db
         .delete(Const.categories, where: "id = ?", whereArgs: [category.id]);
-    final categoryList = await dbController.db.query(Const.categories);
+    //final categoryList = await dbController.db.query(Const.categories);
     // categories.value = categoryFromJson(categoryList);
   }
 }

@@ -19,11 +19,15 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(useMaterial3: true).copyWith(
-        colorScheme: ThemeData.dark(useMaterial3: true).colorScheme.copyWith(
-              primary: AppColors.accentColor,
-            ),
-            textTheme: GoogleFonts.latoTextTheme().apply(bodyColor: Colors.white)
-      ),
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          }),
+          colorScheme: ThemeData.dark(useMaterial3: true).colorScheme.copyWith(
+                primary: AppColors.accentColor,
+              ),
+          textTheme:
+              GoogleFonts.latoTextTheme().apply(bodyColor: Colors.white)),
       title: 'Vase',
       home: GetBuilder<DbController>(
         init: DbController(),
@@ -34,14 +38,14 @@ class MyApp extends StatelessWidget {
           return Obx(() {
             if (dbController.vaseState.value == VaseState.loading) {
               return const ThemeWrapper(
-                child:  Scaffold(
+                child: Scaffold(
                   body: Center(
                     child: CircularProgressIndicator(),
                   ),
                 ),
               );
             }
-            return const ThemeWrapper(child:  HomeScreen());
+            return const ThemeWrapper(child: HomeScreen());
           });
         },
         dispose: (dbController) {
