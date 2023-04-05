@@ -73,10 +73,11 @@ packages:
   flutter_iconpicker:
     dependency: "direct main"
     description:
-      name: flutter_iconpicker
-      sha256: e8b09b89f74bc70b72ee6a1f48fd03e40cc3ebdba861c066a002bf2b532fe01a
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: hotfix
+      resolved-ref: cc8878dbd9b3f4d7e29540dcd57d78896f9d9fb7
+      url: "https://github.com/kechankrisna/FlutterIconPicker"
+    source: git
     version: "3.2.2"
   flutter_lints:
     dependency: "direct dev"

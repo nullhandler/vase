@@ -5,14 +5,22 @@ import '../categories/category_model.dart';
 
 class CategoryTypeSelector extends StatelessWidget {
   const CategoryTypeSelector(
-      {Key? key, required this.onSelect, required this.currentType})
+      {Key? key,
+      required this.onSelect,
+      required this.currentType,
+      this.showTransfer = false})
       : super(key: key);
 
   final Function(CategoryType) onSelect;
   final Rx<CategoryType> currentType;
+  final bool showTransfer;
 
   @override
   Widget build(BuildContext context) {
+    final categories = CategoryType.values.toList();
+    if (!showTransfer) {
+      categories.removeWhere((category) => category == CategoryType.transfer);
+    }
     return Row(
       children: CategoryType.values
           .map<Widget>((item) => Padding(

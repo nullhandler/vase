@@ -38,6 +38,7 @@ class NewTransaction extends StatelessWidget {
                       controller.setTransactionType(categoryType);
                     },
                     currentType: controller.categoryType,
+                    showTransfer: true,
                   ),
                   Obx(() {
                     return Column(
