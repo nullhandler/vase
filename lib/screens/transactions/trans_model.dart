@@ -17,8 +17,7 @@ class Transaction {
     required this.amount,
     required this.desc,
     required this.accountId,
-    required this.categoryId,
-    this.toAccountId,
+    this.categoryId,
   });
 
   int? id;
@@ -26,8 +25,7 @@ class Transaction {
   double amount;
   String desc;
   int accountId;
-  int categoryId;
-  int? toAccountId;
+  int? categoryId;
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         id: json["id"],
@@ -36,7 +34,6 @@ class Transaction {
         desc: json["desc"],
         accountId: json["account_id"],
         categoryId: json["category_id"],
-        toAccountId: json["to_account_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,7 +42,6 @@ class Transaction {
         "amount": amount,
         "desc": desc,
         "account_id": accountId,
-        "category_id": categoryId,
-        if (toAccountId != null) "to_account_id": toAccountId
+        if (categoryId != null) "category_id": categoryId,
       };
 }

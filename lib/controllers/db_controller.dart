@@ -16,7 +16,7 @@ class DbController extends GetxController {
   Future<void> initDB() async {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'vase.db');
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
     db = await openDatabase(path, version: 1, onConfigure: (Database db) async {
       await db.execute('PRAGMA foreign_keys = ON');
     }, onCreate: (Database db, int version) async {
@@ -37,17 +37,21 @@ class DbController extends GetxController {
           desc TEXT, 
           account_id INTEGER, 
           category_id INTEGER, 
-          to_account_id INTEGER,
           FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE, 
           FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
-      // print(await db.rawQuery("PRAGMA foreign_keys;"));
-      // await db.execute(
-      //     'CREATE TABLE Transactions (id INTEGER PRIMARY KEY, category_name TEXT)');
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.transLinks} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          trans_id INTEGER,
+          batch_id TEXT,
+          FOREIGN KEY (trans_id) REFERENCES ${Const.trans}(id) ON DELETE CASCADE)''');
+      await db.execute(
+          '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
+      await db.execute('''CREATE VIEW ${Const.transView} AS
+          SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks} 
+          on ${Const.transLinks}.trans_id = ${Const.trans}.id''');
     });
-    // await db.insert(
-    //     Const.accounts,
-    //     Account(accountName: "ICICI", accountType: AccountType.savings)
-    //         .toJson());
+    var s = await db.query(Const.transView, groupBy: "batch_id");
+    print(s);
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
     final categoryList = await db.query(Const.categories);

@@ -43,7 +43,7 @@ class AccountsScreen extends StatelessWidget {
                     Account account =
                         dbController.accounts.values.toList()[pos];
                     return Text(
-                        "${account.accountName} ${account.accountType} ${controller.accountStats[account.id]}");
+                        "${account.accountName} ${account.accountType} ${controller.accountStats[account.id]}  ${account.id}");
                   });
             });
           },

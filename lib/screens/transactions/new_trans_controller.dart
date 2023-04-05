@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vase/extensions.dart';
 import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/screens/transactions/trans_model.dart';
@@ -11,12 +12,14 @@ import '../categories/category_model.dart';
 
 class NewTransController extends GetxController {
   final TextEditingController accountController = TextEditingController();
+  final TextEditingController toAccountController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
   Account? selectedAccount;
+  Account? selectedToAccount;
   Category? selectedCategory;
   late DateTime transactionDate;
   late TimeOfDay transactionTime;
@@ -33,6 +36,12 @@ class NewTransController extends GetxController {
     if (account == null) return;
     selectedAccount = account;
     accountController.text = account.accountName;
+  }
+
+  void setToAccount(Account? account) {
+    if (account == null) return;
+    selectedToAccount = account;
+    toAccountController.text = account.accountName;
   }
 
   void setCategory(Category? category) {
@@ -61,16 +70,44 @@ class NewTransController extends GetxController {
 
   void saveTransaction() async {
     final DbController dbController = Get.find<DbController>();
-    Transaction newTransaction = Transaction(
-      createdAt: transactionDate.copyTime(transactionTime),
-      amount: double.parse(
-          "${categoryType.value == CategoryType.expense ? '-' : '+'}${amountController.text}"),
-      desc: descController.text,
-      accountId: selectedAccount!.id!,
-      categoryId: selectedCategory!.id!,
-    );
-    newTransaction.id =
-        await dbController.db.insert(Const.trans, newTransaction.toJson());
-    Get.find<TransController>().transactions.add(newTransaction);
+    if (categoryType.value == CategoryType.transfer) {
+      String uuid = const Uuid().v4();
+      Transaction newTransaction1 = Transaction(
+        createdAt: transactionDate.copyTime(transactionTime),
+        amount: double.parse("-${amountController.text}"),
+        desc: descController.text,
+        accountId: selectedAccount!.id!,
+      );
+      newTransaction1.id =
+          await dbController.db.insert(Const.trans, newTransaction1.toJson());
+      Get.find<TransController>().transactions.add(newTransaction1);
+
+      Transaction newTransaction2 = Transaction(
+        createdAt: transactionDate.copyTime(transactionTime),
+        amount: double.parse("+${amountController.text}"),
+        desc: descController.text,
+        accountId: selectedToAccount!.id!,
+      );
+      newTransaction2.id =
+          await dbController.db.insert(Const.trans, newTransaction2.toJson());
+      Get.find<TransController>().transactions.add(newTransaction2);
+
+      await dbController.db.insert(
+          Const.transLinks, {"trans_id": newTransaction1.id, "batch_id": uuid});
+      await dbController.db.insert(
+          Const.transLinks, {"trans_id": newTransaction2.id, "batch_id": uuid});
+    } else {
+      Transaction newTransaction = Transaction(
+        createdAt: transactionDate.copyTime(transactionTime),
+        amount: double.parse(
+            "${categoryType.value == CategoryType.expense ? '-' : '+'}${amountController.text}"),
+        desc: descController.text,
+        accountId: selectedAccount!.id!,
+        categoryId: selectedCategory!.id!,
+      );
+      newTransaction.id =
+          await dbController.db.insert(Const.trans, newTransaction.toJson());
+      Get.find<TransController>().transactions.add(newTransaction);
+    }
   }
 }
