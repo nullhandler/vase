@@ -4,8 +4,11 @@
 
 import 'dart:convert';
 
-List<Account> accountsFromJson(List<Map<String, Object?>> list) =>
-    List<Account>.from(list.map((x) => Account.fromJson(x)));
+Map<int, Account> accountsFromJson(List<Map<String, Object?>> list) =>
+    Map<int, Account>.fromEntries(list.map((x) {
+      Account account = Account.fromJson(x);
+      return MapEntry(account.id!, account);
+    }));
 
 String accountsToJson(List<Account> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));

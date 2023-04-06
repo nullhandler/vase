@@ -37,7 +37,7 @@ class AddCategoriesScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 CategoryTypeSelector(
                   onSelect: controller.setTransactionType,
-                  currentType: controller.transactionType,
+                  currentType: controller.categoryType,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

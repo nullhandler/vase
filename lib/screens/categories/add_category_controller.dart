@@ -11,11 +11,10 @@ class AddCategoryController extends GetxController {
   final categoryTagController = TextEditingController();
   Rx<Icon> categoryIcon = const Icon(CupertinoIcons.money_dollar_circle).obs;
   final formKey = GlobalKey<FormState>();
-  RxString transactionType = "Expense".obs;
 
-  void onCategoryTypeChange(CategoryType? value) {
-    if (value != null) {
-      categoryType.value = value;
+  void setTransactionType(CategoryType? newTransactionType) {
+    if (newTransactionType != null) {
+      categoryType.value = newTransactionType;
     }
   }
 
@@ -24,11 +23,6 @@ class AddCategoryController extends GetxController {
       categoryIcon.value = Icon(icon);
       update();
     }
-  }
-
-  void setTransactionType(String newTransactionType) {
-    transactionType.value = newTransactionType;
-    onCategoryTypeChange(categoryTypeMap[newTransactionType.toLowerCase()]);
   }
 
   void validate() {

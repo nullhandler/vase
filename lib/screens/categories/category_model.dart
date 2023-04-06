@@ -30,13 +30,13 @@ class Category {
   String icon;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-      id: json["id"],
-      categoryName: json["category_name"],
-      categoryType:
-          categoryTypeMap[json["category_type"]] ?? CategoryType.expense,
-      createdAt: json["created_at"] == null
-          ? null
-          : DateTime.parse(json["created_at"]),
+        id: json["id"],
+        categoryName: json["category_name"],
+        categoryType:
+            categoryTypeMap[json["category_type"]] ?? CategoryType.expense,
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
       icon: json['icon']);
 
   Map<String, dynamic> toJson() => {
@@ -58,4 +58,4 @@ Map<String, CategoryType> categoryTypeMap = {
   "income": CategoryType.income,
 };
 
-enum CategoryType { expense, income }
+enum CategoryType { expense, income, transfer }

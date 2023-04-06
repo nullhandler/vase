@@ -33,69 +33,95 @@ class NewTransaction extends StatelessWidget {
               child: Column(
                 children: [
                   CategoryTypeSelector(
-                    onSelect: controller.setTransactionType,
-                    currentType: controller.transactionType,
+                    onSelect: (categoryType) {
+                      _formKey.currentState?.reset();
+                      controller.setTransactionType(categoryType);
+                    },
+                    currentType: controller.categoryType,
+                    showTransfer: true,
                   ),
-                  FormItem(
-                    question: "Account",
-                    controller: controller.accountController,
-                    validator: (acc) {
-                      if (acc == null || acc.isEmpty) {
-                        return 'Transaction must have an account ';
-                      }
-                      return null;
-                    },
-                    onTap: () async {
-                      if (Get.find<DbController>().accounts.isEmpty) {
-                        Utils.showBottomSnackBar(
-                            title: Const.errorTitle,
-                            message:
-                                "Please add an account first to continue :) ",
-                            ic: const Icon(
-                              Icons.error_outline_rounded,
-                              color: AppColors.errorColor,
-                            ));
-                      } else {
-                        Account? account =
-                            await ListDialog<Account>().showListDialog(
-                          Get.find<DbController>().accounts,
-                        );
-                        controller.setAccount(account);
-                      }
-                    },
-                  ),
-                  FormItem(
-                    question: "Category",
-                    controller: controller.categoryController,
-                    validator: (cat) {
-                      if (cat == null || cat.isEmpty) {
-                        return 'Transaction must have a category ';
-                      }
-                      return null;
-                    },
-                    onTap: () async {
-                      if (Get.find<DbController>().categories.isEmpty) {
-                        Utils.showBottomSnackBar(
-                            title: Const.errorTitle,
-                            message:
-                                "Please add an category first to continue :) ",
-                            ic: const Icon(
-                              Icons.error_outline_rounded,
-                              color: AppColors.errorColor,
-                            ));
-                      } else {
-                        Category? category =
-                            await ListDialog<Category>().showListDialog(
-                          Utils.getCategories(
-                              Get.find<DbController>().categories,
-                              categoryTypeMap[controller.transactionType
-                                      .toLowerCase()] ??
-                                  CategoryType.expense),
-                        );
-                        controller.setCategory(category);
-                      }
-                    },
-                  ),
+                  Obx(() {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (controller.categoryType.value ==
+                            CategoryType.transfer) ...[
+                          FormItem(
+                            question: "From Account",
+                            controller: controller.accountController,
+                            validator: (acc) {
+                              if (acc == null || acc.isEmpty) {
+                                return 'Transaction must have a "From Account" ';
+                              }
+                              return null;
+                            },
+                            onTap: () async {
+                              controller.setAccount(await getAccount());
+                            },
+                          ),
+                          FormItem(
+                            question: "To Account",
+                            controller: controller.toAccountController,
+                            validator: (acc) {
+                              if (acc == null || acc.isEmpty) {
+                                return 'Transaction must have a "To Account" ';
+                              }
+                              return null;
+                            },
+                            onTap: () async {
+                              controller.setToAccount(await getAccount());
+                            },
+                          ),
+                        ] else ...[
+                          FormItem(
+                            question: "Account",
+                            controller: controller.accountController,
+                            validator: (acc) {
+                              if (acc == null || acc.isEmpty) {
+                                return 'Transaction must have an account ';
+                              }
+                              return null;
+                            },
+                            onTap: () async {
+                              controller.setAccount(await getAccount());
+                            },
+                          ),
+                          FormItem(
+                            question: "Category",
+                            controller: controller.categoryController,
+                            validator: (cat) {
+                              if (cat == null || cat.isEmpty) {
+                                return 'Transaction must have a category ';
+                              }
+                              return null;
+                            },
+                            onTap: () async {
+                              final List<Category> categories =
+                                  Utils.getCategories(
+                                      Get.find<DbController>().categories,
+                                      controller.categoryType.value);
+                              if (categories.isEmpty) {
+                                Utils.showBottomSnackBar(
+                                    title: Const.errorTitle,
+                                    message:
+                                        "Please add an category first to continue :) ",
+                                    ic: const Icon(
+                                      Icons.error_outline_rounded,
+                                      color: AppColors.errorColor,
+                                    ));
+                              } else {
+                                Category? category =
+                                    await ListDialog<Category>().showListDialog(
+                                  categories,
+                                );
+                                controller.setCategory(category);
+                              }
+                            },
+                          ),
+                        ]
+                      ],
+                    );
+                  }),
                   FormItem(
                     question: "Amount",
                     controller: controller.amountController,
@@ -180,5 +206,25 @@ class NewTransaction extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<Account?> getAccount() async {
+    final List<Account> accounts =
+        Get.find<DbController>().accounts.values.toList();
+    if (accounts.isEmpty) {
+      Utils.showBottomSnackBar(
+          title: Const.errorTitle,
+          message: "Please add an account first to continue :) ",
+          ic: const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.errorColor,
+          ));
+    } else {
+      Account? account = await ListDialog<Account>().showListDialog(
+        accounts,
+      );
+      return account;
+    }
+    return null;
   }
 }
