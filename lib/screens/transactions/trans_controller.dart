@@ -20,7 +20,7 @@ class TransController extends GetxController {
   Future<void> fetchTransactions() async {
     transState.value = VaseState.loading;
     var transList = await dbController.db.query(Const.trans,
-        where: 'created_at BETWEEN ${getFirstDate()} AND ${getLastDate()}');
+        where: 'created_at BETWEEN ${getFirstDate()} AND ${getLastDate()}'  , orderBy: 'created_at DESC');
     transactions.value = transactionFromJson(transList);
     transState.value = VaseState.loaded;
   }

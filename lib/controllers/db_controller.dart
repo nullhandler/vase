@@ -48,11 +48,10 @@ class DbController extends GetxController {
       await db.execute(
           '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
       await db.execute('''CREATE VIEW ${Const.transView} AS
-          SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks} 
+          SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks}
           on ${Const.transLinks}.trans_id = ${Const.trans}.id''');
     });
     var s = await db.query(Const.transView, groupBy: "batch_id");
-    print(s);
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
     final categoryList = await db.query(Const.categories);

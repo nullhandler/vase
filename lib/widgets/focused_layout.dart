@@ -40,10 +40,7 @@ class FocusedLayout extends StatelessWidget {
         },
       ),
       floatingActionButton: fab,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: bottomWidget,
-      ),
+      bottomNavigationBar: bottomWidget,
     );
   }
 }

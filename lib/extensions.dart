@@ -6,6 +6,12 @@ extension DateExtension on DateTime {
     return DateTime(year, month, day, from.hour, from.minute);
   }
 
+  bool isSameDate(DateTime other) {
+    return year == other.year &&
+        month == other.month &&
+        day == other.day;
+  }
+
   String formatDate() {
     return DateFormat("dd-MM-yyyy").format(this);
   }

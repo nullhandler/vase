@@ -109,5 +109,11 @@ class NewTransController extends GetxController {
           await dbController.db.insert(Const.trans, newTransaction.toJson());
       Get.find<TransController>().transactions.add(newTransaction);
     }
+
+    Get.find<TransController>().transactions.sort((a, b) {
+      var adate = a.createdAt;
+      var bdate = b.createdAt;
+      return bdate.compareTo(adate);
+    });
   }
 }
