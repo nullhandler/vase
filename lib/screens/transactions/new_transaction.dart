@@ -171,6 +171,7 @@ class NewTransaction extends StatelessWidget {
                           controller: controller.timeController,
                           onTap: () async {
                             TimeOfDay? time = await showTimePicker(
+
                                 context: context,
                                 initialTime: controller.transactionTime);
                             controller.setTime(time);
@@ -194,11 +195,15 @@ class NewTransaction extends StatelessWidget {
                           children: const [
                             Text(
                               "Add Transaction",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ),
                           ],
                         ),
                       )),
+                  const SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             );

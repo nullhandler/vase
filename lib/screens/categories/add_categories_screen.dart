@@ -61,13 +61,22 @@ class AddCategoriesScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: controller.validate,
-                    child: const Text('Add Category'),
-                  ),
-                ),
+                ElevatedButton(
+                      onPressed: controller.validate,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Add Category",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      )),
+
               ],
             ),
           );

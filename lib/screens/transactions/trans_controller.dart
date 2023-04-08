@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:vase/const.dart';
-
 import '../../controllers/db_controller.dart';
 import '../../enums.dart';
 import 'trans_model.dart';
@@ -10,6 +9,7 @@ class TransController extends GetxController {
   DbController dbController = Get.find();
   Rx<VaseState> transState = VaseState.loading.obs;
   RxList<Transaction> transactions = <Transaction>[].obs;
+  RxDouble monthlyTotal = (0.0).obs;
 
   @override
   void onInit() {
@@ -18,11 +18,14 @@ class TransController extends GetxController {
   }
 
   Future<void> fetchTransactions() async {
+    monthlyTotal.value = 0;
     transState.value = VaseState.loading;
     var transList = await dbController.db.query(Const.trans,
-        where: 'created_at BETWEEN ${getFirstDate()} AND ${getLastDate()}'  , orderBy: 'created_at DESC');
+        where: 'created_at BETWEEN ${getFirstDate()} AND ${getLastDate()}',
+        orderBy: 'created_at DESC');
     transactions.value = transactionFromJson(transList);
     transState.value = VaseState.loaded;
+    monthlyTotal.value = totalFromJson(transList);
   }
 
   void setDate(DateTime? dateTime) {

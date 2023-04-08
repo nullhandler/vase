@@ -7,6 +7,14 @@ import 'dart:convert';
 List<Transaction> transactionFromJson(List<Map<String, Object?>> list) =>
     List<Transaction>.from(list.map((x) => Transaction.fromJson(x)));
 
+double totalFromJson(List<Map<String, dynamic>> list) {
+  double total = 0.0;
+  total = list.fold(0, (i, el){
+    return i + el['amount'];
+  });
+  return total;
+}
+
 String transactionToJson(List<Transaction> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 

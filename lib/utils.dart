@@ -13,7 +13,7 @@ class Utils {
         .toList();
   }
 
-  static Widget dateChip(String label, Color color) {
+  static Widget dateChip(String label, Color color , String total) {
     return Row(
       children: [
         const SizedBox(
@@ -24,7 +24,14 @@ class Utils {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
             label,
-            style: const TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+        ),
+         Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            total,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
         const Expanded(

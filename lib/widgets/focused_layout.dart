@@ -23,7 +23,10 @@ class FocusedLayout extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: isScrollable,
       appBar: AppBar(
-        title: Text(appBarTitle ?? ""),
+        title: Text(
+          appBarTitle ?? "",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Builder(
         builder: (context) {

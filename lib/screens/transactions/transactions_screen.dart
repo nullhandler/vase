@@ -21,29 +21,55 @@ class Transactions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
-      child: Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          title: const MonthCalender(),
-        ),
-        body: GetBuilder<TransController>(
-          builder: (TransController controller) {
-            return Obx(() {
-              return Padding(
+      child: GetBuilder<TransController>(
+        builder: (TransController controller) {
+          return Obx(() {
+            double dailyTotals = 0;
+            int sameDayIx = 0;
+
+            return Scaffold(
+              appBar: AppBar(
+                titleSpacing: 0,
+                title: const MonthCalender(),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      controller.monthlyTotal.string,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+              body: Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
                     itemCount: controller.transactions.length,
                     itemBuilder: (context, pos) {
                       Transaction transaction = controller.transactions[pos];
                       Transaction? prevTxn;
                       bool addDateSeparator = false;
+                      dailyTotals = 0;
 
                       if (pos == 0) {
                         addDateSeparator = false;
+                        // dailyTotals = controller.transactions[pos].amount;
                       } else {
                         prevTxn = controller.transactions[pos - 1];
                         addDateSeparator =
                             transaction.createdAt.isSameDate(prevTxn.createdAt);
+                        if (!addDateSeparator) {
+                          while (sameDayIx < pos) {
+                            dailyTotals +=
+                                controller.transactions[sameDayIx].amount;
+                            sameDayIx++;
+                          }
+                        } else {
+                          dailyTotals = 0;
+                        }
                       }
 
                       Category? cat;
@@ -65,7 +91,8 @@ class Transactions extends StatelessWidget {
                                   child: Utils.dateChip(
                                       DateFormat.yMMMMd('en_US')
                                           .format(transaction.createdAt),
-                                      AppColors.darkGreyColor),
+                                      AppColors.darkGreyColor,
+                                      dailyTotals.toString()),
                                 )
                               : const SizedBox(),
                           ListTile(
@@ -95,13 +122,13 @@ class Transactions extends StatelessWidget {
                         ],
                       );
                     }),
-              );
-            });
-          },
-        ),
-        floatingActionButton: Fab(onTap: () {
-          Get.to(() => NewTransaction());
-        }),
+              ),
+              floatingActionButton: Fab(onTap: () {
+                Get.to(() => NewTransaction());
+              }),
+            );
+          });
+        },
       ),
     );
   }
