@@ -16,7 +16,10 @@ class Categories extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("Categories"),
+            title: const Text(
+              "Categories",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             bottom: const TabBar(
               tabs: [
                 Tab(

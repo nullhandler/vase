@@ -30,7 +30,6 @@ class AccountsController extends GetxController {
       return MapEntry<int, double>(
           e['account_id'] as int, e['total'] as double);
     }));
-    print(accountStats.value);
     accountsState.value = VaseState.loaded;
   }
 }

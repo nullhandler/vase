@@ -23,7 +23,10 @@ class FocusedLayout extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: isScrollable,
       appBar: AppBar(
-        title: Text(appBarTitle ?? ""),
+        title: Text(
+          appBarTitle ?? "",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Builder(
         builder: (context) {
@@ -40,10 +43,7 @@ class FocusedLayout extends StatelessWidget {
         },
       ),
       floatingActionButton: fab,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: bottomWidget,
-      ),
+      bottomNavigationBar: bottomWidget,
     );
   }
 }
