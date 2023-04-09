@@ -102,7 +102,7 @@ class Transactions extends StatelessWidget {
                                     ),
                                     title: Text(transaction.desc),
                                     subtitle: Text(
-                                      DateFormat.yMMMMd('en_US')
+                                      DateFormat.jm('en_US')
                                           .format(transaction.createdAt),
                                       style:
                                           const TextStyle(color: Colors.grey),

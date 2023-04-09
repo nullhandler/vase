@@ -6,6 +6,7 @@ import 'package:vase/screens/accounts/accounts_screen.dart';
 import 'package:vase/screens/home/home_controller.dart';
 import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/screens/transactions/transactions_screen.dart';
+import 'package:vase/screens/user/settings.dart';
 
 import '../categories/categories.dart';
 
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const Transactions(),
     const Categories(),
     AccountsScreen(),
+    const UserSettings()
   ];
 
   @override
@@ -57,6 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.account_balance_rounded),
                   label: 'Accounts',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_outline_rounded),
+                  label: 'User',
                 ),
               ],
             ),
