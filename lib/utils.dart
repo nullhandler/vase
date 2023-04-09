@@ -4,6 +4,7 @@ import 'package:vase/const.dart';
 
 import 'colors.dart';
 import 'screens/categories/category_model.dart';
+import 'screens/widgets/txn_text.dart';
 
 class Utils {
   static List<Category> getCategories(
@@ -13,30 +14,26 @@ class Utils {
         .toList();
   }
 
-  static Widget dateChip(String label, Color color , String total) {
+  static Widget dateChip(String label, Color color, double total) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const SizedBox(
-          width: 40,
-          child: Divider(color: Colors.grey, thickness: 0.4),
-        ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
           child: Text(
             label,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
         ),
-         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            total,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+          child: TxnText(
+            amount: total,
           ),
         ),
-        const Expanded(
-          child: Divider(color: Colors.grey, thickness: 0.4),
-        ),
+        // const Expanded(
+        //   child: Divider(color: Colors.grey, thickness: 0.4),
+        // ),
       ],
     );
   }

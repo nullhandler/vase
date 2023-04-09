@@ -4,16 +4,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/controllers/db_controller.dart';
-import 'package:vase/extensions.dart';
 import 'package:vase/screens/categories/category_model.dart';
+import 'package:vase/screens/widgets/txn_text.dart';
 import 'package:vase/utils.dart';
 import 'package:vase/widgets/wrapper.dart';
-
 import '../widgets/fab.dart';
 import '../widgets/month_calender.dart';
 import 'new_transaction.dart';
 import 'trans_controller.dart';
 import 'trans_model.dart';
+import 'package:collection/collection.dart';
 
 class Transactions extends StatelessWidget {
   const Transactions({Key? key}) : super(key: key);
@@ -24,8 +24,10 @@ class Transactions extends StatelessWidget {
       child: GetBuilder<TransController>(
         builder: (TransController controller) {
           return Obx(() {
-            double dailyTotals = 0;
-            int sameDayIx = 0;
+            final txns = groupBy(
+                controller.transactions,
+                (Transaction txn) =>
+                    DateFormat.yMMMMd('en_US').format(txn.createdAt));
 
             return Scaffold(
               appBar: AppBar(
@@ -47,78 +49,71 @@ class Transactions extends StatelessWidget {
                 child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: controller.transactions.length,
+                    itemCount: txns.entries.length,
                     itemBuilder: (context, pos) {
-                      Transaction transaction = controller.transactions[pos];
-                      Transaction? prevTxn;
-                      bool addDateSeparator = false;
-                      dailyTotals = 0;
+                      List<Transaction> transactions =
+                          txns.values.elementAt(pos);
 
-                      if (pos == 0) {
-                        addDateSeparator = false;
-                        // dailyTotals = controller.transactions[pos].amount;
-                      } else {
-                        prevTxn = controller.transactions[pos - 1];
-                        addDateSeparator =
-                            transaction.createdAt.isSameDate(prevTxn.createdAt);
-                        if (!addDateSeparator) {
-                          while (sameDayIx < pos) {
-                            dailyTotals +=
-                                controller.transactions[sameDayIx].amount;
-                            sameDayIx++;
-                          }
-                        } else {
-                          dailyTotals = 0;
-                        }
+                      double total = 0;
+
+                      for (int i = 0; i < transactions.length; i++) {
+                        total += transactions[i].amount;
                       }
-
-                      Category? cat;
-                      try {
-                        cat = Get.find<DbController>().categories.firstWhere(
-                              (element) => element.id == transaction.categoryId,
-                            );
-                      } catch (e) {
-                        debugPrint('error in cat');
-                      }
-
                       return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          (pos == 0 || !addDateSeparator)
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 5),
-                                  child: Utils.dateChip(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            child: Utils.dateChip(txns.keys.elementAt(pos),
+                                AppColors.darkGreyColor, total),
+                          ),
+                          Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: transactions.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, ix) {
+                                Transaction transaction = transactions[ix];
+
+                                Category? cat;
+                                try {
+                                  cat = Get.find<DbController>()
+                                      .categories
+                                      .firstWhere(
+                                        (element) =>
+                                            element.id ==
+                                            transaction.categoryId,
+                                      );
+                                } catch (e) {
+                                  debugPrint('error in cat');
+                                }
+
+                                return ListTile(
+                                    leading: CircleAvatar(
+                                      // backgroundColor: AppColors.darkGreyColor,
+                                      child: Icon(deserializeIcon({
+                                        'pack': 'cupertino',
+                                        'key': cat != null
+                                            ? cat.icon
+                                            : 'money_dollar_constant'
+                                      })),
+                                    ),
+                                    title: Text(transaction.desc),
+                                    subtitle: Text(
                                       DateFormat.yMMMMd('en_US')
                                           .format(transaction.createdAt),
-                                      AppColors.darkGreyColor,
-                                      dailyTotals.toString()),
-                                )
-                              : const SizedBox(),
-                          ListTile(
-                              leading: CircleAvatar(
-                                // backgroundColor: AppColors.darkGreyColor,
-                                child: Icon(deserializeIcon({
-                                  'pack': 'cupertino',
-                                  'key': cat != null
-                                      ? cat.icon
-                                      : 'money_dollar_constant'
-                                })),
-                              ),
-                              title: Text(transaction.desc),
-                              subtitle: Text(
-                                DateFormat.yMMMMd('en_US')
-                                    .format(transaction.createdAt),
-                                style: const TextStyle(color: Colors.grey),
-                              ),
-                              trailing: Text(
-                                '${transaction.amount}',
-                                style: TextStyle(
-                                  color: transaction.amount.isNegative
-                                      ? AppColors.errorColor
-                                      : AppColors.accentColor,
-                                ),
-                              )),
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                    trailing: TxnText(
+                                      amount: transaction.amount,
+
+                                    ));
+                              },
+                            ),
+                          ),
                         ],
                       );
                     }),
