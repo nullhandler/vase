@@ -18,7 +18,7 @@ class Categories extends StatelessWidget {
           appBar: AppBar(
             title: const Text(
               "Categories",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
             bottom: const TabBar(
               tabs: [

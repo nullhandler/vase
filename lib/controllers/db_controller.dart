@@ -31,6 +31,13 @@ class DbController extends GetxController {
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           icon TEXT
           )''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          currency TEXT,
+          thousand_separator TEXT,
+          decimal _separator TEXT,
+          icon TEXT
+          )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           created_at INTEGER,
@@ -51,7 +58,6 @@ class DbController extends GetxController {
           SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks}
           on ${Const.transLinks}.trans_id = ${Const.trans}.id''');
     });
-    var s = await db.query(Const.transView, groupBy: "batch_id");
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
     final categoryList = await db.query(Const.categories);

@@ -25,7 +25,7 @@ class FocusedLayout extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           appBarTitle ?? "",
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
       ),
       body: Builder(

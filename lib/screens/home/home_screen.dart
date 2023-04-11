@@ -7,6 +7,7 @@ import 'package:vase/screens/home/home_controller.dart';
 import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/screens/transactions/transactions_screen.dart';
 import 'package:vase/screens/user/settings.dart';
+import 'package:vase/screens/user/user_controller.dart';
 
 import '../categories/categories.dart';
 
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   final TransController transController = Get.put(TransController());
+  final UserController userController = Get.put(UserController());
   final _tabs = [
     const Transactions(),
     const Categories(),

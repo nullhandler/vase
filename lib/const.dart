@@ -4,5 +4,6 @@ class Const {
   static const transView = "TransView";
   static const transLinks = "TransLinks";
   static const categories = "Categories";
+  static const configs = "Configs";
   static const errorTitle = "Uh-Oh !";
 }
