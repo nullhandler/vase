@@ -47,15 +47,12 @@ class DbController extends GetxController {
           FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE,
           FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.transLinks} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          link_id INTEGER PRIMARY KEY AUTOINCREMENT,
           trans_id INTEGER,
           batch_id TEXT,
           FOREIGN KEY (trans_id) REFERENCES ${Const.trans}(id) ON DELETE CASCADE)''');
       await db.execute(
           '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
-      await db.execute('''CREATE VIEW ${Const.transView} AS
-          SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks}
-          on ${Const.transLinks}.trans_id = ${Const.trans}.id''');
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
