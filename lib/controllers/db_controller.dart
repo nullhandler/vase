@@ -35,8 +35,7 @@ class DbController extends GetxController {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           currency TEXT,
           thousand_separator TEXT,
-          decimal _separator TEXT,
-          icon TEXT
+          decimal_separator TEXT
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
