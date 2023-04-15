@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vase/const.dart';
+
 import '../../controllers/db_controller.dart';
 import '../../enums.dart';
 import 'trans_model.dart';
@@ -26,6 +27,25 @@ class TransController extends GetxController {
     transactions.value = transactionFromJson(transList);
     transState.value = VaseState.loaded;
     monthlyTotal.value = totalFromJson(transList);
+  }
+
+  List<Transaction> categoryTransactions(int categoryId) {
+    return transactions
+        .where((element) => element.categoryId == categoryId)
+        .toList();
+  }
+
+  Map<int, double> categoryTotals() {
+    Map<int, double> totals = {};
+    for (var element in transactions) {
+      if (totals.containsKey(element.categoryId)) {
+        totals[element.categoryId ?? -1] =
+            totals[element.categoryId]! + element.amount;
+      } else {
+        totals[element.categoryId ?? -1] = element.amount;
+      }
+    }
+    return totals;
   }
 
   void setDate(DateTime? dateTime) {

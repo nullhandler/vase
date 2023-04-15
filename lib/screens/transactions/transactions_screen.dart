@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/Serialization/iconDataSerialization.dart';
 import 'package:get/get.dart';
@@ -8,12 +9,12 @@ import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/screens/widgets/txn_text.dart';
 import 'package:vase/utils.dart';
 import 'package:vase/widgets/wrapper.dart';
+
 import '../widgets/fab.dart';
 import '../widgets/month_calender.dart';
 import 'new_transaction.dart';
 import 'trans_controller.dart';
 import 'trans_model.dart';
-import 'package:collection/collection.dart';
 
 class Transactions extends StatelessWidget {
   const Transactions({Key? key}) : super(key: key);
@@ -109,7 +110,6 @@ class Transactions extends StatelessWidget {
                                     ),
                                     trailing: TxnText(
                                       amount: transaction.amount,
-
                                     ));
                               },
                             ),
