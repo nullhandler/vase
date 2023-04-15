@@ -4,6 +4,7 @@ import 'package:vase/screens/categories/add_categories_screen.dart';
 import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/screens/widgets/categories/category_list.dart';
 import 'package:vase/screens/widgets/fab.dart';
+import 'package:vase/screens/widgets/month_calender.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 class Categories extends StatelessWidget {
@@ -16,10 +17,7 @@ class Categories extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              "Categories",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            title: const MonthCalender(),
             bottom: const TabBar(
               tabs: [
                 Tab(

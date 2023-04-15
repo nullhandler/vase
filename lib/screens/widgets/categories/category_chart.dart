@@ -38,10 +38,24 @@ class CategoryChart extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.only(top: 16),
               height: 220,
-              child: PieChart(
-                PieChartData(
-                  sections: sections,
-                ),
+              child: Stack(
+                children: [
+                  PieChart(
+                    PieChartData(
+                      sections: sections,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      controller.monthlyTotal.string,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           },
