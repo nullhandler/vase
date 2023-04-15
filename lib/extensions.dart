@@ -7,9 +7,13 @@ extension DateExtension on DateTime {
   }
 
   bool isSameDate(DateTime other) {
-    return year == other.year &&
-        month == other.month &&
+    return isSameMonth(other) &&
         day == other.day;
+  }
+
+  bool isSameMonth(DateTime other) {
+    return year == other.year &&
+        month == other.month;
   }
 
   String formatDate() {
@@ -34,8 +38,8 @@ extension VsString on String {
   String get toPascalCase {
     return replaceAllMapped(
         RegExp(r'(\w+)'),
-        (match) =>
-            "${match.group(0)![0].toUpperCase()}${match.group(0)!.substring(1)}");
+            (match) =>
+        "${match.group(0)![0].toUpperCase()}${match.group(0)!.substring(1)}");
   }
 
   String get toKebabCase {
@@ -46,7 +50,9 @@ extension VsString on String {
   String get toTitleCase {
     return replaceAllMapped(
         RegExp(r'(\w+)'),
-        (match) =>
-            "${match.group(0)![0].toUpperCase()}${match.group(0)!.substring(1).toLowerCase()} ");
+            (match) =>
+        "${match.group(0)![0].toUpperCase()}${match.group(0)!
+            .substring(1)
+            .toLowerCase()} ");
   }
 }

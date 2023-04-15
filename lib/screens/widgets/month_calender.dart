@@ -27,7 +27,7 @@ class MonthCalender extends StatelessWidget {
             onTap: () async {
               final DateTime? dateTime = await showMonthPicker(
                   context: context,
-                  initialDate: DateTime.now(),
+                  initialDate: controller.currentDate.value,
                   firstDate: DateTime(2000, 2, 13),
                   lastDate: DateTime(2100, 2, 13));
               controller.setDate(dateTime);
