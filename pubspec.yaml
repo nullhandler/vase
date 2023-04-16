@@ -29,13 +29,14 @@ environment:
 dependencies:
   get: ^4.6.5
   sqflite: ^2.0.3
-  path: ^1.8.3
+  path: ^1.8.2
   intl: ^0.18.0
   google_fonts: ^4.0.3
   mat_month_picker_dialog: ^1.1.1
   uuid: ^3.0.7
   collection: ^1.17.0
-  dynamic_color:
+  dynamic_color: ^1.6.3
+  device_info_plus: ^8.2.0
   flutter_iconpicker:
     # temporary workaround to make it work in flutter stable
     git:

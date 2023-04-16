@@ -34,7 +34,7 @@ class DateChip extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TxnText(
                     amount: transStats?.income ?? 0,
-                    customColor: AppColors.accentColor,
+                    // customColor: AppColors.accentColor,
                     textAlign: TextAlign.end,
                   ),
                 ),

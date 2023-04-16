@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
@@ -93,12 +95,16 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "Preferences",
-                  style: TextStyle(
-                      color: AppColors.accentColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                Obx(
+                  () => Text(
+                    "Preferences",
+                    style: TextStyle(
+                        color: controller.monet.value
+                            ? AppColors.monetColorScheme.primary
+                            : AppColors.accentColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(
                   height: 16,
@@ -147,7 +153,7 @@ class UserSettings extends StatelessWidget {
                                 ElevatedButton(
                                     onPressed: () {
                                       controller.updatePreferences();
-                                      ; //controller.update();
+                                      //controller.update();
                                       Get.back();
                                     },
                                     child: Padding(
@@ -211,12 +217,17 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "Theme",
-                  style: TextStyle(
-                      color: AppColors.accentColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                Obx(
+                  () => Text(
+                    "Theme",
+                    style: TextStyle(
+                        color: controller.monet.value
+                            ? AppColors.monetColorScheme.primary
+                            : AppColors.accentColor,
+                        // color: AppColors.accentColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(
                   height: 16,
@@ -228,8 +239,18 @@ class UserSettings extends StatelessWidget {
                       ListTile(
                           onTap: null,
                           title: const Text("Monet Theme"),
-                          trailing:
-                              Switch(value: false, onChanged: (value) {})),
+                          trailing: Obx(() => Switch(
+                              value: controller.monet.value,
+                              onChanged: (value) {
+                                controller.monet.value = value;
+                                if (value) {
+                                  Get.changeThemeMode(ThemeMode.dark);
+                                } else {
+                                  Get.changeThemeMode(ThemeMode.light);
+                                }
+                                
+                                controller.updatePreferences();
+                              }))),
                     ],
                   ),
                 )

@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
-
 import '../screens/categories/category_model.dart';
 
 class DbController extends GetxController {
@@ -35,7 +34,8 @@ class DbController extends GetxController {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           currency TEXT,
           thousand_separator TEXT,
-          decimal_separator TEXT
+          decimal_separator TEXT,
+          monet TEXT
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,

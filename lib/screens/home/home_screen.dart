@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             data: Theme.of(context).copyWith(splashColor: Colors.transparent),
             child: BottomNavigationBar(
               selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-              selectedItemColor: AppColors.accentColor,
+           //   selectedItemColor: AppColors.accentColor,
               type: BottomNavigationBarType.fixed,
               // unselectedFontSize: 14,
               currentIndex: currentIndex,

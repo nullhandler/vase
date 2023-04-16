@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/colors.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/home/home_screen.dart';
 import 'package:vase/widgets/wrapper.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'colors.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,42 +17,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(useMaterial3: true).copyWith(
-          pageTransitionsTheme: const PageTransitionsTheme(builders: {
-            TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-          }),
-          colorScheme: ThemeData.dark(useMaterial3: true).colorScheme.copyWith(
-                primary: AppColors.accentColor,
-              ),
-          textTheme:
-              GoogleFonts.latoTextTheme().apply(bodyColor: Colors.white)),
-      title: 'Vase',
-      home: GetBuilder<DbController>(
-        init: DbController(),
-        // initState: (state){
-        //   state.controller?.initDB();
-        // },
-        builder: (dbController) {
-          return Obx(() {
-            if (dbController.vaseState.value == VaseState.loading) {
-              return const ThemeWrapper(
-                child: Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
+    return DynamicColorBuilder(
+        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+      if (darkDynamic != null) {
+        AppColors.monetColorScheme = darkDynamic;
+      }
+
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppColors.defaultTheme,
+        darkTheme:
+            darkDynamic != null ? AppColors.monetTheme : AppColors.defaultTheme,
+        title: 'Vase',
+        home: GetBuilder<DbController>(
+          init: DbController(),
+          // initState: (state){
+          //   state.controller?.initDB();
+          // },
+          builder: (dbController) {
+            return Obx(() {
+              if (dbController.vaseState.value == VaseState.loading) {
+                return const ThemeWrapper(
+                  child: Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
-                ),
-              );
-            }
-            return const ThemeWrapper(child: HomeScreen());
-          });
-        },
-        dispose: (dbController) {
-          dbController.dispose();
-        },
-      ),
-    );
+                );
+              }
+              return const ThemeWrapper(child: HomeScreen());
+            });
+          },
+          dispose: (dbController) {
+            dbController.dispose();
+          },
+        ),
+      );
+    });
   }
 }
