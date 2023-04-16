@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppColors.defaultTheme,
+        themeMode: ThemeMode.dark,
         darkTheme:
             darkDynamic != null ? AppColors.monetTheme : AppColors.defaultTheme,
         title: 'Vase',

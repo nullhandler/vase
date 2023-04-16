@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
@@ -218,25 +216,31 @@ class UserSettings extends StatelessWidget {
                   height: 20,
                 ),
                 Obx(
-                  () => Text(
-                    "Theme",
-                    style: TextStyle(
-                        color: controller.monet.value
-                            ? AppColors.monetColorScheme.primary
-                            : AppColors.accentColor,
-                        // color: AppColors.accentColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                  () => Visibility(
+                    visible: controller.showMonetSwitch.value,
+                    child: Text(
+                      "Theme",
+                      style: TextStyle(
+                          color: controller.monet.value
+                              ? AppColors.monetColorScheme.primary
+                              : AppColors.accentColor,
+                          // color: AppColors.accentColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                Card(
-                  margin: const EdgeInsets.all(0),
-                  child: Column(
-                    children: [
-                      ListTile(
+                Obx(
+                  () => Visibility(
+                    visible: controller.showMonetSwitch.value,
+                    child: Card(
+                      margin: const EdgeInsets.all(0),
+                      child: Column(
+                        children: [
+                          ListTile(
                           onTap: null,
                           title: const Text("Monet Theme"),
                           trailing: Obx(() => Switch(
@@ -248,10 +252,12 @@ class UserSettings extends StatelessWidget {
                                 } else {
                                   Get.changeThemeMode(ThemeMode.light);
                                 }
-                                
+
                                 controller.updatePreferences();
                               }))),
-                    ],
+                        ],
+                      ),
+                    ),
                   ),
                 )
               ],

@@ -1,6 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/colors.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/user/user_model.dart';
@@ -40,13 +41,18 @@ class UserController extends GetxController {
     decimalSep.value = configs.decimalSeparator == "," ? 1 : 0;
     thousandSep.value = configs.thousandSeparator == "," ? 1 : 0;
     monet.value = configs.monet;
+    if (monet.value) {
+      Get.changeThemeMode(ThemeMode.dark);
+    }else{
+       Get.changeThemeMode(ThemeMode.light);
+    }
     update();
   }
 
   void checkMonet() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print(androidInfo.version.incremental);
+    showMonetSwitch.value = androidInfo.version.sdkInt >= 12;
   }
 
   void updatePreferences() async {
