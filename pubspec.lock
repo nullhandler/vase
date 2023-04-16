@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dynamic_color:
+    dependency: "direct main"
+    description:
+      name: dynamic_color
+      sha256: "5a89443ae2e5bdcbf1a435a8acbd38b7227f6f18945691d3d2223d3b0dff485a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   ffi:
     dependency: transitive
     description:

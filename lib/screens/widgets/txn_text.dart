@@ -23,8 +23,9 @@ class TxnText extends StatelessWidget {
     return GetBuilder<UserController>(builder: (controller) {
       final comma = controller.thousandSep.value;
       final decimal = controller.decimalSep.value;
-      var f = NumberFormat("###,###.0#", "en_US");
+      var f = NumberFormat.simpleCurrency(locale: 'en-us');
       String amt = f.format(amount);
+      amt = amt.replaceAll('\$', '');
       if (decimal == 1 && comma == 0) {
         amt = amt.replaceAll('.', '@');
         amt = amt.replaceAll(',', '.');
