@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
+
 import '../screens/categories/category_model.dart';
 
 class DbController extends GetxController {
@@ -32,10 +33,8 @@ class DbController extends GetxController {
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          currency TEXT,
-          thousand_separator TEXT,
-          decimal_separator TEXT,
-          monet TEXT
+          key TEXT,
+          value TEXT
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,6 +52,8 @@ class DbController extends GetxController {
           FOREIGN KEY (trans_id) REFERENCES ${Const.trans}(id) ON DELETE CASCADE)''');
       await db.execute(
           '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
+      await db.execute(
+          '''CREATE INDEX IF NOT EXISTS ConfigKeyIndex ON ${Const.configs} (key)''');
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);

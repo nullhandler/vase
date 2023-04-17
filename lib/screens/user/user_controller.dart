@@ -1,7 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/colors.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/user/user_model.dart';
@@ -14,12 +13,11 @@ class UserController extends GetxController {
   RxInt decimalSep = 0.obs;
   RxInt thousandSep = 1.obs;
   RxBool monet = false.obs;
-  UserModel configs = UserModel.fromJson({
-    "currency": r'$',
-    "thousand_separator": ",",
-    "decimal_separator": ".",
-    "monet": false
-  });
+  UserModel configs = UserModel(
+      currency: r'₹',
+      thousandSeparator: ',',
+      decimalSeparator: '.',
+      monet: false);
 
   @override
   void onInit() {
@@ -30,12 +28,7 @@ class UserController extends GetxController {
 
   void fetchPreferences() async {
     var userPref = await dbController.db.query(Const.configs);
-    if (userPref.isNotEmpty) {
-      configs = UserModel.fromJson(userPref[0]);
-    } else {
-      await dbController.db.insert(Const.configs, configs.toJson());
-    }
-
+    configs = UserModel.fromJson(userPref);
     currencyController.text = configs.currency;
     currency.value = configs.currency;
     decimalSep.value = configs.decimalSeparator == "," ? 1 : 0;
@@ -43,8 +36,8 @@ class UserController extends GetxController {
     monet.value = configs.monet;
     if (monet.value) {
       Get.changeThemeMode(ThemeMode.dark);
-    }else{
-       Get.changeThemeMode(ThemeMode.light);
+    } else {
+      Get.changeThemeMode(ThemeMode.light);
     }
     update();
   }
@@ -55,15 +48,34 @@ class UserController extends GetxController {
     showMonetSwitch.value = androidInfo.version.sdkInt >= 12;
   }
 
-  void updatePreferences() async {
-    currency.value = currencyController.text;
-    Map<String, dynamic> data = {
-      'currency': currencyController.text,
-      'thousand_separator': thousandSep.value == 1 ? "," : ".",
-      'decimal_separator': decimalSep.value == 0 ? "." : ",",
-      "monet": monet.value.toString()
-    };
-    await dbController.db.update(Const.configs, data);
+  Future<void> _updatePreferences(String key, String value) async {
+    final row = await dbController.db
+        .query(Const.configs, where: 'key = ?', whereArgs: [key]);
+    if (row.isEmpty) {
+      await dbController.db.insert(Const.configs, {'key': key, 'value': value});
+    } else {
+      await dbController.db.update(Const.configs, {'value': value},
+          where: 'key = ?', whereArgs: [key]);
+    }
     update();
+  }
+
+  Future<void> updateCurrency() async {
+    currency.value = currencyController.text;
+    await _updatePreferences(UserModel.currencyConst, currencyController.text);
+  }
+
+  Future<void> updateThousandSeparator() async {
+    await _updatePreferences(
+        UserModel.thousandSeparatorConst, thousandSep.value == 1 ? "," : ".");
+  }
+
+  Future<void> updateDecimalSeparator() async {
+    await _updatePreferences(
+        UserModel.decimalSeparatorConst, decimalSep.value == 0 ? "." : ",");
+  }
+
+  Future<void> updateMonet() async {
+    await _updatePreferences(UserModel.monetConst, monet.value.toString());
   }
 }

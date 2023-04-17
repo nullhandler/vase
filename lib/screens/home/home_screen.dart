@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/colors.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_screen.dart';
 import 'package:vase/screens/home/home_controller.dart';
@@ -42,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             data: Theme.of(context).copyWith(splashColor: Colors.transparent),
             child: BottomNavigationBar(
               selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-           //   selectedItemColor: AppColors.accentColor,
+              //   selectedItemColor: AppColors.accentColor,
               type: BottomNavigationBarType.fixed,
               // unselectedFontSize: 14,
               currentIndex: currentIndex,
@@ -63,8 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: 'Accounts',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  label: 'User',
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
                 ),
               ],
             ),

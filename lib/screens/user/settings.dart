@@ -9,75 +9,8 @@ import 'package:vase/widgets/wrapper.dart';
 
 class UserSettings extends StatelessWidget {
   UserSettings({super.key});
-  final UserController controller = Get.find();
 
-  Widget commaDotChooser(UserController controller,
-      {required bool isThousandSep}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            "Choose Separator",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          RadioListTile(
-            value: 0,
-            groupValue: isThousandSep
-                ? controller.thousandSep.value
-                : controller.decimalSep.value,
-            title: const Text("Dot (.) e.g. 100.02"),
-            subtitle: null,
-            onChanged: (int? val) {
-              if (isThousandSep) {
-                controller.thousandSep.value = val!;
-              } else {
-                controller.decimalSep.value = val!;
-              }
-              //  controller.update();
-              Get.back();
-              controller.updatePreferences();
-              // print("Radio Tile pressed $val");
-              // setSelectedRadioTile(val);
-            },
-            //selected: true,
-          ),
-          RadioListTile(
-            value: 1,
-            groupValue: isThousandSep
-                ? controller.thousandSep.value
-                : controller.decimalSep.value,
-            title: const Text("Comma (,) e.g. 100,02"),
-            subtitle: null,
-            selected: false,
-            onChanged: (int? val) {
-              if (isThousandSep) {
-                controller.thousandSep.value = val!;
-              } else {
-                controller.decimalSep.value = val!;
-              }
-              // controller.update();
-              Get.back();
-              controller.updatePreferences();
-              // print("Radio Tile pressed $val");
-              // setSelectedRadioTile(val);
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
-    );
-  }
+  final UserController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -150,8 +83,7 @@ class UserSettings extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
-                                      controller.updatePreferences();
-                                      //controller.update();
+                                      controller.updateCurrency();
                                       Get.back();
                                     },
                                     child: Padding(
@@ -241,20 +173,19 @@ class UserSettings extends StatelessWidget {
                       child: Column(
                         children: [
                           ListTile(
-                          onTap: null,
-                          title: const Text("Monet Theme"),
-                          trailing: Obx(() => Switch(
-                              value: controller.monet.value,
-                              onChanged: (value) {
-                                controller.monet.value = value;
-                                if (value) {
-                                  Get.changeThemeMode(ThemeMode.dark);
-                                } else {
-                                  Get.changeThemeMode(ThemeMode.light);
-                                }
-
-                                controller.updatePreferences();
-                              }))),
+                              onTap: null,
+                              title: const Text("Monet Theme"),
+                              trailing: Obx(() => Switch(
+                                  value: controller.monet.value,
+                                  onChanged: (value) {
+                                    controller.monet.value = value;
+                                    if (value) {
+                                      Get.changeThemeMode(ThemeMode.dark);
+                                    } else {
+                                      Get.changeThemeMode(ThemeMode.light);
+                                    }
+                                    controller.updateMonet();
+                                  }))),
                         ],
                       ),
                     ),
@@ -262,30 +193,70 @@ class UserSettings extends StatelessWidget {
                 )
               ],
             ),
-          )
-          // return Obx(() {
-          //   if (controller.accountsState.value == VaseState.loading) {
-          //     return const Center(
-          //       child: CircularProgressIndicator(),
-          //     );
-          //   }
-          //   if (dbController.accounts.isEmpty) {
-          //     return const Center(
-          //       child: Text("No Accounts found"),
-          //     );
-          //   }
+          )),
+    );
+  }
 
-          //   return ListView.builder(
-          //       itemCount: dbController.accounts.length,
-          //       itemBuilder: (context, pos) {
-          //         Account account =
-          //             dbController.accounts.values.toList()[pos];
-          //         return Text(
-          //             "${account.accountName} ${account.accountType} ${controller.accountStats[account.id]}  ${account.id}");
-          //       });
-          // });
-
+  Widget commaDotChooser(UserController controller,
+      {required bool isThousandSep}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            height: 20,
           ),
+          const Text(
+            "Choose Separator",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          RadioListTile(
+            value: 0,
+            groupValue: isThousandSep
+                ? controller.thousandSep.value
+                : controller.decimalSep.value,
+            title: const Text("Dot (.) e.g. 100.02"),
+            subtitle: null,
+            onChanged: (int? val) {
+              if (isThousandSep) {
+                controller.thousandSep.value = val!;
+                controller.updateThousandSeparator();
+              } else {
+                controller.decimalSep.value = val!;
+                controller.updateDecimalSeparator();
+              }
+              Get.back();
+            },
+          ),
+          RadioListTile(
+            value: 1,
+            groupValue: isThousandSep
+                ? controller.thousandSep.value
+                : controller.decimalSep.value,
+            title: const Text("Comma (,) e.g. 100,02"),
+            subtitle: null,
+            selected: false,
+            onChanged: (int? val) {
+              if (isThousandSep) {
+                controller.thousandSep.value = val!;
+                controller.updateThousandSeparator();
+              } else {
+                controller.decimalSep.value = val!;
+                controller.updateDecimalSeparator();
+              }
+              Get.back();
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }

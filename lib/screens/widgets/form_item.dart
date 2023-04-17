@@ -27,7 +27,7 @@ class FormItem extends StatelessWidget {
         children: [
           Flexible(
             child: TextFormField(
-              maxLength: maxLength ?? 20,
+              maxLength: maxLength,
               controller: controller,
               readOnly: onTap != null,
               onTap: onTap,

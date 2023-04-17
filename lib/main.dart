@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
@@ -5,8 +6,6 @@ import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/home/home_screen.dart';
 import 'package:vase/widgets/wrapper.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 
 void main() {
   runApp(const MyApp());

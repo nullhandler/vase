@@ -1,31 +1,34 @@
 class UserModel {
-  UserModel({
-    this.id,
-    required this.currency,
-    required this.thousandSeparator,
-    required this.decimalSeparator,
-    required this.monet
-  });
+  UserModel(
+      {required this.currency,
+      required this.thousandSeparator,
+      required this.decimalSeparator,
+      required this.monet});
 
-  int? id;
   String currency;
   String thousandSeparator;
   String decimalSeparator;
   bool monet;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"],
-        currency: json["currency"],
-      thousandSeparator: json['thousand_separator'] ,
-      decimalSeparator: json['decimal_separator'],
-      monet: json['monet']=='true'?true:false
-      );
+  static const currencyConst = "currency";
+  static const thousandSeparatorConst = "thousandSeparator";
+  static const decimalSeparatorConst = "decimalSeparator";
+  static const monetConst = "monet";
+
+  factory UserModel.fromJson(List<Map<String, dynamic>> json) {
+    Map<String, dynamic> map =
+        Map.fromEntries(json.map((e) => MapEntry(e['key'], e['value'])));
+    return UserModel(
+        currency: map[currencyConst] ?? r'₹',
+        thousandSeparator: map[thousandSeparatorConst] ?? ',',
+        decimalSeparator: map[decimalSeparatorConst] ?? '.',
+        monet: map[monetConst] == 'true');
+  }
 
   Map<String, dynamic> toJson() => {
-        if (id != null) "id": id,
         "currency": currency,
-        "thousand_separator" : thousandSeparator,
-        "decimal_separator" : decimalSeparator,
+        "thousand_separator": thousandSeparator,
+        "decimal_separator": decimalSeparator,
         "monet": monet
       };
 
