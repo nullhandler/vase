@@ -10,8 +10,9 @@ class CategoriesController extends GetxController {
 
   Future<void> deleteCategory(Category category) async {
     final DbController dbController = Get.find<DbController>();
-    await dbController.db
-        .delete(Const.categories, where: "id = ?", whereArgs: [category.id]);
+    category.deleted = 1;
+    await dbController.db.update(Const.categories, category.toJson(),
+        where: "id = ?", whereArgs: [category.id]);
     //final categoryList = await dbController.db.query(Const.categories);
     // categories.value = categoryFromJson(categoryList);
   }

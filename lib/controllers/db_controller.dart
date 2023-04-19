@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
+import 'package:vase/screens/user/user_controller.dart';
 
 import '../screens/categories/category_model.dart';
 
@@ -29,7 +30,8 @@ class DbController extends GetxController {
           category_name TEXT,
           category_type INT,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-          icon TEXT
+          icon TEXT,
+          deleted INTEGER
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,9 +59,13 @@ class DbController extends GetxController {
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
-    final categoryList = await db.query(Const.categories);
+    final categoryList = await db.query(Const.categories , where: 'deleted = ?' ,whereArgs: [0]);
     categories.value = categoryFromJson(categoryList);
-    vaseState.value = VaseState.loaded;
+    final UserController userController = Get.put(UserController());
+    final prefLoaded = await userController.fetchPreferences();
+    if (prefLoaded) {
+      vaseState.value = VaseState.loaded;
+    }
   }
 
   @override

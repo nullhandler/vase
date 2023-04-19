@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/screens/categories/add_categories_screen.dart';
+import 'package:vase/screens/categories/add_edit_categories_screen.dart';
 import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/screens/widgets/categories/category_list.dart';
 import 'package:vase/screens/widgets/fab.dart';
@@ -43,7 +43,9 @@ class Categories extends StatelessWidget {
           ),
           floatingActionButton: Fab(
             onTap: () {
-              Get.to(() => const AddCategoriesScreen());
+              Get.to(() => AddCategoriesScreen() , arguments: {
+                "edit" : false
+              });
             },
           ),
         ),

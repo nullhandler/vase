@@ -3,6 +3,7 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vase/colors.dart';
+import 'package:vase/screens/categories/add_edit_categories_screen.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/utils.dart';
@@ -33,29 +34,72 @@ class CategoryList extends StatelessWidget {
             );
           }
 
-          return ListView.builder(
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              final Category category = categories[index];
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final Category category = categories[index];
 
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: AppColors.darkGreyColor,
-                  child: Icon(deserializeIcon(
-                      {'pack': 'cupertino', 'key': category.icon})),
-                ),
-                title: Text(category.categoryName),
-                subtitle: category.createdAt != null
-                    ? Text(
-                        DateFormat.yMMMMd('en_US').format(category.createdAt!),
-                        style: const TextStyle(color: Colors.grey),
-                      )
-                    : null,
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-              );
-            },
+                return ListTile(
+                  leading: CircleAvatar(
+                    //backgroundColor: AppColors.darkGreyColor,
+                    child: Icon(deserializeIcon(
+                        {'pack': 'cupertino', 'key': category.icon})),
+                  ),
+                  title: Text(category.categoryName),
+                  subtitle: category.createdAt != null
+                      ? Text(
+                          DateFormat.yMMMMd('en_US')
+                              .format(category.createdAt!),
+                          style: const TextStyle(color: Colors.grey),
+                        )
+                      : null,
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit_outlined),
+                        onPressed: () {
+                          Get.to(() => AddCategoriesScreen(),
+                              arguments: {"edit": true, "category": category});
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete_outlined,
+                            color: AppColors.errorColor),
+                        onPressed: () {
+                          Get.dialog(AlertDialog(
+                            title: const Text("Are you sure ? "),
+                            content: Text(
+                                "This will delete the category ${category.categoryName} permanently"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    controller.deleteCategory(category);
+                                    categories.removeAt(index);
+                                    
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    "Yes , Delete",
+                                    style:
+                                        TextStyle(color: AppColors.errorColor),
+                                  )),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text("No"))
+                            ],
+                          ));
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           );
         });
       },

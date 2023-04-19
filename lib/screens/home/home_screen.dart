@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
   final TransController transController = Get.put(TransController());
-  final UserController userController = Get.put(UserController());
+  final UserController userController = Get.find();
   final _tabs = [
     const Transactions(),
     const Categories(),
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: 'Accounts',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.settings_outlined),
                   label: 'Settings',
                 ),
               ],

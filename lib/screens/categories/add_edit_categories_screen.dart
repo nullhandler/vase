@@ -9,17 +9,22 @@ import 'package:vase/widgets/focused_layout.dart';
 import '../widgets/category_type_selector.dart';
 
 class AddCategoriesScreen extends StatelessWidget {
-  const AddCategoriesScreen({Key? key}) : super(key: key);
+  AddCategoriesScreen({Key? key}) : super(key: key);
+
+  final isEdit = Get.arguments['edit'];
 
   @override
   Widget build(BuildContext context) {
     return FocusedLayout(
-      appBarTitle: "Add Category",
+      appBarTitle: isEdit ? "Edit Category" : "Add Category",
       padding: const EdgeInsets.all(16.0),
       isScrollable: false,
       child: GetBuilder<AddCategoryController>(
         init: AddCategoryController(),
         builder: (AddCategoryController controller) {
+          if (isEdit) {
+            controller.preFillCategory(Get.arguments['category']);
+          }
           return Form(
             key: controller.formKey,
             child: Column(
@@ -35,16 +40,20 @@ class AddCategoriesScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 8),
-                CategoryTypeSelector(
-                  onSelect: controller.setTransactionType,
-                  currentType: controller.categoryType,
-                ),
+                isEdit
+                    ? const SizedBox()
+                    : CategoryTypeSelector(
+                        onSelect: controller.setTransactionType,
+                        currentType: controller.categoryType,
+                      ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: controller.categoryIcon.value,
+                    Obx(
+                      () => AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        child: controller.categoryIcon.value,
+                      ),
                     ),
                     TextButton(
                       onPressed: () async {
@@ -62,21 +71,21 @@ class AddCategoriesScreen extends StatelessWidget {
                 const Spacer(),
                 const SizedBox(height: 8),
                 ElevatedButton(
-                      onPressed: controller.validate,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Add Category",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      )),
-
+                    onPressed:
+                        isEdit ? controller.updateCat : controller.validate,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            isEdit ? "Update Category" : "Add Category",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    )),
               ],
             ),
           );

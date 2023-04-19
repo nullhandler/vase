@@ -15,21 +15,23 @@ String categoryToJson(List<Category> data) =>
     )));
 
 class Category {
-  Category({
-    this.id,
-    required this.categoryName,
-    required this.categoryType,
-    this.createdAt,
-    required this.icon
-  });
+  Category(
+      {this.id,
+      required this.categoryName,
+      required this.categoryType,
+      this.createdAt,
+      required this.icon,
+      required this.deleted});
 
   int? id;
   String categoryName;
   CategoryType categoryType;
   DateTime? createdAt;
   String icon;
+  int deleted;
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
         id: json["id"],
         categoryName: json["category_name"],
         categoryType:
@@ -37,14 +39,17 @@ class Category {
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
-      icon: json['icon']);
+        icon: json['icon'],
+        deleted: json['deleted']);
+  }
 
   Map<String, dynamic> toJson() => {
         if (id != null) "id": id,
         "category_name": categoryName,
         "category_type": categoryType.name,
         if (createdAt != null) "created_at": createdAt!.toIso8601String(),
-        "icon" : icon
+        "icon": icon,
+        "deleted" : deleted
       };
 
   @override
