@@ -18,6 +18,8 @@ class AppColors {
       colorScheme: ThemeData.dark(useMaterial3: true).colorScheme.copyWith(
             primary: accentColor,
           ),
+      floatingActionButtonTheme:
+          const FloatingActionButtonThemeData(backgroundColor: accentColor),
       bottomNavigationBarTheme:
           const BottomNavigationBarThemeData(selectedItemColor: accentColor),
       textTheme: GoogleFonts.latoTextTheme().apply(bodyColor: Colors.white));
