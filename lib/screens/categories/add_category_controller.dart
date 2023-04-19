@@ -65,7 +65,7 @@ class AddCategoryController extends GetxController {
   Future<void> addCategory(Category category) async {
     final DbController dbController = Get.find<DbController>();
     await dbController.db.insert(Const.categories, category.toJson());
-    final categoryList = await dbController.db.query(Const.categories);
+    final categoryList = await dbController.db.query(Const.categories , where: 'deleted = ?' ,whereArgs: [0]);
     dbController.categories.value = categoryFromJson(categoryList);
   }
 
@@ -73,7 +73,7 @@ class AddCategoryController extends GetxController {
     final DbController dbController = Get.find<DbController>();
     await dbController.db.update(Const.categories, category.toJson(),
         where: 'id = ?', whereArgs: [category.id]);
-    final categoryList = await dbController.db.query(Const.categories);
+    final categoryList =await dbController.db.query(Const.categories , where: 'deleted = ?' ,whereArgs: [0]);
     dbController.categories.value = categoryFromJson(categoryList);
   }
 }
