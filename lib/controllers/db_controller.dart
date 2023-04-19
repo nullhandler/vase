@@ -31,6 +31,11 @@ class DbController extends GetxController {
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           icon TEXT
           )''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          key TEXT,
+          value TEXT
+          )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           created_at INTEGER,
@@ -47,6 +52,8 @@ class DbController extends GetxController {
           FOREIGN KEY (trans_id) REFERENCES ${Const.trans}(id) ON DELETE CASCADE)''');
       await db.execute(
           '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
+      await db.execute(
+          '''CREATE INDEX IF NOT EXISTS ConfigKeyIndex ON ${Const.configs} (key)''');
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);

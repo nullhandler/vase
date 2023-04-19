@@ -1,3 +1,3 @@
 enum VaseState { loading, error, loaded }
 
-enum HomeState { transactions, stats, accounts }
+enum HomeState { transactions, stats, accounts , user }

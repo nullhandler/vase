@@ -23,4 +23,20 @@ class Utils {
       backgroundColor: AppColors.darkGreyColor,
     );
   }
+
+  static void showCustomBottomSheet(BuildContext context,
+      {required Widget body}) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: SizedBox(
+              //height: height,
+              child: body,
+            ),
+          );
+        });
+  }
 }
