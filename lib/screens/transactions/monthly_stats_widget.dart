@@ -41,7 +41,10 @@ class MonthlyStatsWidget extends StatelessWidget {
         width: (Get.width - 40) * 0.3,
         child: Column(
           children: [
-            Text(title),
+            Text(
+              title,
+             
+            ),
             const SizedBox(
               height: 4,
             ),

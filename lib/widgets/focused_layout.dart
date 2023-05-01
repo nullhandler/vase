@@ -9,6 +9,7 @@ class FocusedLayout extends StatelessWidget {
     this.isScrollable = false,
     this.bottomWidget,
     this.fab,
+    this.actions
   }) : super(key: key);
 
   final Widget child;
@@ -17,6 +18,7 @@ class FocusedLayout extends StatelessWidget {
   final bool isScrollable;
   final Widget? bottomWidget;
   final Widget? fab;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class FocusedLayout extends StatelessWidget {
           appBarTitle ?? "",
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
+        actions: actions,
       ),
       body: Builder(
         builder: (context) {
