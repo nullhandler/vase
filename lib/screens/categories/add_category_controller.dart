@@ -95,8 +95,6 @@ class AddCategoryController extends GetxController {
           where: "id = ?", whereArgs: [preFilledCategory!.id]);
       dbController.categories.removeWhere((element) =>
       element.id == preFilledCategory!.id);
-      //final categoryList = await dbController.db.query(Const.categories);
-      // categories.value = categoryFromJson(categoryList);
     }
   }
 }
