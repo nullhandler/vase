@@ -6,13 +6,14 @@ import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/user/user_model.dart';
 
 class UserController extends GetxController {
-  DbController dbController = Get.put(DbController());
+  DbController dbController = Get.find();
   TextEditingController currencyController = TextEditingController(text: r'$');
   RxString currency = '\$'.obs;
   RxBool showMonetSwitch = true.obs;
   RxInt decimalSep = 0.obs;
   RxInt thousandSep = 1.obs;
   RxBool monet = false.obs;
+  bool prefLoaded = false;
   UserModel configs = UserModel(
       currency: r'₹',
       thousandSeparator: ',',
@@ -21,12 +22,12 @@ class UserController extends GetxController {
 
   @override
   void onInit() {
-    fetchPreferences();
+    //fetchPreferences();
     checkMonet();
     super.onInit();
   }
 
-  void fetchPreferences() async {
+  Future<bool> fetchPreferences() async {
     var userPref = await dbController.db.query(Const.configs);
     configs = UserModel.fromJson(userPref);
     currencyController.text = configs.currency;
@@ -39,7 +40,9 @@ class UserController extends GetxController {
     } else {
       Get.changeThemeMode(ThemeMode.light);
     }
+    prefLoaded = true;
     update();
+    return prefLoaded;
   }
 
   void checkMonet() async {

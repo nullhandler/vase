@@ -55,7 +55,10 @@ class DateListItem extends StatelessWidget {
                       'key': cat != null ? cat.icon : 'sync_alt_rounded'
                     })),
                   ),
-                  title: Text(transaction.desc),
+                  title: Text(
+                    transaction.desc,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
