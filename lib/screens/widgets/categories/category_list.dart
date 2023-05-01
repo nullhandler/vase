@@ -3,7 +3,7 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vase/colors.dart';
-import 'package:vase/screens/categories/add_edit_categories_screen.dart';
+import 'package:vase/screens/categories/add_edit_category_screen.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/utils.dart';
@@ -42,13 +42,13 @@ class CategoryList extends StatelessWidget {
                 final Category category = categories[index];
                 return ListTile(
                   onTap: () {
-                    Get.to(() => AddCategoriesScreen(),
+                    Get.to(() => AddCategoryScreen(),
                         arguments: {"edit": true, "category": category});
                   },
                   leading: CircleAvatar(
                     //backgroundColor: AppColors.darkGreyColor,
                     child: Icon(deserializeIcon(
-                        {'pack': 'cupertino', 'key': category.icon})),
+                        {'pack': 'fontAwesomeIcons', 'key': category.icon})),
                   ),
                   title: Text(category.categoryName),
                   subtitle: category.createdAt != null

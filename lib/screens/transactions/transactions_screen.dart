@@ -17,13 +17,19 @@ class Transactions extends StatelessWidget {
     return ThemeWrapper(
       child: GetBuilder<TransController>(
         builder: (TransController controller) {
-          return Obx(() {
-            return Scaffold(
-              appBar: AppBar(
-                titleSpacing: 0,
-                title: const MonthCalender(),
-              ),
-              body: ListView.builder(
+          return Scaffold(
+            appBar: AppBar(
+              titleSpacing: 0,
+              title: const MonthCalender(),
+            ),
+            body: Obx(() {
+              if (controller.transactions.isEmpty) {
+                return const Center(
+                    child: Text(
+                  "No Transactions for the selected month",
+                ));
+              }
+              return ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: controller.transactions.length + 1,
@@ -39,12 +45,12 @@ class Transactions extends StatelessWidget {
                         date: controller.transactions.keys.elementAt(pos - 1),
                         transactions:
                             controller.transactions.values.elementAt(pos - 1));
-                  }),
-              floatingActionButton: Fab(onTap: () {
-                Get.to(() => NewTransaction());
-              }),
-            );
-          });
+                  });
+            }),
+            floatingActionButton: Fab(onTap: () {
+              Get.to(() => NewTransaction());
+            }),
+          );
         },
       ),
     );

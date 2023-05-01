@@ -31,7 +31,7 @@ class AddCategoryController extends GetxController {
     preFilledCategory = category;
     categoryNameController.text = category.categoryName;
     categoryIcon.value =
-        Icon(deserializeIcon({'pack': 'cupertino', 'key': category.icon}));
+        Icon(deserializeIcon({'pack': 'fontAwesomeIcons', 'key': category.icon}));
     categoryType.value = category.categoryType;
     updateId = category.id!;
     update();

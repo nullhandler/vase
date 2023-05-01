@@ -51,7 +51,7 @@ class DateListItem extends StatelessWidget {
                   leading: CircleAvatar(
                     // backgroundColor: AppColors.darkGreyColor,
                     child: Icon(deserializeIcon({
-                      'pack': cat != null ? 'cupertino' : 'material',
+                      'pack': cat != null ? 'fontAwesomeIcons' : 'material',
                       'key': cat != null ? cat.icon : 'sync_alt_rounded'
                     })),
                   ),

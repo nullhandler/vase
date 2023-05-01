@@ -9,8 +9,8 @@ import 'package:vase/widgets/focused_layout.dart';
 
 import '../widgets/category_type_selector.dart';
 
-class AddCategoriesScreen extends StatelessWidget {
-  AddCategoriesScreen({Key? key}) : super(key: key);
+class AddCategoryScreen extends StatelessWidget {
+  AddCategoryScreen({Key? key}) : super(key: key);
 
   final isEdit = Get.arguments['edit'];
 
@@ -70,7 +70,7 @@ class AddCategoriesScreen extends StatelessWidget {
                               await FlutterIconPicker.showIconPicker(context,
                                   adaptiveDialog: true,
                                   backgroundColor: AppColors.darkGreyColor,
-                                  iconPackModes: [IconPack.cupertino]);
+                                  iconPackModes: [IconPack.fontAwesomeIcons]);
                           controller.onCategoryIconChange(icon);
                         },
                         child: const Text('Click to choose an Icon'),
