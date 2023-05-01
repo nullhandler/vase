@@ -11,6 +11,15 @@ class AddCategoryController extends GetxController {
   Rx<Icon> categoryIcon = const Icon(CupertinoIcons.money_dollar_circle).obs;
   final formKey = GlobalKey<FormState>();
   int updateId = 0;
+  Category? preFilledCategory;
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (Get.arguments['edit']) {
+      preFillCategory(Get.arguments['category']);
+    }
+  }
 
   void setTransactionType(CategoryType? newTransactionType) {
     if (newTransactionType != null) {
@@ -19,17 +28,18 @@ class AddCategoryController extends GetxController {
   }
 
   void preFillCategory(Category category) {
+    preFilledCategory = category;
     categoryNameController.text = category.categoryName;
     categoryIcon.value =
         Icon(deserializeIcon({'pack': 'cupertino', 'key': category.icon}));
     categoryType.value = category.categoryType;
     updateId = category.id!;
+    update();
   }
 
   void onCategoryIconChange(IconData? icon) {
     if (icon != null) {
       categoryIcon.value = Icon(icon);
-      // update();
     }
   }
 
@@ -75,5 +85,18 @@ class AddCategoryController extends GetxController {
         where: 'id = ?', whereArgs: [category.id]);
     final categoryList =await dbController.db.query(Const.categories , where: 'deleted = ?' ,whereArgs: [0]);
     dbController.categories.value = categoryFromJson(categoryList);
+  }
+
+  Future<void> deleteCategory() async {
+    if (preFilledCategory != null) {
+      final DbController dbController = Get.find<DbController>();
+      preFilledCategory!.deleted = 1;
+      await dbController.db.update(Const.categories, preFilledCategory!.toJson(),
+          where: "id = ?", whereArgs: [preFilledCategory!.id]);
+      dbController.categories.removeWhere((element) =>
+      element.id == preFilledCategory!.id);
+      //final categoryList = await dbController.db.query(Const.categories);
+      // categories.value = categoryFromJson(categoryList);
+    }
   }
 }

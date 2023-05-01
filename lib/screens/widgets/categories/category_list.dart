@@ -40,8 +40,11 @@ class CategoryList extends StatelessWidget {
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 final Category category = categories[index];
-
                 return ListTile(
+                  onTap: () {
+                    Get.to(() => AddCategoriesScreen(),
+                        arguments: {"edit": true, "category": category});
+                  },
                   leading: CircleAvatar(
                     //backgroundColor: AppColors.darkGreyColor,
                     child: Icon(deserializeIcon(
@@ -55,47 +58,8 @@ class CategoryList extends StatelessWidget {
                           style: const TextStyle(color: Colors.grey),
                         )
                       : null,
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit_outlined),
-                        onPressed: () {
-                          Get.to(() => AddCategoriesScreen(),
-                              arguments: {"edit": true, "category": category});
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete_outlined,
-                            color: AppColors.errorColor),
-                        onPressed: () {
-                          Get.dialog(AlertDialog(
-                            title: const Text("Are you sure ? "),
-                            content: Text(
-                                "This will delete the category ${category.categoryName} permanently"),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    controller.deleteCategory(category);
-                                    categories.removeAt(index);
-                                    
-                                    Get.back();
-                                  },
-                                  child: const Text(
-                                    "Yes , Delete",
-                                    style:
-                                        TextStyle(color: AppColors.errorColor),
-                                  )),
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: const Text("No"))
-                            ],
-                          ));
-                        },
-                      ),
-                    ],
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
                   ),
                 );
               },
