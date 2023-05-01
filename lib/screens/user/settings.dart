@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/colors.dart';
 import 'package:vase/screens/user/user_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
 import 'package:vase/utils.dart';
 import 'package:vase/widgets/focused_layout.dart';
+import 'package:vase/widgets/heading.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 class UserSettings extends StatelessWidget {
@@ -26,17 +26,7 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(
-                  () => Text(
-                    "Preferences",
-                    style: TextStyle(
-                        color: controller.monet.value
-                            ? AppColors.monetColorScheme.primary
-                            : AppColors.accentColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+                const Heading(title: "Preferences"),
                 const SizedBox(
                   height: 16,
                 ),
@@ -150,16 +140,7 @@ class UserSettings extends StatelessWidget {
                 Obx(
                   () => Visibility(
                     visible: controller.showMonetSwitch.value,
-                    child: Text(
-                      "Theme",
-                      style: TextStyle(
-                          color: controller.monet.value
-                              ? AppColors.monetColorScheme.primary
-                              : AppColors.accentColor,
-                          // color: AppColors.accentColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    child: const Heading(title: "Theme"),
                   ),
                 ),
                 const SizedBox(
