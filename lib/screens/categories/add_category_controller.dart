@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 import '../../const.dart';
 import '../../controllers/db_controller.dart';
 import 'category_model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddCategoryController extends GetxController {
   Rx<CategoryType> categoryType = CategoryType.expense.obs;
   final categoryNameController = TextEditingController();
-  Rx<Icon> categoryIcon = const Icon(CupertinoIcons.money_dollar_circle).obs;
+  Rx<Icon> categoryIcon = const Icon(FontAwesomeIcons.moneyBill).obs;
   final formKey = GlobalKey<FormState>();
   int updateId = 0;
   Category? preFilledCategory;

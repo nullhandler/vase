@@ -29,6 +29,7 @@ environment:
 dependencies:
   get: ^4.6.5
   sqflite: ^2.0.3
+  font_awesome_flutter: ^10.4.0
   path: ^1.8.2
   intl: ^0.18.0
   google_fonts: ^4.0.3

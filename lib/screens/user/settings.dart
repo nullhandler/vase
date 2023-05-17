@@ -60,7 +60,7 @@ class UserSettings extends StatelessWidget {
                                 FormItem(
                                   question: "Currency",
                                   controller: controller.currencyController,
-                                  maxLength: 1,
+                                  maxLength: 3,
                                   validator: (curr) {
                                     if (curr == null || curr.isEmpty) {
                                       return 'Currency cannot be empty';
