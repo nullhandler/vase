@@ -201,7 +201,7 @@ class UserSettings extends StatelessWidget {
             groupValue: isThousandSep
                 ? controller.thousandSep.value
                 : controller.decimalSep.value,
-            title: const Text("Dot (.) e.g. 100.02"),
+            title: Text("Dot (.) e.g. ${isThousandSep ? '1.000' : '100.02'}"),
             subtitle: null,
             onChanged: (int? val) {
               if (isThousandSep) {
@@ -219,7 +219,7 @@ class UserSettings extends StatelessWidget {
             groupValue: isThousandSep
                 ? controller.thousandSep.value
                 : controller.decimalSep.value,
-            title: const Text("Comma (,) e.g. 100,02"),
+            title: Text("Comma (,) e.g. ${isThousandSep ? '1,000' : '100,02'}"),
             subtitle: null,
             selected: false,
             onChanged: (int? val) {
