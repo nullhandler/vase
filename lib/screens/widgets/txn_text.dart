@@ -25,7 +25,7 @@ class TxnText extends StatelessWidget {
       final decimal = controller.decimalSep.value;
       var f = NumberFormat.simpleCurrency(locale: 'en-us');
       String amt = f.format(amount);
-      amt = amt.replaceAll('\$', '');
+      amt = amt.replaceAll('\$', '').replaceFirst("-", "");
       if (decimal == 1 && comma == 0) {
         amt = amt.replaceAll('.', '@');
         amt = amt.replaceAll(',', '.');
