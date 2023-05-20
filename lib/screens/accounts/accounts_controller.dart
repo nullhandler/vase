@@ -11,6 +11,7 @@ class AccountsController extends GetxController {
   Rx<VaseState> accountsState = VaseState.loading.obs;
   RxMap<AccountType, List<Account>> accountList =
       <AccountType, List<Account>>{}.obs;
+  TotalAccountStat totalAccountStat = TotalAccountStat();
 
   @override
   void onInit() {
@@ -24,13 +25,20 @@ class AccountsController extends GetxController {
         .rawQuery("""SELECT account_id, SUM(amount) as total
       FROM ${Const.trans} GROUP BY account_id""");
     accountStats.value = Map<int, double>.fromEntries(statsList.map((e) {
+      double amount = e['total'] as double;
+      if (amount.isNegative){
+        totalAccountStat.liabilities += amount;
+      } else {
+        totalAccountStat.assets += amount;
+      }
       return MapEntry<int, double>(
-          e['account_id'] as int, e['total'] as double);
+          e['account_id'] as int, amount);
     }));
     Map<AccountType, List<Account>> temp = groupBy<Account, AccountType>(
         dbController.accounts.values.toList(),
         (account) => account.accountType);
     accountList.value = temp;
+    totalAccountStat.total = totalAccountStat.assets + totalAccountStat.liabilities;
     accountsState.value = VaseState.loaded;
   }
 

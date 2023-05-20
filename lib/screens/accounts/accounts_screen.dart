@@ -25,23 +25,20 @@ class AccountsScreen extends StatelessWidget {
         child: GetBuilder<AccountsController>(
           init: AccountsController(),
           builder: (AccountsController controller) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Obx(() {
-                if (controller.accountsState.value == VaseState.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (dbController.accounts.isEmpty) {
-                  return const Center(
-                    child: Text("No Accounts found"),
-                  );
-                }
+            return Obx(() {
+              if (controller.accountsState.value == VaseState.loading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (dbController.accounts.isEmpty) {
+                return const Center(
+                  child: Text("No Accounts found"),
+                );
+              }
 
-                return AccountList(accountsMap: controller.accountList);
-              }),
-            );
+              return AccountList(accountsMap: controller.accountList);
+            });
           },
         ),
       ),

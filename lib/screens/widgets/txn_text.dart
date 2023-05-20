@@ -10,6 +10,7 @@ class TxnText extends StatelessWidget {
       required this.amount,
       required,
       this.showDynamicColor = true,
+      this.showSign = false,
       this.customColor,
       this.textAlign});
 
@@ -17,6 +18,7 @@ class TxnText extends StatelessWidget {
   final bool showDynamicColor;
   final Color? customColor;
   final TextAlign? textAlign;
+  final bool showSign;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,10 @@ class TxnText extends StatelessWidget {
       final decimal = controller.decimalSep.value;
       var f = NumberFormat.simpleCurrency(locale: 'en-us');
       String amt = f.format(amount);
-      amt = amt.replaceAll('\$', '').replaceFirst("-", "");
+      amt = amt.replaceAll('\$', '');
+      if (!showSign) {
+        amt = amt.replaceFirst("-", "");
+      }
       if (decimal == 1 && comma == 0) {
         amt = amt.replaceAll('.', '@');
         amt = amt.replaceAll(',', '.');
