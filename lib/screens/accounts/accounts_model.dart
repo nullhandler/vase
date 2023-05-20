@@ -54,3 +54,9 @@ extension AccountTypeExt on AccountType {
     return accountTypeMap[this] ?? "Savings";
   }
 }
+
+class TotalAccountStat{
+  double assets = 0;
+  double liabilities = 0;
+  double total = 0;
+}

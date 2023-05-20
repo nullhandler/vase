@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:vase/colors.dart';
 import 'package:vase/screens/categories/add_edit_category_screen.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';

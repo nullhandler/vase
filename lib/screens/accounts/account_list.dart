@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/screens/accounts/accounts_controller.dart';
+import 'package:vase/screens/widgets/stats_widget.dart';
 import 'package:vase/screens/widgets/txn_text.dart';
 import 'package:vase/widgets/heading.dart';
 
@@ -14,13 +15,22 @@ class AccountList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      AccountsController controller = Get.find();
       return ListView.builder(
-          itemCount: accountsMap.length,
+          itemCount: accountsMap.length + 1,
           shrinkWrap: true,
           itemBuilder: (context, pos) {
+            if (pos == 0) {
+              return StatsWidget(statsMap: {
+                "Assets": controller.totalAccountStat.assets,
+                "Liabilities": controller.totalAccountStat.liabilities,
+                "Total": controller.totalAccountStat.total,
+              });
+            }
+            pos -= 1;
             List<Account> accounts = accountsMap.values.elementAt(pos);
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
