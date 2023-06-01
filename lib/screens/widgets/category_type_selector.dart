@@ -22,7 +22,7 @@ class CategoryTypeSelector extends StatelessWidget {
       categories.removeWhere((category) => category == CategoryType.transfer);
     }
     return Row(
-      children: CategoryType.values
+      children: categories
           .map<Widget>((item) => Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Obx(

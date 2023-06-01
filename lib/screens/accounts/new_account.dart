@@ -4,6 +4,11 @@ import 'package:vase/screens/accounts/accounts_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
 import 'package:vase/widgets/focused_layout.dart';
 
+import '../../colors.dart';
+import '../../const.dart';
+import '../../controllers/db_controller.dart';
+import '../../utils.dart';
+import '../dialogs/list_dialog.dart';
 import 'accounts_dialog.dart';
 import 'accounts_model.dart';
 
@@ -11,9 +16,12 @@ class NewAccount extends StatelessWidget {
   NewAccount({Key? key}) : super(key: key);
   final AccountsController accountsController = Get.find();
   final TextEditingController accountName = TextEditingController();
+  final TextEditingController parentAccountName = TextEditingController();
   final TextEditingController accountType =
       TextEditingController(text: AccountType.savings.toS());
   final Rx<Account> account =
+      Account(accountName: '', accountType: AccountType.savings).obs;
+  final Rx<Account> parentAccount =
       Account(accountName: '', accountType: AccountType.savings).obs;
 
   final _formKey = GlobalKey<FormState>();
@@ -55,6 +63,38 @@ class NewAccount extends StatelessWidget {
                   }
                 },
               ),
+              Obx(() {
+                if (account.value.accountType == AccountType.card) {
+                  return FormItem(
+                    question: "Parent Account",
+                    controller: parentAccountName,
+                    onTap: () async {
+                      final List<Account> accounts =
+                          Get.find<DbController>().accounts.values.toList();
+                      if (accounts.isEmpty) {
+                        Utils.showBottomSnackBar(
+                            title: Const.errorTitle,
+                            message:
+                                "Please add an account first to continue :) ",
+                            ic: const Icon(
+                              Icons.error_outline_rounded,
+                              color: AppColors.errorColor,
+                            ));
+                      } else {
+                        Account? selectedAccount =
+                            await ListDialog<Account>().showListDialog(
+                          accounts,
+                        );
+                        if (selectedAccount != null) {
+                          parentAccountName.text = selectedAccount.accountName;
+                          account.value.parentId = selectedAccount.id;
+                        }
+                      }
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              }),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
