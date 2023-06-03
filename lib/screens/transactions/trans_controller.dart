@@ -112,12 +112,15 @@ class TransController extends GetxController {
   }
 
   int getFirstDate() {
-    return currentDate.value.copyWith(day: 1).millisecondsSinceEpoch;
+    return currentDate.value
+        .copyWith(day: 1, hour: 0, minute: 1)
+        .millisecondsSinceEpoch;
   }
 
   int getLastDate() {
-    DateTime dateTime = currentDate.value;
-    return (getNextMonth(dateTime).copyWith(day: 0)).millisecondsSinceEpoch;
+    DateTime dateTime = getNextMonth(currentDate.value)
+        .copyWith(day: 0, hour: 23, minute: 59, second: 59, microsecond: 59);
+    return dateTime.millisecondsSinceEpoch;
   }
 
   DateTime getNextMonth(DateTime dateTime) {

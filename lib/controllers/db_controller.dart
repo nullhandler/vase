@@ -24,7 +24,8 @@ class DbController extends GetxController {
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.accounts} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           account_name TEXT,
-          account_type INT)''');
+          account_type INT,
+          parent_id INTEGER)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           category_name TEXT,
@@ -45,8 +46,8 @@ class DbController extends GetxController {
           desc TEXT,
           account_id INTEGER,
           category_id INTEGER,
-          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE,
-          FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
+          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id),
+          FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id))''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.transLinks} (
           link_id INTEGER PRIMARY KEY AUTOINCREMENT,
           trans_id INTEGER,
@@ -59,7 +60,8 @@ class DbController extends GetxController {
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
-    final categoryList = await db.query(Const.categories , where: 'deleted = ?' ,whereArgs: [0]);
+    final categoryList =
+        await db.query(Const.categories, where: 'deleted = ?', whereArgs: [0]);
     categories.value = categoryFromJson(categoryList);
     final UserController userController = Get.put(UserController());
     final prefLoaded = await userController.fetchPreferences();
