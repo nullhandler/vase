@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/screens/categories/add_categories_screen.dart';
+import 'package:vase/screens/categories/add_edit_category_screen.dart';
 import 'package:vase/screens/categories/category_model.dart';
 import 'package:vase/screens/widgets/categories/category_list.dart';
 import 'package:vase/screens/widgets/fab.dart';
-import 'package:vase/screens/widgets/month_calender.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 class Categories extends StatelessWidget {
@@ -17,7 +16,10 @@ class Categories extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: const MonthCalender(),
+            title: const Text(
+              "Categories",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
             bottom: const TabBar(
               tabs: [
                 Tab(
@@ -41,7 +43,9 @@ class Categories extends StatelessWidget {
           ),
           floatingActionButton: Fab(
             onTap: () {
-              Get.to(() => const AddCategoriesScreen());
+              Get.to(() => AddCategoryScreen() , arguments: {
+                "edit" : false
+              });
             },
           ),
         ),

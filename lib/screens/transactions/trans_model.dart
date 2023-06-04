@@ -1,22 +1,10 @@
-// To parse this JSON data, do
-//
-//     final transaction = transactionFromJson(jsonString);
+class TransStats {
+  double income;
+  double expense;
+  double total;
 
-import 'dart:convert';
-
-List<Transaction> transactionFromJson(List<Map<String, Object?>> list) =>
-    List<Transaction>.from(list.map((x) => Transaction.fromJson(x)));
-
-double totalFromJson(List<Map<String, dynamic>> list) {
-  double total = 0.0;
-  total = list.fold(0, (i, el){
-    return i + el['amount'];
-  });
-  return total;
+  TransStats(this.income, this.expense, this.total);
 }
-
-String transactionToJson(List<Transaction> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Transaction {
   Transaction({
@@ -34,6 +22,7 @@ class Transaction {
   String desc;
   int accountId;
   int? categoryId;
+  int? toAccountId;
 
   factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
         id: json["id"],

@@ -70,27 +70,26 @@ class NewTransController extends GetxController {
 
   void saveTransaction() async {
     final DbController dbController = Get.find<DbController>();
+    DateTime combinedDateTime = transactionDate.copyTime(transactionTime);
     if (categoryType.value == CategoryType.transfer) {
       String uuid = const Uuid().v4();
       Transaction newTransaction1 = Transaction(
-        createdAt: transactionDate.copyTime(transactionTime),
+        createdAt: combinedDateTime,
         amount: double.parse("-${amountController.text}"),
         desc: descController.text,
         accountId: selectedAccount!.id!,
       );
       newTransaction1.id =
           await dbController.db.insert(Const.trans, newTransaction1.toJson());
-      Get.find<TransController>().transactions.add(newTransaction1);
 
       Transaction newTransaction2 = Transaction(
-        createdAt: transactionDate.copyTime(transactionTime),
+        createdAt: combinedDateTime,
         amount: double.parse("+${amountController.text}"),
         desc: descController.text,
         accountId: selectedToAccount!.id!,
       );
       newTransaction2.id =
           await dbController.db.insert(Const.trans, newTransaction2.toJson());
-      Get.find<TransController>().transactions.add(newTransaction2);
 
       await dbController.db.insert(
           Const.transLinks, {"trans_id": newTransaction1.id, "batch_id": uuid});
@@ -98,7 +97,7 @@ class NewTransController extends GetxController {
           Const.transLinks, {"trans_id": newTransaction2.id, "batch_id": uuid});
     } else {
       Transaction newTransaction = Transaction(
-        createdAt: transactionDate.copyTime(transactionTime),
+        createdAt: combinedDateTime,
         amount: double.parse(
             "${categoryType.value == CategoryType.expense ? '-' : '+'}${amountController.text}"),
         desc: descController.text,
@@ -107,14 +106,8 @@ class NewTransController extends GetxController {
       );
       newTransaction.id =
           await dbController.db.insert(Const.trans, newTransaction.toJson());
-      Get.find<TransController>().transactions.add(newTransaction);
-      Get.find<TransController>().monthlyTotal.value += newTransaction.amount;
     }
 
-    Get.find<TransController>().transactions.sort((a, b) {
-      var adate = a.createdAt;
-      var bdate = b.createdAt;
-      return bdate.compareTo(adate);
-    });
+    Get.find<TransController>().refreshListIfNeeded(combinedDateTime);
   }
 }

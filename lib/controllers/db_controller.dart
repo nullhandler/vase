@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
+import 'package:vase/screens/user/user_controller.dart';
 
 import '../screens/categories/category_model.dart';
 
@@ -23,13 +24,20 @@ class DbController extends GetxController {
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.accounts} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           account_name TEXT,
-          account_type INT)''');
+          account_type INT,
+          parent_id INTEGER)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           category_name TEXT,
           category_type INT,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-          icon TEXT
+          icon TEXT,
+          deleted INTEGER
+          )''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          key TEXT,
+          value TEXT
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,25 +46,28 @@ class DbController extends GetxController {
           desc TEXT,
           account_id INTEGER,
           category_id INTEGER,
-          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id) ON DELETE CASCADE,
-          FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id) ON DELETE CASCADE)''');
+          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id),
+          FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id))''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.transLinks} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          link_id INTEGER PRIMARY KEY AUTOINCREMENT,
           trans_id INTEGER,
           batch_id TEXT,
           FOREIGN KEY (trans_id) REFERENCES ${Const.trans}(id) ON DELETE CASCADE)''');
       await db.execute(
           '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
-      await db.execute('''CREATE VIEW ${Const.transView} AS
-          SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks}
-          on ${Const.transLinks}.trans_id = ${Const.trans}.id''');
+      await db.execute(
+          '''CREATE INDEX IF NOT EXISTS ConfigKeyIndex ON ${Const.configs} (key)''');
     });
-    var s = await db.query(Const.transView, groupBy: "batch_id");
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
-    final categoryList = await db.query(Const.categories);
+    final categoryList =
+        await db.query(Const.categories, where: 'deleted = ?', whereArgs: [0]);
     categories.value = categoryFromJson(categoryList);
-    vaseState.value = VaseState.loaded;
+    final UserController userController = Get.put(UserController());
+    final prefLoaded = await userController.fetchPreferences();
+    if (prefLoaded) {
+      vaseState.value = VaseState.loaded;
+    }
   }
 
   @override

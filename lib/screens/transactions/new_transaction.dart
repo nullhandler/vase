@@ -125,7 +125,8 @@ class NewTransaction extends StatelessWidget {
                   FormItem(
                     question: "Amount",
                     controller: controller.amountController,
-                    textInputType: TextInputType.number,
+                    textInputType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     validator: (amount) {
                       if (amount == null || amount.isEmpty) {
                         return 'A transaction without any amount? idts :(';
@@ -171,7 +172,6 @@ class NewTransaction extends StatelessWidget {
                           controller: controller.timeController,
                           onTap: () async {
                             TimeOfDay? time = await showTimePicker(
-
                                 context: context,
                                 initialTime: controller.transactionTime);
                             controller.setTime(time);
@@ -188,11 +188,11 @@ class NewTransaction extends StatelessWidget {
                           Get.back();
                         }
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Text(
                               "Add Transaction",
                               style: TextStyle(
