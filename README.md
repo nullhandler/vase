@@ -1,6 +1,6 @@
-# vase
+# vase - Simplify, Track and Control your finance
 
-A new Flutter project.
+Vase is a powerful personal expense manager app designed to simplify your financial tracking and give you full control over your expenses. With its intuitive interface, Vase allows you to effortlessly manage your income, track your spending, and view insightful reports. Stay on top of your finances and achieve your financial goals with Vase, your trusted companion for managing personal expenses.
 
 ## Getting Started
 
