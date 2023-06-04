@@ -5,4 +5,7 @@ class Const {
   static const categories = "Categories";
   static const configs = "Configs";
   static const errorTitle = "Uh-Oh !";
+  static const git = "https://github.com/nullhandler/vase";
+  static const tg = "https://t.me/vase_flutter";
+  static const version = 1;
 }
