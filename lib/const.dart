@@ -7,5 +7,7 @@ class Const {
   static const errorTitle = "Uh-Oh !";
   static const git = "https://github.com/nullhandler/vase";
   static const tg = "https://t.me/vase_flutter";
-  static const version = 1;
+  static const updateCheck =
+      'https://raw.githubusercontent.com/nullhandler/vase/main/update.json';
+  static const version = 0;
 }

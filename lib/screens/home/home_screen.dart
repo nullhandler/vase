@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   checkForUpdates(BuildContext context) async {
     var res = await http.get(Uri.parse(
-        "https://raw.githubusercontent.com/nullhandler/vase/force-update-about/update.json"));
+        Const.updateCheck));
 
     if (res.statusCode == 200) {
       var json = jsonDecode(res.body);
