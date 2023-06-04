@@ -9,5 +9,4 @@ class Const {
   static const tg = "https://t.me/vase_flutter";
   static const updateCheck =
       'https://raw.githubusercontent.com/nullhandler/vase/main/update.json';
-  static const version = 0;
 }

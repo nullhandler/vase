@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_screen.dart';
@@ -82,8 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   checkForUpdates(BuildContext context) async {
-    var res = await http.get(Uri.parse(
-        Const.updateCheck));
+    var res = await http.get(Uri.parse(Const.updateCheck));
 
     if (res.statusCode == 200) {
       var json = jsonDecode(res.body);
@@ -91,19 +91,17 @@ class _HomeScreenState extends State<HomeScreen> {
         return null;
       }
 
-      if (json['version'] > Const.version) {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    int version = int.tryParse( packageInfo.buildNumber) ?? 0;
+
+      if (json['version'] > version) {
         updateURL = json['update'];
         changelog = json['changelog'];
         if (context.mounted) {
-          Utils.showCustomBottomSheet(
-            context,
-            body: updateDisplay(),
-            dismissable: !json['forced']
-          );
+          Utils.showCustomBottomSheet(context,
+              body: updateDisplay(), dismissable: !json['forced']);
         }
       }
-    } else {
-      print('hello');
     }
   }
 
