@@ -30,15 +30,15 @@ class AccountsController extends GetxController {
       return MapEntry<int, double>(
           e['account_id'] as int, e['total'] as double);
     }));
-    accountStats.value.forEach((id, value) {
+    accountStats.forEach((id, value) {
       Account account = dbController.accounts[id]!;
       if (account.parentId != null) {
-        accountStats.value[account.parentId!] =
-            accountStats.value[account.parentId]! + value;
+        accountStats[account.parentId!] =
+            accountStats[account.parentId]! + value;
       }
     });
     List<int> linkedAccountIds = <int>[];
-    accountStats.value.forEach((id, value) {
+    accountStats.forEach((id, value) {
       Account account = dbController.accounts[id]!;
       if (!account.hasParentAccount()) {
         if (value.isNegative) {
@@ -47,16 +47,16 @@ class AccountsController extends GetxController {
           totalAccountStat.assets += value;
         }
       } else {
-        accountStats.value[id] = 0;
+        accountStats[id] = 0;
         linkedAccountIds.add(account.id!);
       }
     });
     statsList = await dbController.db
         .rawQuery("""SELECT account_id, SUM(amount) as total
-      FROM ${Const.trans} WHERE created_at BETWEEN ${getFirstDate()} 
+      FROM ${Const.trans} WHERE created_at BETWEEN ${getFirstDate()}
       AND ${DateTime.now().millisecondsSinceEpoch} AND account_id in (${linkedAccountIds.join(",")})
       GROUP BY account_id""");
-    accountStats.value.addAll(Map<int, double>.fromEntries(statsList.map((e) {
+    accountStats.addAll(Map<int, double>.fromEntries(statsList.map((e) {
       return MapEntry<int, double>(
           e['account_id'] as int, e['total'] as double);
     })));

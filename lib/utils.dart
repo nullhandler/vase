@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vase/const.dart';
 
 import 'colors.dart';
@@ -24,10 +25,17 @@ class Utils {
     );
   }
 
+    static Future<void> openLink(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   static void showCustomBottomSheet(BuildContext context,
-      {required Widget body}) {
+      {required Widget body , bool? dismissable}) {
     showModalBottomSheet(
         isScrollControlled: true,
+        isDismissible: dismissable??true,
         context: context,
         builder: (context) {
           return Padding(
