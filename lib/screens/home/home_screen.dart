@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/colors.dart';
+import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_screen.dart';
 import 'package:vase/screens/home/home_controller.dart';
@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final TransController transController = Get.put(TransController());
   final UserController userController = Get.find();
   String updateURL = "";
+  String changelog = "";
   final _tabs = [
     const Transactions(),
     const Categories(),
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   Widget updateDisplay() {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: SizedBox(
         width: double.infinity,
@@ -45,35 +46,35 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-          const  SizedBox(
+            const SizedBox(
               height: 20,
             ),
-           const Text(
+            const Text(
               "Update Available !!\n",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-           const Text('Changelog - \n 1. Bug Fixes lol'),
-           const SizedBox(
+            Text(changelog),
+            const SizedBox(
               height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                onPressed: (){
-                //  onTap();
-                  Get.back();
-                },
-                child: const Text(
-                  "Download",
-
-                )),
-            TextButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text("No , let it be"))
-            ],)
+                    onPressed: () {
+                      Utils.openLink(updateURL);
+                      Get.back();
+                    },
+                    child: const Text(
+                      "Download",
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text("No , let it be"))
+              ],
+            )
           ],
         ),
       ),
@@ -82,26 +83,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   checkForUpdates(BuildContext context) async {
     var res = await http.get(Uri.parse(
-        "https://raw.githubusercontent.com/nullhandler/vase/master/update.json"));
+        "https://raw.githubusercontent.com/nullhandler/vase/force-update-about/update.json"));
 
     if (res.statusCode == 200) {
       var json = jsonDecode(res.body);
-      // if (json == null || res.statusCode != 200) {
-      //   return null;
-      // }
-
-      // if (json['version'] > Const.version && json['forced'] == true) {
-      //   updateURL = json['update'];
-
-      // }
-    } else {
-      if (context.mounted) {
-        Utils.showCustomBottomSheet(
-          context,
-          body: updateDisplay(),
-        );
+      if (json == null || res.statusCode != 200) {
+        return null;
       }
 
+      if (json['version'] > Const.version) {
+        updateURL = json['update'];
+        changelog = json['changelog'];
+        if (context.mounted) {
+          Utils.showCustomBottomSheet(
+            context,
+            body: updateDisplay(),
+          );
+        }
+      }
+    } else {
       print('hello');
     }
   }

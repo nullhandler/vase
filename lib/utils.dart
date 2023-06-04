@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vase/const.dart';
 
 import 'colors.dart';
@@ -22,6 +23,12 @@ class Utils {
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: AppColors.darkGreyColor,
     );
+  }
+
+    static Future<void> openLink(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   static void showCustomBottomSheet(BuildContext context,

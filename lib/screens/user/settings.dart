@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vase/const.dart';
 import 'package:vase/screens/user/user_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
@@ -14,11 +13,7 @@ class UserSettings extends StatelessWidget {
 
   final UserController controller = Get.find();
 
-  Future<void> _launchUrl(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Could not launch $url');
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -182,12 +177,12 @@ class UserSettings extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: () => _launchUrl(Const.tg),
+                        onTap: () => Utils.openLink(Const.tg),
                         title: const Text("Telegram Channel"),
                         trailing: const Icon(Icons.telegram_outlined),
                       ),
                       ListTile(
-                        onTap: () => _launchUrl(Const.git),
+                        onTap: () => Utils.openLink(Const.git),
                         title: const Text("Github Repository"),
                         trailing: const Icon(Icons.code_outlined),
                       ),
