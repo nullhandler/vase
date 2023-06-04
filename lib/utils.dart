@@ -32,9 +32,10 @@ class Utils {
   }
 
   static void showCustomBottomSheet(BuildContext context,
-      {required Widget body}) {
+      {required Widget body , bool? dismissable}) {
     showModalBottomSheet(
         isScrollControlled: true,
+        isDismissible: dismissable??true,
         context: context,
         builder: (context) {
           return Padding(

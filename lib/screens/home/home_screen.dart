@@ -98,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Utils.showCustomBottomSheet(
             context,
             body: updateDisplay(),
+            dismissable: !json['forced']
           );
         }
       }
