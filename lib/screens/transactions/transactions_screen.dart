@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/screens/dashboard/dashboard_screen.dart';
 import 'package:vase/screens/transactions/date_list_item.dart';
 import 'package:vase/screens/transactions/monthly_stats_widget.dart';
 import 'package:vase/widgets/wrapper.dart';
@@ -21,6 +22,15 @@ class Transactions extends StatelessWidget {
             appBar: AppBar(
               titleSpacing: 0,
               title: const MonthCalender(),
+              actions: [
+                controller.transactions.isEmpty
+                    ? Container()
+                    : IconButton(
+                        onPressed: () {
+                          Get.to(() => const DashboardScreen());
+                        },
+                        icon: const Icon(Icons.bar_chart_outlined))
+              ],
             ),
             body: Obx(() {
               if (controller.transactions.isEmpty) {

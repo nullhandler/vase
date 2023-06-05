@@ -41,6 +41,7 @@ dependencies:
   http: ^1.0.0
   url_launcher: ^6.1.11
   package_info_plus: ^4.0.2
+  fl_chart: ^0.62.0
   flutter_iconpicker:
     # temporary workaround to make it work in flutter stable
     git:
