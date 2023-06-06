@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vase/const.dart';
 import 'package:vase/extensions.dart';
+import 'package:vase/utils.dart';
 
 import '../../controllers/db_controller.dart';
 import '../../enums.dart';
@@ -30,11 +31,12 @@ class TransController extends GetxController {
     var transList = await dbController.db.rawQuery(
       '''SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks}
           on ${Const.transLinks}.trans_id = ${Const.trans}.id
-      WHERE created_at BETWEEN ${getFirstDate()} AND ${getLastDate()}
+      WHERE created_at BETWEEN ${Utils.getFirstDate(currentDate.value)} AND ${Utils.getLastDate(currentDate.value)}
       ORDER BY created_at DESC''',
     );
     parseTransactions(transList);
     transState.value = VaseState.loaded;
+    update();
   }
 
   void parseTransactions(List<Map<String, Object?>> list) {
@@ -101,7 +103,7 @@ class TransController extends GetxController {
   }
 
   void goToNextMonth() {
-    currentDate.value = getNextMonth(currentDate.value);
+    currentDate.value = Utils.getNextMonth(currentDate.value);
     fetchTransactions();
   }
 
@@ -109,23 +111,5 @@ class TransController extends GetxController {
     currentDate.value =
         currentDate.value.copyWith(month: currentDate.value.month - 1);
     fetchTransactions();
-  }
-
-  int getFirstDate() {
-    return currentDate.value
-        .copyWith(day: 1, hour: 0, minute: 1)
-        .millisecondsSinceEpoch;
-  }
-
-  int getLastDate() {
-    DateTime dateTime = getNextMonth(currentDate.value)
-        .copyWith(day: 0, hour: 23, minute: 59, second: 59, microsecond: 59);
-    return dateTime.millisecondsSinceEpoch;
-  }
-
-  DateTime getNextMonth(DateTime dateTime) {
-    return (dateTime.month < 12)
-        ? DateTime(dateTime.year, dateTime.month + 1, 1)
-        : DateTime(dateTime.year + 1, 1, 1);
   }
 }

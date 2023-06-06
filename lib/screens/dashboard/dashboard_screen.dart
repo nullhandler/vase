@@ -17,7 +17,7 @@ class DashboardScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GetBuilder<DashboardController>(
-                  init: DashboardController(),
+                  init: DashboardController(Get.arguments),
                   builder: (DashboardController controller) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

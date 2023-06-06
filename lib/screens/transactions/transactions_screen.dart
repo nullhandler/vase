@@ -27,7 +27,7 @@ class Transactions extends StatelessWidget {
                     ? Container()
                     : IconButton(
                         onPressed: () {
-                          Get.to(() => const DashboardScreen());
+                          Get.to(() => const DashboardScreen() , arguments: controller.currentDate.value);
                         },
                         icon: const Icon(Icons.bar_chart_outlined))
               ],

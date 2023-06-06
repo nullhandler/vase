@@ -24,7 +24,7 @@ class PieChartWidget extends StatelessWidget {
       final data = PieChartSectionData(
         titlePositionPercentageOffset: 2.4,
         color: sector.color,
-        value: sector.total,
+        value: sector.share.toDouble(),
         radius: radius,
         title: sector.title,
       );

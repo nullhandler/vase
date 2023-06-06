@@ -47,4 +47,22 @@ class Utils {
           );
         });
   }
+
+   static int getFirstDate(DateTime currentDate) {
+    return currentDate
+        .copyWith(day: 1, hour: 0, minute: 1)
+        .millisecondsSinceEpoch;
+  }
+
+  static int getLastDate(DateTime currentDate) {
+    DateTime dateTime = getNextMonth(currentDate)
+        .copyWith(day: 0, hour: 23, minute: 59, second: 59, microsecond: 59);
+    return dateTime.millisecondsSinceEpoch;
+  }
+
+  static DateTime getNextMonth(DateTime dateTime) {
+    return (dateTime.month < 12)
+        ? DateTime(dateTime.year, dateTime.month + 1, 1)
+        : DateTime(dateTime.year + 1, 1, 1);
+  }
 }
