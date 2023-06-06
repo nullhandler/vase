@@ -16,18 +16,43 @@ class DashboardScreen extends StatelessWidget {
             appBarTitle: "Dashboard",
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child:  GetBuilder<DashboardController>(
-          init: DashboardController(),
-          builder: (DashboardController controller) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  PieChartWidget(controller.sectors)
-                ],
-              );}),
+              child: GetBuilder<DashboardController>(
+                  init: DashboardController(),
+                  builder: (DashboardController controller) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PieChartWidget(controller.sectors),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text('Title'), Text('Expense')],
+                          ),
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: Container(
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: controller.sectors[index].color,
+                                ),
+                              ),
+                              title: Text(controller.sectors[index].title),
+                              trailing: Text(
+                                  controller.sectors[index].total.toString()),
+                            );
+                          },
+                          itemCount: controller.sectors.length,
+                        )
+                      ],
+                    );
+                  }),
             )));
   }
 }

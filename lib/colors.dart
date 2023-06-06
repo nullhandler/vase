@@ -10,6 +10,14 @@ class AppColors {
   static const darkGreyColor = Color(0xff1c1b1f);
   static const errorColor = Colors.redAccent;
 
+  static const pieCharColors = {
+    'pieColor2': Color(0xffea5f89),
+    'pieColor3': Color(0xff57167E),
+    'pieColor4': Color(0xffF7B7A3),
+    'pieColor5': Color(0xff9B3192),
+    'pieColor1': Color(0xfffff1c9)
+  };
+
   static ThemeData defaultTheme = ThemeData.dark(useMaterial3: true).copyWith(
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
         TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
