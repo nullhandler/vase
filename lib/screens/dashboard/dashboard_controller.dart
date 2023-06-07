@@ -1,5 +1,6 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vase/colors.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/dashboard/dashboard_model.dart';
@@ -24,12 +25,12 @@ class DashboardController extends GetxController {
           WHERE ${Const.trans}.created_at BETWEEN ${Utils.getFirstDate(currentDate)} AND ${Utils.getLastDate(currentDate)}
           GROUP BY ${Const.categories}.category_name
           ORDER BY share DESC
-          LIMIT 5
       ''',
     );
     for (int i = 0; i < transList.length; i++) {
       Sector s = Sector.fromJson(transList[i]);
-      s.color = AppColors.pieCharColors['pieColor${i + 1}']!;
+      var generatedColor = Random().nextInt(Colors.primaries.length);
+      s.color = Colors.primaries[generatedColor];
       sectors.add(s);
     }
     update();

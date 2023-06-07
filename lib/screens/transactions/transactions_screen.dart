@@ -25,11 +25,15 @@ class Transactions extends StatelessWidget {
               actions: [
                 controller.transactions.isEmpty
                     ? Container()
-                    : IconButton(
-                        onPressed: () {
-                          Get.to(() => const DashboardScreen() , arguments: controller.currentDate.value);
-                        },
-                        icon: const Icon(Icons.bar_chart_outlined))
+                    : Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: IconButton(
+                            onPressed: () {
+                              Get.to(() => const DashboardScreen(),
+                                  arguments: controller.currentDate.value);
+                            },
+                            icon: const Icon(Icons.line_axis_outlined)),
+                      )
               ],
             ),
             body: Obx(() {
@@ -46,7 +50,7 @@ class Transactions extends StatelessWidget {
                   itemBuilder: (context, pos) {
                     if (pos == 0) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                        padding: const EdgeInsets.only(bottom: 8.0, top: 8),
                         child: MonthlyStatsWidget(
                             monthlyStats: controller.monthlyStats),
                       );

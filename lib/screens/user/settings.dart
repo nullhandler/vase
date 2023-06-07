@@ -13,8 +13,6 @@ class UserSettings extends StatelessWidget {
 
   final UserController controller = Get.find();
 
-
-
   @override
   Widget build(BuildContext context) {
     return ThemeWrapper(
@@ -102,7 +100,11 @@ class UserSettings extends StatelessWidget {
                           ),
                         ),
                         title: const Text("Pick Currency Symbol"),
-                        trailing: Obx(() => Text(controller.currency.value)),
+                        trailing: Obx(() => Text(
+                              controller.currency.value,
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.grey),
+                            )),
                       ),
                       Obx(
                         () => ListTile(
@@ -115,7 +117,8 @@ class UserSettings extends StatelessWidget {
                             controller.thousandSep.value == 0
                                 ? 'Dot (.)'
                                 : 'Comma (,)',
-                            style: const TextStyle(color: Colors.grey),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14),
                           ),
                         ),
                       ),

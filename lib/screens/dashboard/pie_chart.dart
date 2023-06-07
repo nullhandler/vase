@@ -22,7 +22,7 @@ class PieChartWidget extends StatelessWidget {
     for (var sector in sectors) {
       const double radius = 20.0;
       final data = PieChartSectionData(
-        titlePositionPercentageOffset: 2.4,
+        titlePositionPercentageOffset: 2.6,
         color: sector.color,
         value: sector.share.toDouble(),
         radius: radius,

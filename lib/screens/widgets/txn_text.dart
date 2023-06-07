@@ -45,13 +45,14 @@ class TxnText extends StatelessWidget {
         maxLines: 1,
         textAlign: textAlign,
         style: TextStyle(
-          color: customColor ??
-              (showDynamicColor
-                  ? (amount.isNegative
-                      ? AppColors.errorColor
-                      : AppColors.accentColor)
-                  : null),
-        ),
+            color: customColor ??
+                (showDynamicColor
+                    ? (amount.isNegative
+                        ? AppColors.errorColor
+                        : AppColors.accentColor)
+                    : null),
+            fontSize: 14,
+            fontWeight: FontWeight.w700),
       );
     });
   }

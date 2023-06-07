@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:vase/screens/dashboard/dashboard_controller.dart';
 import 'package:vase/screens/dashboard/pie_chart.dart';
 import 'package:vase/widgets/focused_layout.dart';
@@ -14,6 +15,15 @@ class DashboardScreen extends StatelessWidget {
         child: FocusedLayout(
             isScrollable: true,
             appBarTitle: "Dashboard",
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Text(
+                  '( ${DateFormat("MMM y").format(Get.arguments)} )',
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              )
+            ],
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GetBuilder<DashboardController>(
@@ -27,7 +37,18 @@ class DashboardScreen extends StatelessWidget {
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text('Title'), Text('Expense')],
+                            children: [
+                              Text(
+                                'Title',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              Text(
+                                'Expense',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              )
+                            ],
                           ),
                         ),
                         ListView.builder(
@@ -43,9 +64,13 @@ class DashboardScreen extends StatelessWidget {
                                   color: controller.sectors[index].color,
                                 ),
                               ),
-                              title: Text(controller.sectors[index].title),
+                              title: Text(
+                                controller.sectors[index].title,
+                              ),
                               trailing: Text(
-                                  controller.sectors[index].total.toString()),
+                                controller.sectors[index].total.toString(),
+                                style: const TextStyle(fontSize: 14),
+                              ),
                             );
                           },
                           itemCount: controller.sectors.length,
