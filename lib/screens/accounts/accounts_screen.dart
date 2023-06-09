@@ -4,6 +4,7 @@ import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/account_list.dart';
 import 'package:vase/screens/accounts/accounts_controller.dart';
+import 'package:vase/screens/widgets/empty.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 import '../../widgets/focused_layout.dart';
@@ -32,9 +33,9 @@ class AccountsScreen extends StatelessWidget {
                 );
               }
               if (dbController.accounts.isEmpty) {
-                return const Center(
-                  child: Text("No Accounts found"),
-                );
+                return const EmptyWidget(
+                    assetName: "assets/img/no_acc.svg",
+                    label: "No Accounts Found");
               }
 
               return AccountList(accountsMap: controller.accountList);

@@ -36,7 +36,6 @@ class TransController extends GetxController {
     );
     parseTransactions(transList);
     transState.value = VaseState.loaded;
-    update();
   }
 
   void parseTransactions(List<Map<String, Object?>> list) {
