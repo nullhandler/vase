@@ -91,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return null;
       }
 
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    int version = int.tryParse( packageInfo.buildNumber) ?? 0;
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      int version = int.tryParse(packageInfo.buildNumber) ?? 0;
 
       if (json['version'] > version) {
         updateURL = json['update'];
@@ -134,15 +134,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.menu_book_rounded),
+                    icon: Icon(Icons.menu_book_outlined),
                     label: 'Transactions',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.tag_rounded),
+                    icon: Icon(Icons.category_outlined),
                     label: 'Categories',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.account_balance_rounded),
+                    icon: Icon(Icons.account_balance_wallet_outlined),
                     label: 'Accounts',
                   ),
                   BottomNavigationBarItem(

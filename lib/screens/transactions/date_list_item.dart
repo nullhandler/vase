@@ -46,7 +46,6 @@ class DateListItem extends StatelessWidget {
               } catch (e) {
                 debugPrint('error in cat');
               }
-
               return ListTile(
                   leading: CircleAvatar(
                     // backgroundColor: AppColors.darkGreyColor,
@@ -84,6 +83,7 @@ class DateListItem extends StatelessWidget {
                       TxnText(
                         amount: transaction.amount,
                         showDynamicColor: transaction.toAccountId == null,
+                        
                       ),
                       Text(
                         DateFormat.jm('en_US').format(transaction.createdAt),

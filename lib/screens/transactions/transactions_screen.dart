@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/screens/dashboard/dashboard_screen.dart';
 import 'package:vase/screens/transactions/date_list_item.dart';
 import 'package:vase/screens/transactions/monthly_stats_widget.dart';
+import 'package:vase/screens/widgets/empty.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 import '../widgets/fab.dart';
@@ -21,13 +23,29 @@ class Transactions extends StatelessWidget {
             appBar: AppBar(
               titleSpacing: 0,
               title: const MonthCalender(),
+              actions: [
+                Obx(
+                  () => Container(
+                    child: controller.transactions.isEmpty
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: IconButton(
+                                onPressed: () {
+                                  Get.to(() => const DashboardScreen(),
+                                      arguments: controller.currentDate.value);
+                                },
+                                icon: const Icon(Icons.line_axis_outlined)),
+                          ),
+                  ),
+                )
+              ],
             ),
             body: Obx(() {
               if (controller.transactions.isEmpty) {
-                return const Center(
-                    child: Text(
-                  "No Transactions for the selected month",
-                ));
+                return const EmptyWidget(
+                    assetName: "assets/img/no_txn.svg",
+                    label: "No Transactions for the selected month");
               }
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
@@ -36,7 +54,7 @@ class Transactions extends StatelessWidget {
                   itemBuilder: (context, pos) {
                     if (pos == 0) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                        padding: const EdgeInsets.only(bottom: 8.0, top: 8),
                         child: MonthlyStatsWidget(
                             monthlyStats: controller.monthlyStats),
                       );
