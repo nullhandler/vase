@@ -9,7 +9,7 @@ import 'package:vase/widgets/wrapper.dart';
 
 import '../../widgets/focused_layout.dart';
 import '../widgets/fab.dart';
-import 'new_account.dart';
+import 'new_account/new_account.dart';
 
 class AccountsScreen extends StatelessWidget {
   AccountsScreen({Key? key}) : super(key: key);

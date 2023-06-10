@@ -26,14 +26,15 @@ class DbController extends GetxController {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           account_name TEXT,
           account_type INT,
-          parent_id INTEGER)''');
+          parent_id INTEGER,
+          is_deleted INTEGER)''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           category_name TEXT,
           category_type INT,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           icon TEXT,
-          deleted INTEGER
+          is_deleted INTEGER
           )''');
       await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,8 +62,9 @@ class DbController extends GetxController {
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
-    final categoryList =
-        await db.query(Const.categories, where: 'deleted = ?', whereArgs: [0]);
+    final categoryList = await db.query(
+      Const.categories,
+    );
     categories.value = categoryFromJson(categoryList);
     final UserController userController = Get.put(UserController());
     final prefLoaded = await userController.fetchPreferences();
