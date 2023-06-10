@@ -21,14 +21,14 @@ class Category {
       required this.categoryType,
       this.createdAt,
       required this.icon,
-      required this.deleted});
+      required this.isDeleted});
 
   int? id;
   String categoryName;
   CategoryType categoryType;
   DateTime? createdAt;
   String icon;
-  int deleted;
+  int isDeleted;
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
@@ -40,7 +40,7 @@ class Category {
             ? null
             : DateTime.parse(json["created_at"]),
         icon: json['icon'],
-        deleted: json['deleted']);
+        isDeleted: json['is_deleted']);
   }
 
   Map<String, dynamic> toJson() => {
@@ -49,7 +49,7 @@ class Category {
         "category_type": categoryType.name,
         if (createdAt != null) "created_at": createdAt!.toIso8601String(),
         "icon": icon,
-        "deleted" : deleted
+        "is_deleted": isDeleted
       };
 
   @override

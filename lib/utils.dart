@@ -9,7 +9,8 @@ class Utils {
   static List<Category> getCategories(
       List<Category> categories, CategoryType categoryType) {
     return categories
-        .where((element) => element.categoryType == categoryType)
+        .where((element) =>
+            (element.categoryType == categoryType && element.isDeleted == 0))
         .toList();
   }
 

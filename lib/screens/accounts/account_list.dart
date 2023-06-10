@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/screens/accounts/accounts_controller.dart';
+import 'package:vase/screens/accounts/new_account/new_account.dart';
 import 'package:vase/screens/widgets/stats_widget.dart';
 import 'package:vase/screens/widgets/txn_text.dart';
 import 'package:vase/widgets/heading.dart';
@@ -30,7 +31,8 @@ class AccountList extends StatelessWidget {
             pos -= 1;
             List<Account> accounts = accountsMap.values.elementAt(pos);
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,16 +66,22 @@ class AccountListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(account.accountName),
-          TxnText(
-              amount:
-                  Get.find<AccountsController>().accountStats[account.id] ?? 0)
-        ],
+    return InkWell(
+      onTap: () {
+        Get.to(NewAccount(), arguments: {"edit": true, "account": account});
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(account.accountName),
+            TxnText(
+                amount:
+                    Get.find<AccountsController>().accountStats[account.id] ??
+                        0)
+          ],
+        ),
       ),
     );
   }

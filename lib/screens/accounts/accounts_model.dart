@@ -18,24 +18,28 @@ class Account {
       {this.id,
       required this.accountName,
       required this.accountType,
+      this.isDeleted = 0,
       this.parentId});
 
   int? id;
   String accountName;
   AccountType accountType;
   int? parentId;
+  int isDeleted;
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
       id: json["id"],
       accountName: json["account_name"],
       accountType: AccountType.values[json["account_type"]],
-      parentId: json["parent_id"]);
+      parentId: json["parent_id"],
+      isDeleted: json['is_deleted']);
 
   Map<String, dynamic> toJson() => {
         if (id != null) "id": id,
         "account_name": accountName,
         "account_type": accountType.index,
-        if (parentId != null) "parent_id": parentId
+        if (parentId != null) "parent_id": parentId,
+        "is_deleted": isDeleted
       };
 
   @override
