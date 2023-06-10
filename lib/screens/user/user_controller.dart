@@ -82,7 +82,9 @@ class UserController extends GetxController {
   Future<void> updateMonet() async {
     await _updatePreferences(UserModel.monetConst, monet.value.toString());
   }
-   Future<void> updateOnboarding() async {
+
+  Future<void> updateOnboarding() async {
+    dbController.isNew.value = false;
     await _updatePreferences(UserModel.newUserConst, false.toString());
   }
 }

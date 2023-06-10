@@ -63,7 +63,8 @@ class OnBoardingScreen extends StatelessWidget {
                         TextButton(
                             onPressed: () {
                               userController.updateOnboarding();
-                              Get.off(()=> const HomeScreen());
+                              Get.back();
+                              // Get.offAll(()=> const HomeScreen());
                             },
                             child: const Text(
                               "Take me there !!",
