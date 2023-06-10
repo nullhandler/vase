@@ -18,6 +18,7 @@ class UserController extends GetxController {
       currency: r'₹',
       thousandSeparator: ',',
       decimalSeparator: '.',
+      newUser: true,
       monet: false);
 
   @override
@@ -80,5 +81,10 @@ class UserController extends GetxController {
 
   Future<void> updateMonet() async {
     await _updatePreferences(UserModel.monetConst, monet.value.toString());
+  }
+
+  Future<void> updateOnboarding() async {
+    dbController.isNew.value = false;
+    await _updatePreferences(UserModel.newUserConst, false.toString());
   }
 }

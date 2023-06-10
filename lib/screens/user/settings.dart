@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/const.dart';
 import 'package:vase/screens/user/user_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
 import 'package:vase/utils.dart';
@@ -99,22 +100,11 @@ class UserSettings extends StatelessWidget {
                           ),
                         ),
                         title: const Text("Pick Currency Symbol"),
-                        trailing: Obx(() => Text(controller.currency.value)),
-                      ),
-                      Obx(
-                        () => ListTile(
-                          onTap: () => Utils.showCustomBottomSheet(context,
-                              // height: 200,
-                              body: commaDotChooser(controller,
-                                  isThousandSep: false)),
-                          title: const Text("Decimal Separator"),
-                          trailing: Text(
-                            controller.decimalSep.value == 0
-                                ? 'Dot (.)'
-                                : 'Comma (,)',
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-                        ),
+                        trailing: Obx(() => Text(
+                              controller.currency.value,
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.grey),
+                            )),
                       ),
                       Obx(
                         () => ListTile(
@@ -127,7 +117,8 @@ class UserSettings extends StatelessWidget {
                             controller.thousandSep.value == 0
                                 ? 'Dot (.)'
                                 : 'Comma (,)',
-                            style: const TextStyle(color: Colors.grey),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14),
                           ),
                         ),
                       ),
@@ -171,6 +162,42 @@ class UserSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: controller.showMonetSwitch.value,
+                    child: const Heading(title: "About"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Card(
+                  margin: const EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () => Utils.openLink(Const.tg),
+                        title: const Text("Telegram Channel"),
+                        trailing: const Icon(Icons.telegram_outlined),
+                      ),
+                      ListTile(
+                        onTap: () => Utils.openLink(Const.git),
+                        title: const Text("Github Repository"),
+                        trailing: const Icon(Icons.code_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text('Made in 💓 with Flutter'),
                 )
               ],
             ),

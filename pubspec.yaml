@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=2.19.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,6 +38,11 @@ dependencies:
   collection: ^1.17.0
   dynamic_color: ^1.6.3
   device_info_plus: ^8.2.0
+  http: ^1.0.0
+  url_launcher: ^6.1.11
+  package_info_plus: ^4.0.2
+  fl_chart: ^0.62.0
+  flutter_svg: ^2.0.6
   flutter_iconpicker: ^3.2.4
   flutter:
     sdk: flutter
@@ -70,8 +75,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/img/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

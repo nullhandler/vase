@@ -10,6 +10,7 @@ import '../screens/categories/category_model.dart';
 
 class DbController extends GetxController {
   late Database db;
+  Rx<bool> isNew = true.obs;
   Rx<VaseState> vaseState = VaseState.loading.obs;
   RxMap<int, Account> accounts = <int, Account>{}.obs;
   RxList<Category> categories = <Category>[].obs;
@@ -67,6 +68,7 @@ class DbController extends GetxController {
     categories.value = categoryFromJson(categoryList);
     final UserController userController = Get.put(UserController());
     final prefLoaded = await userController.fetchPreferences();
+    isNew.value = userController.configs.newUser;
     if (prefLoaded) {
       vaseState.value = VaseState.loaded;
     }

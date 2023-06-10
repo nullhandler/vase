@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:vase/screens/categories/add_edit_category_screen.dart';
 import 'package:vase/screens/categories/categories_controller.dart';
 import 'package:vase/screens/categories/category_model.dart';
+import 'package:vase/screens/widgets/empty.dart';
 import 'package:vase/utils.dart';
 
 import '../../../controllers/db_controller.dart';
@@ -28,9 +29,9 @@ class CategoryList extends StatelessWidget {
               Get.find<DbController>().categories, controller.categoryType);
 
           if (categories.isEmpty) {
-            return const Center(
-              child: Text("No categories found"),
-            );
+            return const EmptyWidget(
+                assetName: "assets/img/no_cat.svg",
+                label: "No Categories Found");
           }
 
           return Padding(

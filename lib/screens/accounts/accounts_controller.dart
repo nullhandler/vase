@@ -57,7 +57,7 @@ class AccountsController extends GetxController {
     });
     statsList = await dbController.db
         .rawQuery("""SELECT account_id, SUM(amount) as total
-      FROM ${Const.trans} WHERE created_at BETWEEN ${getFirstDate()} 
+      FROM ${Const.trans} WHERE created_at BETWEEN ${getFirstDate()}
       AND ${DateTime.now().millisecondsSinceEpoch} AND account_id in (${linkedAccountIds.join(",")})
       GROUP BY account_id""");
     accountStats.addAll(Map<int, double>.fromEntries(statsList.map((e) {
