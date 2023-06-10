@@ -5,6 +5,7 @@ import 'package:vase/colors.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/home/home_screen.dart';
+import 'package:vase/screens/onboarding/onboarding_screen.dart';
 import 'package:vase/widgets/wrapper.dart';
 
 void main() {
@@ -36,16 +37,20 @@ class MyApp extends StatelessWidget {
           // },
           builder: (dbController) {
             return Obx(() {
-              if (dbController.vaseState.value == VaseState.loading) {
-                return const ThemeWrapper(
-                  child: Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(),
+              if (dbController.isNew.value) {
+                return  OnBoardingScreen();
+              } else {
+                if (dbController.vaseState.value == VaseState.loading) {
+                  return const ThemeWrapper(
+                    child: Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
-                  ),
-                );
+                  );
+                }
+                return const ThemeWrapper(child: HomeScreen());
               }
-              return const ThemeWrapper(child: HomeScreen());
             });
           },
           dispose: (dbController) {
