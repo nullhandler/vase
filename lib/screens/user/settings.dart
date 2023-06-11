@@ -193,6 +193,30 @@ class UserSettings extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
+                  height: 20,
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: controller.showMonetSwitch.value,
+                    child: const Heading(title: "Licenses"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Card(
+                  margin: const EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () => Utils.openLink(Const.tg),
+                        title: const Text("Icon by Kiranshastry"),
+                        trailing: const Icon(Icons.link_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
                   height: 30,
                 ),
                 const Align(
