@@ -209,7 +209,7 @@ class UserSettings extends StatelessWidget {
                   child: Column(
                     children: [
                       ListTile(
-                        onTap: () => Utils.openLink(Const.tg),
+                        onTap: () => Utils.openLink(Const.flaticonURL),
                         title: const Text("Icon by Kiranshastry"),
                         trailing: const Icon(Icons.link_outlined),
                       ),
