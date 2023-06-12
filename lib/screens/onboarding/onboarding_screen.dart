@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
-import 'package:vase/screens/home/home_screen.dart';
 import 'package:vase/screens/user/user_controller.dart';
 import 'package:vase/widgets/focused_layout.dart';
 import 'package:vase/widgets/wrapper.dart';
