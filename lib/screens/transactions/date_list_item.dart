@@ -3,6 +3,7 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vase/screens/transactions/date_chip.dart';
+import 'package:vase/screens/transactions/new_transaction.dart';
 import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/text_styles.dart';
 
@@ -47,6 +48,10 @@ class DateListItem extends StatelessWidget {
                 debugPrint('error in cat');
               }
               return ListTile(
+                  onTap: () {
+                    Get.to(NewTransaction(),
+                        arguments: {"edit": true, "transaction": transaction});
+                  },
                   leading: CircleAvatar(
                     // backgroundColor: AppColors.darkGreyColor,
                     child: Icon(deserializeIcon({
@@ -83,7 +88,6 @@ class DateListItem extends StatelessWidget {
                       TxnText(
                         amount: transaction.amount,
                         showDynamicColor: transaction.toAccountId == null,
-                        
                       ),
                       Text(
                         DateFormat.jm('en_US').format(transaction.createdAt),

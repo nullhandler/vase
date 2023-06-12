@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:vase/const.dart';
+import 'package:vase/controllers/sqlite/sqlite.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
 import 'package:vase/screens/user/user_controller.dart';
@@ -19,46 +20,17 @@ class DbController extends GetxController {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'vase.db');
     // await deleteDatabase(path);
-    db = await openDatabase(path, version: 1, onConfigure: (Database db) async {
+    db = await openDatabase(path, version: migrationScripts.length + 1,
+        onConfigure: (Database db) async {
       await db.execute('PRAGMA foreign_keys = ON');
     }, onCreate: (Database db, int version) async {
-      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.accounts} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          account_name TEXT,
-          account_type INT,
-          parent_id INTEGER,
-          is_deleted INTEGER)''');
-      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.categories} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          category_name TEXT,
-          category_type INT,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-          icon TEXT,
-          is_deleted INTEGER
-          )''');
-      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.configs} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          key TEXT,
-          value TEXT
-          )''');
-      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.trans} (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          created_at INTEGER,
-          amount REAL,
-          desc TEXT,
-          account_id INTEGER,
-          category_id INTEGER,
-          FOREIGN KEY (account_id) REFERENCES ${Const.accounts}(id),
-          FOREIGN KEY (category_id) REFERENCES ${Const.categories}(id))''');
-      await db.execute('''CREATE TABLE IF NOT EXISTS ${Const.transLinks} (
-          link_id INTEGER PRIMARY KEY AUTOINCREMENT,
-          trans_id INTEGER,
-          batch_id TEXT,
-          FOREIGN KEY (trans_id) REFERENCES ${Const.trans}(id) ON DELETE CASCADE)''');
-      await db.execute(
-          '''CREATE INDEX IF NOT EXISTS TransIdIndex ON ${Const.transLinks} (trans_id)''');
-      await db.execute(
-          '''CREATE INDEX IF NOT EXISTS ConfigKeyIndex ON ${Const.configs} (key)''');
+      for (final script in initScript) {
+        await db.execute(script);
+      }
+    }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
+      for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
+        await db.execute(migrationScripts[i]);
+      }
     });
     final accountsList = await db.query(Const.accounts);
     accounts.value = accountsFromJson(accountsList);
