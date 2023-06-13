@@ -25,7 +25,7 @@ class NewAccount extends StatelessWidget {
         init: NewAccountController(),
         builder: (controller) {
           return FocusedLayout(
-            appBarTitle: "New Account",
+            appBarTitle: "${controller.isEdit.value ? "Edit" : "New"} Account",
             actions: controller.isEdit.value
                 ? [
                     DeleteAction(
@@ -113,14 +113,14 @@ class NewAccount extends StatelessWidget {
                               Get.back();
                             }
                           },
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Save",
-                                  style: TextStyle(
+                                  "${controller.isEdit.value ? "Update" : "Save"} Account",
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
                                 ),
