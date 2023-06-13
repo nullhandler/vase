@@ -11,7 +11,7 @@ import 'package:vase/utils.dart';
 import '../../../controllers/db_controller.dart';
 
 class CategoryList extends StatelessWidget {
-  const CategoryList({
+  const  CategoryList({
     Key? key,
     required this.categoryType,
   }) : super(key: key);
@@ -46,9 +46,15 @@ class CategoryList extends StatelessWidget {
                         arguments: {"edit": true, "category": category});
                   },
                   leading: CircleAvatar(
-                    //backgroundColor: AppColors.darkGreyColor,
-                    child: Icon(deserializeIcon(
-                        {'pack': 'fontAwesomeIcons', 'key': category.icon})),
+                    child: SizedBox(
+                      width: 40,
+                      height: 20,
+                      child: Icon(
+                        deserializeIcon(
+                            {'pack': 'fontAwesomeIcons', 'key': category.icon}),
+                        size: 20,
+                      ),
+                    ),
                   ),
                   title: Text(category.categoryName),
                   subtitle: category.createdAt != null

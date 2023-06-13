@@ -53,11 +53,17 @@ class DateListItem extends StatelessWidget {
                         arguments: {"edit": true, "transaction": transaction});
                   },
                   leading: CircleAvatar(
-                    // backgroundColor: AppColors.darkGreyColor,
-                    child: Icon(deserializeIcon({
-                      'pack': cat != null ? 'fontAwesomeIcons' : 'material',
-                      'key': cat != null ? cat.icon : 'sync_alt_rounded'
-                    })),
+                    child: SizedBox(
+                      width: 40,
+                      height: 20,
+                      child: Icon(
+                        deserializeIcon({
+                          'pack': cat != null ? 'fontAwesomeIcons' : 'material',
+                          'key': cat != null ? cat.icon : 'sync_alt_rounded'
+                        }),
+                        size: 20,
+                      ),
+                    ),
                   ),
                   title: Text(
                     transaction.desc,
@@ -72,7 +78,7 @@ class DateListItem extends StatelessWidget {
                                     ?.accountName ??
                                 "") +
                             (transaction.toAccountId != null
-                                ? " -> ${Get.find<DbController>().accounts[transaction.accountId]?.accountName ?? ""}"
+                                ? " -> ${Get.find<DbController>().accounts[transaction.toAccountId]?.accountName ?? ""}"
                                 : "") +
                             (cat?.categoryName != null
                                 ? " • ${cat?.categoryName}"

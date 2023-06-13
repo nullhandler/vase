@@ -76,10 +76,13 @@ class AccountListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(account.accountName),
-            TxnText(
+            account.accountType==AccountType.card?TxnText(
                 amount:
                     Get.find<AccountsController>().accountStats[account.id] ??
-                        0)
+                        0 ,customColor: Colors.white,): TxnText(
+                amount:
+                    Get.find<AccountsController>().accountStats[account.id] ??
+                        0 ,)
           ],
         ),
       ),

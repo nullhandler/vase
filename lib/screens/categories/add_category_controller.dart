@@ -20,6 +20,8 @@ class AddCategoryController extends GetxController {
     super.onInit();
     if (Get.arguments['edit']) {
       preFillCategory(Get.arguments['category']);
+    } else {
+      categoryType.value = Get.arguments['type'];
     }
   }
 
@@ -98,7 +100,7 @@ class AddCategoryController extends GetxController {
       await dbController.db.update(
           Const.categories, preFilledCategory!.toJson(),
           where: "id = ?", whereArgs: [preFilledCategory!.id]);
-      dbController.categories[preFilledCategory!.id!] = preFilledCategory!;
+      dbController.categories.refresh();
     }
   }
 }

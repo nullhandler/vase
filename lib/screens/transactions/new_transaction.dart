@@ -25,7 +25,8 @@ class NewTransaction extends StatelessWidget {
         init: NewTransController(),
         builder: (controller) {
           return FocusedLayout(
-            appBarTitle: "New Transaction",
+            appBarTitle:
+                "${controller.isEdit.value ? "Edit" : "New"} Transaction",
             actions: controller.isEdit.value
                 ? [
                     DeleteAction(
@@ -116,7 +117,7 @@ class NewTransaction extends StatelessWidget {
                                   Utils.showBottomSnackBar(
                                       title: Const.errorTitle,
                                       message:
-                                          "Please add an category first to continue :) ",
+                                          "Please add a category first to continue :) ",
                                       ic: const Icon(
                                         Icons.error_outline_rounded,
                                         color: AppColors.errorColor,
@@ -201,14 +202,14 @@ class NewTransaction extends StatelessWidget {
                             Get.back();
                           }
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.all(12.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Add Transaction",
-                                style: TextStyle(
+                                "${controller.isEdit.value ? 'Update' : 'Add'} Transaction",
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                             ],
@@ -226,8 +227,11 @@ class NewTransaction extends StatelessWidget {
   }
 
   Future<Account?> getAccount() async {
-    final List<Account> accounts =
-        Get.find<DbController>().accounts.values.toList();
+    final List<Account> accounts = Get.find<DbController>()
+        .accounts
+        .values
+        .where((element) => element.isDeleted != 1)
+        .toList();
     if (accounts.isEmpty) {
       Utils.showBottomSnackBar(
           title: Const.errorTitle,

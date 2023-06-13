@@ -167,7 +167,7 @@ class UserSettings extends StatelessWidget {
                   height: 20,
                 ),
                const Heading(title: "About"),
-                
+
 
                 const SizedBox(
                   height: 16,
@@ -210,7 +210,16 @@ class UserSettings extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
+                ),
+                 Obx(() => Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        controller.version.value,
+                      ),
+                    )),
+                const SizedBox(
+                  height: 5,
                 ),
                 const Align(
                   alignment: Alignment.center,

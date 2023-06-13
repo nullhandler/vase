@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vase/const.dart';
-
 import 'colors.dart';
 import 'screens/categories/category_model.dart';
 
@@ -26,17 +25,19 @@ class Utils {
     );
   }
 
-    static Future<void> openLink(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Could not launch $url');
+  static Future<void> openLink(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
     }
   }
 
   static void showCustomBottomSheet(BuildContext context,
-      {required Widget body , bool? dismissable}) {
+      {required Widget body, bool? dismissable}) {
     showModalBottomSheet(
         isScrollControlled: true,
-        isDismissible: dismissable??true,
+        isDismissible: dismissable ?? true,
         context: context,
         builder: (context) {
           return Padding(
@@ -49,7 +50,7 @@ class Utils {
         });
   }
 
-   static int getFirstDate(DateTime currentDate) {
+  static int getFirstDate(DateTime currentDate) {
     return currentDate
         .copyWith(day: 1, hour: 0, minute: 1)
         .millisecondsSinceEpoch;
