@@ -166,12 +166,9 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(
-                  () => Visibility(
-                    visible: controller.showMonetSwitch.value,
-                    child: const Heading(title: "About"),
-                  ),
-                ),
+               const Heading(title: "About"),
+                
+
                 const SizedBox(
                   height: 16,
                 ),
@@ -195,12 +192,8 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(
-                  () => Visibility(
-                    visible: controller.showMonetSwitch.value,
-                    child: const Heading(title: "Licenses"),
-                  ),
-                ),
+               const Heading(title: "Licenses"),
+
                 const SizedBox(
                   height: 16,
                 ),
