@@ -8,7 +8,7 @@ import '../../controllers/db_controller.dart';
 import 'category_model.dart';
 
 class AddCategoryController extends GetxController {
-  Rx<CategoryType> categoryType = CategoryType.expense.obs;
+  Rx<CategoryType>  categoryType = CategoryType.expense.obs;
   final categoryNameController = TextEditingController();
   Rx<Icon> categoryIcon = const Icon(FontAwesomeIcons.moneyBill).obs;
   final formKey = GlobalKey<FormState>();
@@ -98,7 +98,9 @@ class AddCategoryController extends GetxController {
       await dbController.db.update(
           Const.categories, preFilledCategory!.toJson(),
           where: "id = ?", whereArgs: [preFilledCategory!.id]);
-      dbController.categories[preFilledCategory!.id!] = preFilledCategory!;
+      final categoryList = await dbController.db
+          .query(Const.categories, where: 'is_deleted = ?', whereArgs: [0]);
+      dbController.categories.value = categoryFromJson(categoryList);
     }
   }
 }

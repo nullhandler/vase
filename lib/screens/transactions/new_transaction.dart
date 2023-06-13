@@ -226,8 +226,11 @@ class NewTransaction extends StatelessWidget {
   }
 
   Future<Account?> getAccount() async {
-    final List<Account> accounts =
-        Get.find<DbController>().accounts.values.toList();
+    final List<Account> accounts = Get.find<DbController>()
+        .accounts
+        .values
+        .where((element) => element.isDeleted != 1)
+        .toList();
     if (accounts.isEmpty) {
       Utils.showBottomSnackBar(
           title: Const.errorTitle,

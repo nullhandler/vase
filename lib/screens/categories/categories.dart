@@ -6,8 +6,24 @@ import 'package:vase/screens/widgets/categories/category_list.dart';
 import 'package:vase/screens/widgets/fab.dart';
 import 'package:vase/widgets/wrapper.dart';
 
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);
+
+  @override
+  State<Categories> createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> with TickerProviderStateMixin {
+  late TabController tabController;
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+      initialIndex: 0,
+      length: 2,
+      vsync: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +36,9 @@ class Categories extends StatelessWidget {
               "Categories",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
             ),
-            bottom: const TabBar(
-              tabs: [
+            bottom: TabBar(
+              controller: tabController,
+              tabs: const [
                 Tab(
                   text: "Expense",
                 ),
@@ -31,8 +48,9 @@ class Categories extends StatelessWidget {
               ],
             ),
           ),
-          body: const TabBarView(
-            children: [
+          body:  TabBarView(
+            controller: tabController,
+            children:const [
               CategoryList(
                 categoryType: CategoryType.expense,
               ),
@@ -43,13 +61,22 @@ class Categories extends StatelessWidget {
           ),
           floatingActionButton: Fab(
             onTap: () {
-              Get.to(() => AddCategoryScreen() , arguments: {
-                "edit" : false
+              Get.to(() => AddCategoryScreen(), arguments: {
+                "edit": false,
+                "type": tabController.index == 0
+                    ? CategoryType.expense
+                    : CategoryType.income
               });
             },
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 }

@@ -19,6 +19,9 @@ class AddCategoryScreen extends StatelessWidget {
     return GetBuilder<AddCategoryController>(
       init: AddCategoryController(),
       builder: (AddCategoryController controller) {
+        if (!isEdit) {
+          controller.categoryType.value = Get.arguments['type'];
+        }
         return FocusedLayout(
             appBarTitle: isEdit ? "Edit Category" : "Add Category",
             padding: const EdgeInsets.all(16.0),

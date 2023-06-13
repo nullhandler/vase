@@ -29,10 +29,13 @@ class DashboardController extends GetxController {
       ''',
     );
     for (int i = 0; i < transList.length; i++) {
-      Sector s = Sector.fromJson(transList[i]);
-      var generatedColor = Random().nextInt(Colors.primaries.length);
-      s.color = Colors.primaries[generatedColor];
-      sectors.add(s);
+      if (double.parse(transList[i]['total'].toString()) < 0 &&
+          transList[i]['category_name'] != null) {
+        Sector s = Sector.fromJson(transList[i]);
+        var generatedColor = Random().nextInt(Colors.primaries.length);
+        s.color = Colors.primaries[generatedColor];
+        sectors.add(s);
+      }
     }
     update();
   }
