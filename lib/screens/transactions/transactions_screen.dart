@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vase/enums.dart';
 import 'package:vase/screens/dashboard/dashboard_screen.dart';
 import 'package:vase/screens/transactions/date_list_item.dart';
 import 'package:vase/screens/transactions/monthly_stats_widget.dart';
@@ -42,10 +43,16 @@ class Transactions extends StatelessWidget {
               ],
             ),
             body: Obx(() {
-              if (controller.transactions.isEmpty) {
+              if (controller.transactions.isEmpty &&
+                  controller.transState.value != VaseState.loading) {
                 return const EmptyWidget(
                     assetName: "assets/img/no_txn.svg",
                     label: "No Transactions for the selected month");
+              } else if (controller.transactions.isEmpty &&
+                  controller.transState.value == VaseState.loading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),

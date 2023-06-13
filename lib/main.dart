@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
           // },
           builder: (dbController) {
             return Obx(() {
+             
               if (dbController.vaseState.value == VaseState.loading) {
                 return const ThemeWrapper(
                   child: Scaffold(
