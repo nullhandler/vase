@@ -32,7 +32,7 @@ class Account {
       accountName: json["account_name"],
       accountType: AccountType.values[json["account_type"]],
       parentId: json["parent_id"],
-      isDeleted: json['is_deleted']);
+      isDeleted: json['is_deleted']??0);
 
   Map<String, dynamic> toJson() => {
         if (id != null) "id": id,

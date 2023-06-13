@@ -40,7 +40,7 @@ class Category {
             ? null
             : DateTime.parse(json["created_at"]),
         icon: json['icon'],
-        isDeleted: json['is_deleted']);
+        isDeleted: json['is_deleted']??0);
   }
 
   Map<String, dynamic> toJson() => {

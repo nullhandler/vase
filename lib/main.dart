@@ -37,17 +37,18 @@ class MyApp extends StatelessWidget {
           // },
           builder: (dbController) {
             return Obx(() {
-              if (dbController.isNew.value) {
-                return  OnBoardingScreen();
-              } else {
-                if (dbController.vaseState.value == VaseState.loading) {
-                  return const ThemeWrapper(
-                    child: Scaffold(
-                      body: Center(
-                        child: CircularProgressIndicator(),
-                      ),
+             
+              if (dbController.vaseState.value == VaseState.loading) {
+                return const ThemeWrapper(
+                  child: Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  );
+                  ),
+                );
+              } else {
+                if (dbController.isNew.value) {
+                  return OnBoardingScreen();
                 }
                 return const ThemeWrapper(child: HomeScreen());
               }

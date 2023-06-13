@@ -166,12 +166,9 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(
-                  () => Visibility(
-                    visible: controller.showMonetSwitch.value,
-                    child: const Heading(title: "About"),
-                  ),
-                ),
+               const Heading(title: "About"),
+                
+
                 const SizedBox(
                   height: 16,
                 ),
@@ -195,14 +192,25 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Obx(() => Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        controller.version.value,
-                      ),
-                    )),
+               const Heading(title: "Licenses"),
+
                 const SizedBox(
-                  height: 5,
+                  height: 16,
+                ),
+                Card(
+                  margin: const EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () => Utils.openLink(Const.flaticonURL),
+                        title: const Text("Icon from flaticon (Kiranshastry)"),
+                        trailing: const Icon(Icons.link_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Align(
                   alignment: Alignment.center,
