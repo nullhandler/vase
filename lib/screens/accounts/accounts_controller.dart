@@ -30,13 +30,17 @@ class AccountsController extends GetxController {
       return MapEntry<int, double>(
           e['account_id'] as int, e['total'] as double);
     }));
+    accountStats.removeWhere(
+        (key, value) => dbController.accounts[key]?.isDeleted == 1);
+    Map<int, double> tempAccountStats = {...accountStats};
     accountStats.forEach((id, value) {
       Account account = dbController.accounts[id]!;
       if (account.parentId != null) {
-        accountStats[account.parentId!] =
-            accountStats[account.parentId]! + value;
+        tempAccountStats[account.parentId!] =
+            (tempAccountStats[account.parentId] ?? 0) + value;
       }
     });
+    accountStats.value = tempAccountStats;
     List<int> linkedAccountIds = <int>[];
     accountStats.forEach((id, value) {
       Account account = dbController.accounts[id]!;
@@ -60,20 +64,16 @@ class AccountsController extends GetxController {
       return MapEntry<int, double>(
           e['account_id'] as int, e['total'] as double);
     })));
+    accountStats.removeWhere(
+        (key, value) => dbController.accounts[key]?.isDeleted == 1);
+    List<Account> tempAccountList = dbController.accounts.values.toList();
+    tempAccountList.removeWhere((account) => account.isDeleted == 1);
     Map<AccountType, List<Account>> temp = groupBy<Account, AccountType>(
-        dbController.accounts.values.toList(),
-        (account) => account.accountType);
+        tempAccountList, (account) => account.accountType);
     accountList.value = temp;
     totalAccountStat.total =
         totalAccountStat.assets + totalAccountStat.liabilities;
     accountsState.value = VaseState.loaded;
-  }
-
-  Future<void> save(Account account) async {
-    DbController dbController = Get.find();
-    account.id = await dbController.db.insert(Const.accounts, account.toJson());
-    dbController.accounts[account.id!] = account;
-    fetchStats();
   }
 
   int getFirstDate() {

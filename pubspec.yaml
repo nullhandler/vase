@@ -43,11 +43,7 @@ dependencies:
   package_info_plus: ^4.0.2
   fl_chart: ^0.62.0
   flutter_svg: ^2.0.6
-  flutter_iconpicker:
-    # temporary workaround to make it work in flutter stable
-    git:
-      url: https://github.com/kechankrisna/FlutterIconPicker
-      ref: hotfix
+  flutter_iconpicker: ^3.2.4
   flutter:
     sdk: flutter
 

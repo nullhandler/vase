@@ -1,6 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
 import 'package:vase/screens/user/user_model.dart';
@@ -20,12 +21,19 @@ class UserController extends GetxController {
       decimalSeparator: '.',
       newUser: true,
       monet: false);
+  RxString version = "".obs;
 
   @override
   void onInit() {
     //fetchPreferences();
+    fetchVersion();
     checkMonet();
     super.onInit();
+  }
+
+  void fetchVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    version.value = "Vase v${packageInfo.version}";
   }
 
   Future<bool> fetchPreferences() async {

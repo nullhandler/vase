@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:vase/const.dart';
 import 'package:vase/enums.dart';
@@ -13,8 +14,8 @@ import 'package:vase/screens/user/settings.dart';
 import 'package:vase/screens/user/user_controller.dart';
 import 'package:vase/utils.dart';
 import 'package:vase/widgets/wrapper.dart';
+
 import '../categories/categories.dart';
-import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

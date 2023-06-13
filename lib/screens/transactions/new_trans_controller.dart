@@ -24,12 +24,39 @@ class NewTransController extends GetxController {
   late DateTime transactionDate;
   late TimeOfDay transactionTime;
   Rx<CategoryType> categoryType = CategoryType.expense.obs;
+  RxBool isEdit = false.obs;
+  Transaction? previousTransaction;
+  final DbController dbController = Get.find<DbController>();
 
   @override
   void onInit() {
     super.onInit();
-    setDate(DateTime.now());
-    setTime(TimeOfDay.now());
+    isEdit.value = Get.arguments?['edit'] ?? false;
+    if (isEdit.value) {
+      prefillTransaction(Get.arguments['transaction']);
+    } else {
+      setDate(DateTime.now());
+      setTime(TimeOfDay.now());
+    }
+  }
+
+  void prefillTransaction(Transaction transaction) {
+    previousTransaction = transaction;
+    DbController dbController = Get.find();
+    setDate(transaction.createdAt);
+    setTime(TimeOfDay.fromDateTime(transaction.createdAt));
+    setAccount(dbController.accounts[transaction.accountId]);
+    amountController.text = transaction.amount.toString().replaceFirst("-", "");
+    descController.text = transaction.desc;
+    if (transaction.toAccountId == null) {
+      Category category = dbController.categories
+          .firstWhere((element) => element.id == transaction.categoryId);
+      setTransactionType(category.categoryType);
+      setCategory(category);
+    } else {
+      setTransactionType(CategoryType.transfer);
+      setToAccount(dbController.accounts[transaction.toAccountId]);
+    }
   }
 
   void setAccount(Account? account) {
@@ -69,7 +96,9 @@ class NewTransController extends GetxController {
   }
 
   void saveTransaction() async {
-    final DbController dbController = Get.find<DbController>();
+    if (isEdit.value) {
+      await deleteTransaction();
+    }
     DateTime combinedDateTime = transactionDate.copyTime(transactionTime);
     if (categoryType.value == CategoryType.transfer) {
       String uuid = const Uuid().v4();
@@ -107,7 +136,37 @@ class NewTransController extends GetxController {
       newTransaction.id =
           await dbController.db.insert(Const.trans, newTransaction.toJson());
     }
-
     Get.find<TransController>().refreshListIfNeeded(combinedDateTime);
+  }
+
+  Future<void> deleteTransaction() async {
+    if (previousTransaction?.toAccountId != null) {
+      String? batchId = await fetchBatchId(previousTransaction!.id!);
+      if (batchId != null) {
+        final transLinks = (await dbController.db.query(Const.transLinks,
+            where: "batch_id = ? AND trans_id != ?",
+            whereArgs: [batchId, previousTransaction!.id!]));
+        int? secondTransactionId;
+        if (transLinks.isNotEmpty) {
+          secondTransactionId = transLinks.first["trans_id"] as int?;
+          if (secondTransactionId != null) {
+            await dbController.db.delete(Const.trans,
+                where: "id = ?", whereArgs: [secondTransactionId]);
+          }
+        }
+        await dbController.db.delete(Const.transLinks,
+            where: "batch_id = ?", whereArgs: [batchId]);
+      }
+    }
+    await dbController.db.delete(Const.trans,
+        where: "id = ?", whereArgs: [previousTransaction?.id]);
+    Get.find<TransController>().fetchTransactions();
+  }
+
+  Future<String?> fetchBatchId(int transId) async {
+    final transLinks = await dbController.db
+        .query(Const.transLinks, where: "trans_id = ?", whereArgs: [transId]);
+    if (transLinks.isEmpty) return null;
+    return transLinks.first["batch_id"] as String?;
   }
 }
