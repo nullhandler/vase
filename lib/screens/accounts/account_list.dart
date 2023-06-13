@@ -79,7 +79,7 @@ class AccountListItem extends StatelessWidget {
             TxnText(
                 amount:
                     Get.find<AccountsController>().accountStats[account.id] ??
-                        0)
+                        0 , customColor: Colors.white,)
           ],
         ),
       ),
