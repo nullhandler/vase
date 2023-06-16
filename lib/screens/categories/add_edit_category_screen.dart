@@ -4,9 +4,6 @@ import 'package:get/get.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/screens/categories/add_category_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
-import 'package:vase/widgets/delete_action.dart';
-import 'package:vase/widgets/focused_layout.dart';
-
 import '../widgets/category_type_selector.dart';
 
 class AddCategoryScreen extends StatelessWidget {

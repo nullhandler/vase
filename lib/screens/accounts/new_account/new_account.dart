@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:vase/screens/accounts/accounts_controller.dart';
 import 'package:vase/screens/accounts/new_account/new_account_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
-import 'package:vase/widgets/focused_layout.dart';
 
 import '../../../colors.dart';
 import '../../../const.dart';
