@@ -7,10 +7,8 @@ import 'package:vase/screens/dialogs/list_dialog.dart';
 import 'package:vase/screens/transactions/new_trans_controller.dart';
 import 'package:vase/screens/widgets/category_type_selector.dart';
 import 'package:vase/widgets/focused_layout.dart';
-
 import '../../utils.dart';
 import '../../widgets/delete_action.dart';
-import '../accounts/accounts_model.dart';
 import '../categories/category_model.dart';
 import '../widgets/form_item.dart';
 
@@ -69,7 +67,7 @@ class NewTransaction extends StatelessWidget {
                                 return null;
                               },
                               onTap: () async {
-                                controller.setAccount(await getAccount());
+                                controller.setAccount(await controller.getAccount());
                               },
                             ),
                             FormItem(
@@ -82,7 +80,7 @@ class NewTransaction extends StatelessWidget {
                                 return null;
                               },
                               onTap: () async {
-                                controller.setToAccount(await getAccount());
+                                controller.setToAccount(await controller.getAccount());
                               },
                             ),
                           ] else ...[
@@ -96,7 +94,7 @@ class NewTransaction extends StatelessWidget {
                                 return null;
                               },
                               onTap: () async {
-                                controller.setAccount(await getAccount());
+                                controller.setAccount(await controller.getAccount());
                               },
                             ),
                             FormItem(
@@ -224,28 +222,5 @@ class NewTransaction extends StatelessWidget {
             ),
           );
         });
-  }
-
-  Future<Account?> getAccount() async {
-    final List<Account> accounts = Get.find<DbController>()
-        .accounts
-        .values
-        .where((element) => element.isDeleted != 1)
-        .toList();
-    if (accounts.isEmpty) {
-      Utils.showBottomSnackBar(
-          title: Const.errorTitle,
-          message: "Please add an account first to continue :) ",
-          ic: const Icon(
-            Icons.error_outline_rounded,
-            color: AppColors.errorColor,
-          ));
-    } else {
-      Account? account = await ListDialog<Account>().showListDialog(
-        accounts,
-      );
-      return account;
-    }
-    return null;
   }
 }
