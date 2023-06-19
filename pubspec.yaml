@@ -44,6 +44,8 @@ dependencies:
   fl_chart: ^0.62.0
   flutter_svg: ^2.0.6
   flutter_iconpicker: ^3.2.4
+  flutter_colorpicker: ^1.0.3
+  flutter_material_color_picker: ^1.2.0
   flutter:
     sdk: flutter
 

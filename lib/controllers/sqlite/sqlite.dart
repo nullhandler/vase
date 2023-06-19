@@ -14,7 +14,8 @@ const initScript = [
         category_type INT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         icon TEXT,
-        is_deleted INTEGER
+        color INT,
+        is_deleted INTEGER,
      )''',
   '''CREATE TABLE IF NOT EXISTS ${Const.configs} (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,4 +42,7 @@ const initScript = [
         ON ${Const.configs} (key)''',
 ];
 
-const migrationScripts = [];
+const migrationScripts = [
+  '''ALTER TABLE ${Const.categories}
+     ADD color INT''',
+];

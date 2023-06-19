@@ -28,7 +28,7 @@ class DbController extends GetxController {
         await db.execute(script);
       }
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
-      for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
+      for (var i = oldVersion - 1; i < newVersion - 1; i++) {
         await db.execute(migrationScripts[i]);
       }
     });

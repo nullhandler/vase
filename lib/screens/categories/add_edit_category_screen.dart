@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/screens/categories/add_category_controller.dart';
@@ -61,7 +62,10 @@ class AddCategoryScreen extends StatelessWidget {
                       Obx(
                         () => AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
-                          child: controller.categoryIcon.value,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: controller.categoryIcon.value,
+                          ),
                         ),
                       ),
                       TextButton(
@@ -74,6 +78,23 @@ class AddCategoryScreen extends StatelessWidget {
                           controller.onCategoryIconChange(icon);
                         },
                         child: const Text('Click to choose an Icon'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Obx(() => CircleAvatar(
+                            backgroundColor: controller.selectedColor.value,
+                            radius: 18,
+                          )),
+                      TextButton(
+                        onPressed: () async {
+                          Color? selectedColor =
+                              await showColorSelectionDialog(context);
+                          controller.onColorChange(selectedColor);
+                        },
+                        child: const Text('Click to choose a Color'),
                       ),
                     ],
                   ),
@@ -98,6 +119,37 @@ class AddCategoryScreen extends StatelessWidget {
                 ],
               ),
             ));
+      },
+    );
+  }
+
+  Future<Color?> showColorSelectionDialog(BuildContext context) async {
+    Color? selectedColor;
+    return showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(18.0),
+          title: const Text("Pick a color"),
+          content: MaterialColorPicker(
+              onColorChange: (Color color) {
+                selectedColor = color;
+              },
+              selectedColor:
+                  Get.find<AddCategoryController>().selectedColor.value),
+          actions: [
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('CANCEL'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(selectedColor);
+              },
+              child: const Text('SUBMIT'),
+            ),
+          ],
+        );
       },
     );
   }
