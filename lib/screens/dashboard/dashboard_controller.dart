@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
@@ -31,7 +28,6 @@ class DashboardController extends GetxController {
     for (int i = 0; i < transList.length; i++) {
       if (double.parse(transList[i]['total'].toString()) < 0 &&
           transList[i]['category_name'] != null) {
-        print(transList[i]);
         Sector s = Sector.fromJson(transList[i]);
         sectors.add(s);
       }
