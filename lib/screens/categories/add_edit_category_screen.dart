@@ -5,9 +5,6 @@ import 'package:get/get.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/screens/categories/add_category_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
-import 'package:vase/widgets/delete_action.dart';
-import 'package:vase/widgets/focused_layout.dart';
-
 import '../widgets/category_type_selector.dart';
 
 class AddCategoryScreen extends StatelessWidget {
@@ -20,105 +17,117 @@ class AddCategoryScreen extends StatelessWidget {
     return GetBuilder<AddCategoryController>(
       init: AddCategoryController(),
       builder: (AddCategoryController controller) {
-        return FocusedLayout(
-            appBarTitle: isEdit ? "Edit Category" : "Add Category",
-            padding: const EdgeInsets.all(16.0),
-            isScrollable: false,
-            actions: isEdit
-                ? [
-                    DeleteAction(
-                        onTap: () {
-                          controller.deleteCategory();
-                          Get.back();
-                        },
-                        thing:
-                            'category ${Get.arguments['category'].categoryName}'),
-                  ]
-                : null,
-            child: Form(
-              key: controller.formKey,
-              child: Column(
-                children: <Widget>[
-                  FormItem(
-                    question: 'Category Name',
-                    controller: controller.categoryNameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a category name';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  isEdit
-                      ? const SizedBox()
-                      : CategoryTypeSelector(
-                          onSelect: controller.setTransactionType,
-                          currentType: controller.categoryType,
+        return Scaffold(
+          body: CustomScrollView(slivers: [
+            SliverAppBar(
+              title: Text(
+                isEdit ? "Edit Category" : "Add Category",
+              ),
+            ),
+            SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Form(
+                    key: controller.formKey,
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 20,
                         ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(
-                        () => AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: controller.categoryIcon.value,
-                          ),
+                        FormItem(
+                          question: 'Category Name',
+                          controller: controller.categoryNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a category name';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          IconData? icon =
-                              await FlutterIconPicker.showIconPicker(context,
-                                  adaptiveDialog: true,
-                                  backgroundColor: AppColors.darkGreyColor,
-                                  iconPackModes: [IconPack.fontAwesomeIcons]);
-                          controller.onCategoryIconChange(icon);
-                        },
-                        child: const Text('Click to choose an Icon'),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Obx(() => CircleAvatar(
-                            backgroundColor: controller.selectedColor.value,
-                            radius: 18,
-                          )),
-                      TextButton(
-                        onPressed: () async {
-                          Color? selectedColor =
-                              await showColorSelectionDialog(context);
-                          controller.onColorChange(selectedColor);
-                        },
-                        child: const Text('Click to choose a Color'),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                      onPressed:
-                          isEdit ? controller.updateCat : controller.validate,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        const SizedBox(height: 8),
+                        isEdit
+                            ? const SizedBox()
+                            : CategoryTypeSelector(
+                                onSelect: controller.setTransactionType,
+                                currentType: controller.categoryType,
+                              ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              isEdit ? "Update Category" : "Add Category",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            Obx(
+                              () => AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 4.0),
+                                  child: controller.categoryIcon.value,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                IconData? icon =
+                                    await FlutterIconPicker.showIconPicker(
+                                        context,
+                                        adaptiveDialog: true,
+                                        backgroundColor:
+                                            AppColors.darkGreyColor,
+                                        iconPackModes: [
+                                      IconPack.fontAwesomeIcons
+                                    ]);
+                                controller.onCategoryIconChange(icon);
+                              },
+                              child: const Text('Click to choose an Icon'),
                             ),
                           ],
                         ),
-                      )),
-                ],
-              ),
-            ));
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Obx(() => CircleAvatar(
+                                  backgroundColor:
+                                      controller.selectedColor.value,
+                                  radius: 16,
+                                )),
+                            TextButton(
+                              onPressed: () async {
+                                Color? selectedColor =
+                                    await showColorSelectionDialog(context);
+                                controller.onColorChange(selectedColor);
+                              },
+                              child: const Text('Click to choose a Color'),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        const SizedBox(height: 8),
+                        ElevatedButton(
+                            onPressed: isEdit
+                                ? controller.updateCat
+                                : controller.validate,
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    isEdit ? "Update Category" : "Add Category",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ))
+          ]),
+        );
       },
     );
   }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vase/colors.dart';
 import 'package:vase/extensions.dart';
+import 'package:vase/screens/dialogs/list_dialog.dart';
 import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/screens/transactions/trans_model.dart';
+import 'package:vase/utils.dart';
 
 import '../../const.dart';
 import '../../controllers/db_controller.dart';
@@ -27,11 +30,23 @@ class NewTransController extends GetxController {
   RxBool isEdit = false.obs;
   Transaction? previousTransaction;
   final DbController dbController = Get.find<DbController>();
+  late List<Account> accounts;
 
   @override
   void onInit() {
     super.onInit();
     isEdit.value = Get.arguments?['edit'] ?? false;
+    final cats = Utils.getCategories(
+        Get.find<DbController>().categories, categoryType.value);
+    accounts = Get.find<DbController>()
+        .accounts
+        .values
+        .where((element) => element.isDeleted != 1)
+        .toList();
+    if (cats.isNotEmpty && accounts.isNotEmpty) {
+      setCategory(cats.first);
+      setAccount(accounts.first);
+    }
     if (isEdit.value) {
       prefillTransaction(Get.arguments['transaction']);
     } else {
@@ -67,6 +82,16 @@ class NewTransController extends GetxController {
 
   void setToAccount(Account? account) {
     if (account == null) return;
+    if (selectedAccount?.id == account.id) {
+      Utils.showBottomSnackBar(
+          title: Const.errorTitle,
+          message: "Cannot transfer to the same account :( ",
+          ic: const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.errorColor,
+          ));
+      return;
+    }
     selectedToAccount = account;
     toAccountController.text = account.accountName;
   }
@@ -161,6 +186,24 @@ class NewTransController extends GetxController {
     await dbController.db.delete(Const.trans,
         where: "id = ?", whereArgs: [previousTransaction?.id]);
     Get.find<TransController>().fetchTransactions();
+  }
+
+  Future<Account?> getAccount() async {
+    if (accounts.isEmpty) {
+      Utils.showBottomSnackBar(
+          title: Const.errorTitle,
+          message: "Please add an account first to continue :) ",
+          ic: const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.errorColor,
+          ));
+    } else {
+      Account? account = await ListDialog<Account>().showListDialog(
+        accounts,
+      );
+      return account;
+    }
+    return null;
   }
 
   Future<String?> fetchBatchId(int transId) async {

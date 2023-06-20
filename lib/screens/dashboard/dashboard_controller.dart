@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
@@ -21,7 +18,7 @@ class DashboardController extends GetxController {
 
   Future<void> fetchSectors() async {
     var transList = await dbController.db.rawQuery(
-      '''SELECT SUM(${Const.trans}.amount) AS total , count(${Const.categories}.category_name) AS share , ${Const.categories}.category_name  from ${Const.trans} LEFT JOIN ${Const.categories}
+      '''SELECT SUM(${Const.trans}.amount) AS total , count(${Const.categories}.category_name) AS share , ${Const.categories}.category_name , ${Const.categories}.color  from ${Const.trans} LEFT JOIN ${Const.categories}
           on ${Const.trans}.category_id = ${Const.categories}.id
           WHERE ${Const.trans}.created_at BETWEEN ${Utils.getFirstDate(currentDate)} AND ${Utils.getLastDate(currentDate)}
           GROUP BY ${Const.categories}.category_name
@@ -32,8 +29,6 @@ class DashboardController extends GetxController {
       if (double.parse(transList[i]['total'].toString()) < 0 &&
           transList[i]['category_name'] != null) {
         Sector s = Sector.fromJson(transList[i]);
-        var generatedColor = Random().nextInt(Colors.primaries.length);
-        s.color = Colors.primaries[generatedColor];
         sectors.add(s);
       }
     }

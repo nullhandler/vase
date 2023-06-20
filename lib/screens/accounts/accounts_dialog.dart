@@ -13,7 +13,7 @@ class AccountsDialog<S> extends StatelessWidget {
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: accounts.length,
           itemBuilder: (context, pos) {
