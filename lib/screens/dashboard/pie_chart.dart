@@ -32,7 +32,4 @@ class PieChartWidget extends StatelessWidget {
     }
     return list;
   }
-
-  
-
 }
