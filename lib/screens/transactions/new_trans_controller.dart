@@ -30,7 +30,7 @@ class NewTransController extends GetxController {
   RxBool isEdit = false.obs;
   Transaction? previousTransaction;
   final DbController dbController = Get.find<DbController>();
-  int? accId;
+  late List<Account> accounts;
 
   @override
   void onInit() {
@@ -38,7 +38,7 @@ class NewTransController extends GetxController {
     isEdit.value = Get.arguments?['edit'] ?? false;
     final cats = Utils.getCategories(
         Get.find<DbController>().categories, categoryType.value);
-    final accounts = Get.find<DbController>()
+    accounts = Get.find<DbController>()
         .accounts
         .values
         .where((element) => element.isDeleted != 1)
@@ -78,12 +78,11 @@ class NewTransController extends GetxController {
     if (account == null) return;
     selectedAccount = account;
     accountController.text = account.accountName;
-    accId = account.id;
   }
 
   void setToAccount(Account? account) {
     if (account == null) return;
-    if (selectedAccount==account) {
+    if (selectedAccount?.id == account.id) {
       Utils.showBottomSnackBar(
           title: Const.errorTitle,
           message: "Cannot transfer to the same account :( ",
@@ -190,11 +189,6 @@ class NewTransController extends GetxController {
   }
 
   Future<Account?> getAccount() async {
-    final List<Account> accounts = Get.find<DbController>()
-        .accounts
-        .values
-        .where((element) => element.isDeleted != 1)
-        .toList();
     if (accounts.isEmpty) {
       Utils.showBottomSnackBar(
           title: Const.errorTitle,

@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 class Sector {
   Sector(
-      {
-      required this.color,
+      {required this.color,
       required this.total,
       required this.share,
       required this.title});
