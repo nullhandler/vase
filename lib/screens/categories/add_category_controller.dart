@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -14,6 +14,7 @@ class AddCategoryController extends GetxController {
   final formKey = GlobalKey<FormState>();
   int updateId = 0;
   Category? preFilledCategory;
+  Rx<Color> selectedColor = const Color(0xfff44336).obs;
 
   @override
   void onInit() {
@@ -37,6 +38,7 @@ class AddCategoryController extends GetxController {
     categoryIcon.value = Icon(
         deserializeIcon({'pack': 'fontAwesomeIcons', 'key': category.icon}));
     categoryType.value = category.categoryType;
+    selectedColor.value = category.color;
     updateId = category.id!;
     update();
   }
@@ -44,6 +46,12 @@ class AddCategoryController extends GetxController {
   void onCategoryIconChange(IconData? icon) {
     if (icon != null) {
       categoryIcon.value = Icon(icon);
+    }
+  }
+
+  void onColorChange(Color? color) {
+    if (color != null) {
+      selectedColor.value = color;
     }
   }
 
@@ -55,7 +63,8 @@ class AddCategoryController extends GetxController {
             categoryType: categoryType.value,
             createdAt: DateTime.now(),
             icon: serializeIcon(categoryIcon.value.icon!)!['key'],
-            isDeleted: 0),
+            isDeleted: 0,
+            color: selectedColor.value),
       );
       Get.back();
     }
@@ -70,7 +79,8 @@ class AddCategoryController extends GetxController {
             categoryType: categoryType.value,
             createdAt: DateTime.now(),
             icon: serializeIcon(categoryIcon.value.icon!)!['key'],
-            isDeleted: 0),
+            isDeleted: 0,
+            color: selectedColor.value),
       );
       Get.back();
     }

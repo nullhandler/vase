@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 List<Category> categoryFromJson(List<Map<String, Object?>> list) =>
     List<Category>.from(
       list.map((x) => Category.fromJson(x)),
@@ -21,7 +23,8 @@ class Category {
       required this.categoryType,
       this.createdAt,
       required this.icon,
-      required this.isDeleted});
+      required this.isDeleted,
+      required this.color});
 
   int? id;
   String categoryName;
@@ -29,8 +32,15 @@ class Category {
   DateTime? createdAt;
   String icon;
   int isDeleted;
+  Color color;
 
   factory Category.fromJson(Map<String, dynamic> json) {
+    Color categoryColor;
+    if (json['color'] != null) {
+      categoryColor = Color(json['color']);
+    } else {
+      categoryColor = Colors.red;
+    }
     return Category(
         id: json["id"],
         categoryName: json["category_name"],
@@ -40,7 +50,8 @@ class Category {
             ? null
             : DateTime.parse(json["created_at"]),
         icon: json['icon'],
-        isDeleted: json['is_deleted']??0);
+        color: categoryColor,
+        isDeleted: json['is_deleted'] ?? 0);
   }
 
   Map<String, dynamic> toJson() => {
@@ -49,7 +60,8 @@ class Category {
         "category_type": categoryType.name,
         if (createdAt != null) "created_at": createdAt!.toIso8601String(),
         "icon": icon,
-        "is_deleted": isDeleted
+        "is_deleted": isDeleted,
+        "color": color.value,
       };
 
   @override
