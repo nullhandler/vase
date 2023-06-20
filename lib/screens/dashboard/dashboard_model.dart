@@ -4,20 +4,17 @@ import 'package:flutter/material.dart';
 
 class Sector {
   Sector(
-      {required this.colorCode,
+      {
       required this.color,
       required this.total,
       required this.share,
       required this.title});
-
-  int? colorCode;
   Color color;
   double total;
   int share;
   String title;
 
   factory Sector.fromJson(Map<String, dynamic> json) => Sector(
-        colorCode: json['color'],
         color: json['color'] != null
             ? Color(json['color'])
             : Colors.primaries[Random().nextInt(Colors.primaries.length)],

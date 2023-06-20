@@ -83,7 +83,7 @@ class NewTransController extends GetxController {
 
   void setToAccount(Account? account) {
     if (account == null) return;
-    if (account.id == accId) {
+    if (selectedAccount==account) {
       Utils.showBottomSnackBar(
           title: Const.errorTitle,
           message: "Cannot transfer to the same account :( ",
