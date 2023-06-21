@@ -15,7 +15,7 @@ const initScript = [
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         icon TEXT,
         color INT,
-        is_deleted INTEGER,
+        is_deleted INTEGER
      )''',
   '''CREATE TABLE IF NOT EXISTS ${Const.configs} (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
