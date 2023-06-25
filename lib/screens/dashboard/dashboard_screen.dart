@@ -65,9 +65,7 @@ class DashboardScreen extends StatelessWidget {
                                 ),
                               ),
                               title: Text(
-                                controller.sectors[index].title,
-                                overflow: TextOverflow.clip,
-                                softWrap: false,
+                                controller.sectors[index].title
                               ),
                               trailing: Text(
                                 controller.sectors[index].total.toString(),
