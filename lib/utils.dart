@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vase/const.dart';
+
 import 'colors.dart';
 import 'screens/categories/category_model.dart';
 
@@ -51,20 +52,16 @@ class Utils {
   }
 
   static int getFirstDate(DateTime currentDate) {
-    return currentDate
-        .copyWith(day: 1, hour: 0, minute: 1)
+    return DateTime(currentDate.year, currentDate.month, 1)
         .millisecondsSinceEpoch;
   }
 
   static int getLastDate(DateTime currentDate) {
-    DateTime dateTime = getNextMonth(currentDate)
-        .copyWith(day: 0, hour: 23, minute: 59, second: 59, microsecond: 59);
+    DateTime dateTime = DateTime(currentDate.year, currentDate.month + 1, 0);
     return dateTime.millisecondsSinceEpoch;
   }
 
   static DateTime getNextMonth(DateTime dateTime) {
-    return (dateTime.month < 12)
-        ? DateTime(dateTime.year, dateTime.month + 1, 1)
-        : DateTime(dateTime.year + 1, 1, 1);
+    return DateTime(dateTime.year, dateTime.month + 1, dateTime.day);
   }
 }

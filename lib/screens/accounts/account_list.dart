@@ -18,6 +18,7 @@ class AccountList extends StatelessWidget {
     return Obx(() {
       AccountsController controller = Get.find();
       return ListView.builder(
+          padding: const EdgeInsets.only(bottom: 75),
           itemCount: accountsMap.length + 1,
           shrinkWrap: true,
           itemBuilder: (context, pos) {
@@ -76,13 +77,18 @@ class AccountListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(account.accountName),
-            account.accountType==AccountType.card?TxnText(
-                amount:
-                    Get.find<AccountsController>().accountStats[account.id] ??
-                        0 ,customColor: Colors.white,): TxnText(
-                amount:
-                    Get.find<AccountsController>().accountStats[account.id] ??
-                        0 ,)
+            account.accountType == AccountType.card
+                ? TxnText(
+                    amount: Get.find<AccountsController>()
+                            .accountStats[account.id] ??
+                        0,
+                    customColor: Colors.white,
+                  )
+                : TxnText(
+                    amount: Get.find<AccountsController>()
+                            .accountStats[account.id] ??
+                        0,
+                  )
           ],
         ),
       ),
