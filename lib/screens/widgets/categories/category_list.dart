@@ -11,7 +11,7 @@ import 'package:vase/utils.dart';
 import '../../../controllers/db_controller.dart';
 
 class CategoryList extends StatelessWidget {
-  const  CategoryList({
+  const CategoryList({
     Key? key,
     required this.categoryType,
   }) : super(key: key);
@@ -38,6 +38,7 @@ class CategoryList extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
               itemCount: categories.length,
+              padding: const EdgeInsets.only(bottom: 75),
               itemBuilder: (context, index) {
                 final Category category = categories[index];
                 return ListTile(

@@ -56,6 +56,7 @@ class Transactions extends StatelessWidget {
               }
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 75),
                   shrinkWrap: true,
                   itemCount: controller.transactions.length + 1,
                   itemBuilder: (context, pos) {
