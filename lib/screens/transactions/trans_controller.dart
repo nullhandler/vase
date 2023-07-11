@@ -83,6 +83,7 @@ class TransController extends GetxController {
           }));
         }
       });
+      tempList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       dateWiseTransactions[date] = tempList;
     });
     transactions.value = dateWiseTransactions;
