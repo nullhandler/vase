@@ -9,6 +9,7 @@ class AppColors {
           );
   static const darkGreyColor = Color(0xff1c1b1f);
   static const errorColor = Colors.redAccent;
+  static const successColor = Colors.green;
 
   static ThemeData defaultTheme = ThemeData.dark(useMaterial3: true).copyWith(
       pageTransitionsTheme: const PageTransitionsTheme(builders: {

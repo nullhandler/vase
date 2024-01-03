@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/sqlite/sqlite.dart';
 import 'package:vase/enums.dart';
 import 'package:vase/screens/accounts/accounts_model.dart';
 import 'package:vase/screens/user/user_controller.dart';
+import 'package:vase/utils.dart';
 
 import '../screens/categories/category_model.dart';
 
@@ -17,10 +17,10 @@ class DbController extends GetxController {
   RxList<Category> categories = <Category>[].obs;
 
   Future<void> initDB() async {
-    String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'vase.db');
-    // await deleteDatabase(path);
-    db = await openDatabase(path, version: migrationScripts.length + 1,
+    vaseState.value = VaseState.loading;
+    String databasesPath = await Utils.getDbPath();
+    // await deleteDatabase(databasesPath);
+    db = await openDatabase(databasesPath, version: migrationScripts.length + 1,
         onConfigure: (Database db) async {
       await db.execute('PRAGMA foreign_keys = ON');
     }, onCreate: (Database db, int version) async {
