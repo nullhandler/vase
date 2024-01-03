@@ -54,9 +54,6 @@ class MyApp extends StatelessWidget {
               }
             });
           },
-          dispose: (dbController) {
-            dbController.dispose();
-          },
         ),
       );
     });
