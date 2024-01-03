@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vase/const.dart';
 import 'package:vase/screens/user/user_controller.dart';
 import 'package:vase/screens/widgets/form_item.dart';
@@ -7,6 +9,8 @@ import 'package:vase/utils.dart';
 import 'package:vase/widgets/focused_layout.dart';
 import 'package:vase/widgets/heading.dart';
 import 'package:vase/widgets/wrapper.dart';
+
+import '../../colors.dart';
 
 class UserSettings extends StatelessWidget {
   UserSettings({super.key});
@@ -128,6 +132,46 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
+                const Heading(title: "Backup"),
+                const SizedBox(
+                  height: 16,
+                ),
+                Card(
+                  margin: const EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () async {
+                          bool isImportSuccess = await Utils.importDb();
+                          Utils.showSnackBarV2(
+                              msg: isImportSuccess
+                                  ? "DB imported successfully"
+                                  : "DB import failed",
+                              isPositiveMsg: isImportSuccess);
+                        },
+                        title: const Text("Import"),
+                        trailing: const Icon(FontAwesomeIcons.fileArrowDown),
+                      ),
+                      ListTile(
+                        onTap: () async {
+                          bool isShareSuccess =
+                              (await Utils.exportDb()).status ==
+                                  ShareResultStatus.success;
+                          Utils.showSnackBarV2(
+                              msg: isShareSuccess
+                                  ? "DB exported successfully"
+                                  : "DB export failed",
+                              isPositiveMsg: isShareSuccess);
+                        },
+                        title: const Text("Export"),
+                        trailing: const Icon(FontAwesomeIcons.fileArrowUp),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Obx(
                   () => Visibility(
                     visible: controller.showMonetSwitch.value,
@@ -166,9 +210,7 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-               const Heading(title: "About"),
-
-
+                const Heading(title: "About"),
                 const SizedBox(
                   height: 16,
                 ),
@@ -192,8 +234,7 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-               const Heading(title: "Licenses"),
-
+                const Heading(title: "Licenses"),
                 const SizedBox(
                   height: 16,
                 ),
@@ -212,7 +253,7 @@ class UserSettings extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                 Obx(() => Align(
+                Obx(() => Align(
                       alignment: Alignment.center,
                       child: Text(
                         controller.version.value,
