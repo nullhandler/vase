@@ -47,6 +47,7 @@ class AccountList extends StatelessWidget {
                   Card(
                     margin: const EdgeInsets.all(0),
                     child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: accounts.length,
                         shrinkWrap: true,
                         itemBuilder: (context, pos) {

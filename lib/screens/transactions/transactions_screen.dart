@@ -4,6 +4,7 @@ import 'package:vase/enums.dart';
 import 'package:vase/screens/dashboard/dashboard_screen.dart';
 import 'package:vase/screens/transactions/date_list_item.dart';
 import 'package:vase/screens/transactions/monthly_stats_widget.dart';
+import 'package:vase/screens/transactions/search_trans.dart';
 import 'package:vase/screens/widgets/empty.dart';
 import 'package:vase/widgets/wrapper.dart';
 
@@ -39,7 +40,18 @@ class Transactions extends StatelessWidget {
                                 icon: const Icon(Icons.line_axis_outlined)),
                           ),
                   ),
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                      onPressed: () async {
+                        await showSearch(
+                          context: context,
+                          delegate: CustomSearchDelegate(),
+                        );
+                      },
+                      icon: const Icon(Icons.search_rounded)),
+                ),
               ],
             ),
             body: Obx(() {

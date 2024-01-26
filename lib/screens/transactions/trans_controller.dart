@@ -12,8 +12,12 @@ import 'trans_model.dart';
 class TransController extends GetxController {
   Rx<DateTime> currentDate = DateTime.now().obs;
   DbController dbController = Get.find();
+  RxString query = ''.obs;
   Rx<VaseState> transState = VaseState.loading.obs;
+  Rx<VaseState> searchTransState = VaseState.loading.obs;
   RxMap<String, List<Transaction>> transactions =
+      <String, List<Transaction>>{}.obs;
+  RxMap<String, List<Transaction>> searchTxns =
       <String, List<Transaction>>{}.obs;
   Rx<TransStats> monthlyStats = TransStats(0, 0, 0).obs;
   RxMap<String, TransStats> dailyStats = <String, TransStats>{}.obs;
@@ -34,11 +38,25 @@ class TransController extends GetxController {
       WHERE created_at BETWEEN ${Utils.getFirstDate(currentDate.value)} AND ${Utils.getLastDate(currentDate.value)}
       ORDER BY created_at DESC''',
     );
-    parseTransactions(transList);
+    parseTransactions(transList, false);
     transState.value = VaseState.loaded;
   }
 
-  void parseTransactions(List<Map<String, Object?>> list) {
+  Future<void> searchTransactions() async {
+    // monthlyStats.value = TransStats(0, 0, 0);
+    // dailyStats.clear();
+    searchTransState.value = VaseState.loading;
+    var sTransList = await dbController.db
+        .rawQuery('''SELECT * from ${Const.trans} LEFT JOIN ${Const.transLinks}
+          on ${Const.transLinks}.trans_id = ${Const.trans}.id
+      WHERE created_at BETWEEN ${Utils.getFirstDate(currentDate.value)} AND ${Utils.getLastDate(currentDate.value)}
+      AND desc LIKE ?
+      ORDER BY created_at DESC''', ['%${query.value}%']);
+    parseTransactions(sTransList, true);
+    searchTransState.value = VaseState.loaded;
+  }
+
+  void parseTransactions(List<Map<String, Object?>> list, bool isSearch) {
     Map<String, List<Transaction>> dateWiseTransactions =
         <String, List<Transaction>>{};
     Map<String, List<Map<String, Object?>>> dateWiseRaw =
@@ -64,21 +82,25 @@ class TransController extends GetxController {
         } else {
           tempList.addAll(txnList.map<Transaction>((rawTrans) {
             Transaction trans = Transaction.fromJson(rawTrans);
-            (dailyStats[date] ??= TransStats(0, 0, 0)).total += trans.amount;
-            if (trans.amount.isNegative) {
-              (dailyStats[date] ??= TransStats(0, 0, 0)).expense +=
-                  trans.amount;
-            } else {
-              (dailyStats[date] ??= TransStats(0, 0, 0)).income += trans.amount;
-            }
-            monthlyStats.update((stats) {
-              stats?.total += trans.amount;
+            if (!isSearch) {
+              (dailyStats[date] ??= TransStats(0, 0, 0)).total += trans.amount;
               if (trans.amount.isNegative) {
-                stats?.expense += trans.amount;
+                (dailyStats[date] ??= TransStats(0, 0, 0)).expense +=
+                    trans.amount;
               } else {
-                stats?.income += trans.amount;
+                (dailyStats[date] ??= TransStats(0, 0, 0)).income +=
+                    trans.amount;
               }
-            });
+              monthlyStats.update((stats) {
+                stats?.total += trans.amount;
+                if (trans.amount.isNegative) {
+                  stats?.expense += trans.amount;
+                } else {
+                  stats?.income += trans.amount;
+                }
+              });
+            }
+
             return trans;
           }));
         }
@@ -86,7 +108,11 @@ class TransController extends GetxController {
       tempList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       dateWiseTransactions[date] = tempList;
     });
-    transactions.value = dateWiseTransactions;
+    if (isSearch) {
+      searchTxns.value = dateWiseTransactions;
+    } else {
+      transactions.value = dateWiseTransactions;
+    }
   }
 
   void refreshListIfNeeded(DateTime dateTime) {
