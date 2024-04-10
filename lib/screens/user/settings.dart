@@ -231,7 +231,7 @@ class UserSettings extends StatelessWidget {
                       ListTile(
                         onTap: () => Utils.openLink(Const.ps),
                         title: const Text("Play Store"),
-                        trailing: const Icon(Icons.flutter_dash_outlined),
+                        trailing: const Icon(Icons.link),
                       ),
                     ],
                   ),
