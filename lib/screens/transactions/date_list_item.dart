@@ -15,21 +15,27 @@ import 'trans_model.dart';
 class DateListItem extends StatelessWidget {
   final String date;
   final List<Transaction> transactions;
+  final bool isSearch;
 
-  const DateListItem({Key? key, required this.date, required this.transactions})
+  const DateListItem(
+      {Key? key,
+      required this.date,
+      required this.transactions,
+      this.isSearch = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          child: DateChip(
-            label: date,
-            transStats: Get.find<TransController>().dailyStats[date],
+        if (!isSearch)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: DateChip(
+              label: date,
+              transStats: Get.find<TransController>().dailyStats[date],
+            ),
           ),
-        ),
         Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: ListView.builder(
@@ -49,8 +55,17 @@ class DateListItem extends StatelessWidget {
               }
               return ListTile(
                   onTap: () {
-                    Get.to(NewTransaction(),
-                        arguments: {"edit": true, "transaction": transaction});
+                    if (isSearch) {
+                      Get.off(() => NewTransaction(), arguments: {
+                        "edit": true,
+                        "transaction": transaction
+                      });
+                    } else {
+                      Get.to(() => NewTransaction(), arguments: {
+                        "edit": true,
+                        "transaction": transaction
+                      });
+                    }
                   },
                   leading: CircleAvatar(
                     child: SizedBox(
@@ -96,7 +111,11 @@ class DateListItem extends StatelessWidget {
                         showDynamicColor: transaction.toAccountId == null,
                       ),
                       Text(
-                        DateFormat.jm('en_US').format(transaction.createdAt),
+                        isSearch
+                            ? DateFormat('dd-MM-yyyy | hh:mm a')
+                                .format(transaction.createdAt)
+                            : DateFormat.jm('en_US')
+                                .format(transaction.createdAt),
                         style: secondaryTextStyle,
                       )
                     ],

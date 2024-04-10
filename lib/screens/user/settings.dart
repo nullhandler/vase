@@ -228,6 +228,11 @@ class UserSettings extends StatelessWidget {
                         title: const Text("Github Repository"),
                         trailing: const Icon(Icons.code_outlined),
                       ),
+                      ListTile(
+                        onTap: () => Utils.openLink(Const.ps),
+                        title: const Text("Play Store"),
+                        trailing: const Icon(Icons.link),
+                      ),
                     ],
                   ),
                 ),
