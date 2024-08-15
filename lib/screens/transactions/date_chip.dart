@@ -8,8 +8,7 @@ class DateChip extends StatelessWidget {
   final String label;
   final TransStats? transStats;
 
-  const DateChip({Key? key, required this.label, required this.transStats})
-      : super(key: key);
+  const DateChip({super.key, required this.label, required this.transStats});
 
   @override
   Widget build(BuildContext context) {

@@ -6,8 +6,7 @@ import 'package:vase/screens/widgets/stats_widget.dart';
 class MonthlyStatsWidget extends StatelessWidget {
   final Rx<TransStats> monthlyStats;
 
-  const MonthlyStatsWidget({Key? key, required this.monthlyStats})
-      : super(key: key);
+  const MonthlyStatsWidget({super.key, required this.monthlyStats});
 
   @override
   Widget build(BuildContext context) {

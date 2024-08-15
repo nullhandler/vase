@@ -12,9 +12,9 @@ import '../../../controllers/db_controller.dart';
 
 class CategoryList extends StatelessWidget {
   const CategoryList({
-    Key? key,
+    super.key,
     required this.categoryType,
-  }) : super(key: key);
+  });
 
   final CategoryType categoryType;
 

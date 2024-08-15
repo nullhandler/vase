@@ -5,7 +5,7 @@ import 'package:vase/screens/dashboard/dashboard_model.dart';
 class PieChartWidget extends StatelessWidget {
   final List<Sector> sectors;
 
-  const PieChartWidget(this.sectors, {Key? key}) : super(key: key);
+  const PieChartWidget(this.sectors, {super.key});
 
   @override
   Widget build(BuildContext context) {

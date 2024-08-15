@@ -5,7 +5,7 @@ import '../colors.dart';
 import '../screens/user/user_controller.dart';
 
 class Heading extends StatelessWidget {
-  const Heading({Key? key, required this.title}) : super(key: key);
+  const Heading({super.key, required this.title});
   final String title;
 
   @override

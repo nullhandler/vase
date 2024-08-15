@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({Key? key, required this.assetName, required this.label})
-      : super(key: key);
+  const EmptyWidget({super.key, required this.assetName, required this.label});
   final String assetName;
   final String label;
 

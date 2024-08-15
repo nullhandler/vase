@@ -5,11 +5,10 @@ import '../categories/category_model.dart';
 
 class CategoryTypeSelector extends StatelessWidget {
   const CategoryTypeSelector(
-      {Key? key,
+      {super.key,
       required this.onSelect,
       required this.currentType,
-      this.showTransfer = false})
-      : super(key: key);
+      this.showTransfer = false});
 
   final Function(CategoryType) onSelect;
   final Rx<CategoryType> currentType;

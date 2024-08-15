@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FocusedLayout extends StatelessWidget {
   const FocusedLayout({
-    Key? key,
+    super.key,
     required this.child,
     this.appBarTitle,
     this.padding,
@@ -10,7 +10,7 @@ class FocusedLayout extends StatelessWidget {
     this.bottomWidget,
     this.fab,
     this.actions
-  }) : super(key: key);
+  });
 
   final Widget child;
   final String? appBarTitle;

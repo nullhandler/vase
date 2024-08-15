@@ -18,11 +18,10 @@ class DateListItem extends StatelessWidget {
   final bool isSearch;
 
   const DateListItem(
-      {Key? key,
+      {super.key,
       required this.date,
       required this.transactions,
-      this.isSearch = false})
-      : super(key: key);
+      this.isSearch = false});
 
   @override
   Widget build(BuildContext context) {
