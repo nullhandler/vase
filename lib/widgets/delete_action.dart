@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import '../colors.dart';
 
 class DeleteAction extends StatelessWidget {
-  const DeleteAction({Key? key, required this.onTap, required this.thing})
-      : super(key: key);
+  const DeleteAction({super.key, required this.onTap, required this.thing});
   final Function() onTap;
   final String thing;
 

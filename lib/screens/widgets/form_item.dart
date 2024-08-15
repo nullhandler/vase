@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 
 class FormItem extends StatelessWidget {
   const FormItem({
-    Key? key,
+    super.key,
     required this.question,
     required this.controller,
     this.maxLength,
     this.onTap,
     this.textInputType = TextInputType.text,
     this.validator,
-  }) : super(key: key);
+  });
 
   final String question;
   final TextEditingController controller;

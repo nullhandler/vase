@@ -10,8 +10,6 @@ import 'package:vase/widgets/focused_layout.dart';
 import 'package:vase/widgets/heading.dart';
 import 'package:vase/widgets/wrapper.dart';
 
-import '../../colors.dart';
-
 class UserSettings extends StatelessWidget {
   UserSettings({super.key});
 

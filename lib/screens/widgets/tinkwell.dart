@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Transparent InkWell
 class TinkWell extends StatelessWidget {
-  const TinkWell({Key? key, required this.child, required this.onTap})
-      : super(key: key);
+  const TinkWell({super.key, required this.child, required this.onTap});
   final Widget child;
   final Function()? onTap;
 

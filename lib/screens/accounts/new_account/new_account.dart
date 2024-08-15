@@ -14,7 +14,7 @@ import '../accounts_dialog.dart';
 import '../accounts_model.dart';
 
 class NewAccount extends StatelessWidget {
-  NewAccount({Key? key}) : super(key: key);
+  NewAccount({super.key});
   final AccountsController accountsController = Get.find();
   final _formKey = GlobalKey<FormState>();
 

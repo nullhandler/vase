@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 
 class AccountsDialog<S> extends StatelessWidget {
   const AccountsDialog(
-      {Key? key, required this.selectedAccount, required this.accounts})
-      : super(key: key);
+      {super.key, required this.selectedAccount, required this.accounts});
   final S? selectedAccount;
   final List<S> accounts;
 

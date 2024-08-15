@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Fab extends StatelessWidget {
-  const Fab({Key? key, required this.onTap}) : super(key: key);
+  const Fab({super.key, required this.onTap});
   final Function() onTap;
 
   @override

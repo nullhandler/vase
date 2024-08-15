@@ -6,7 +6,7 @@ import 'txn_text.dart';
 
 class StatsWidget extends StatelessWidget {
   final Map<String, double> statsMap;
-  const StatsWidget({Key? key, required this.statsMap}) : super(key: key);
+  const StatsWidget({super.key, required this.statsMap});
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +47,10 @@ class _StatItem extends StatelessWidget {
   final Color? customColor;
   final bool showSign;
   const _StatItem(
-      {Key? key,
-      required this.title,
+      {required this.title,
       required this.value,
       this.customColor,
-      this.showSign = false})
-      : super(key: key);
+      this.showSign = false});
 
   @override
   Widget build(BuildContext context) {

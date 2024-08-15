@@ -8,7 +8,7 @@ import 'package:vase/screens/widgets/form_item.dart';
 import '../widgets/category_type_selector.dart';
 
 class AddCategoryScreen extends StatelessWidget {
-  AddCategoryScreen({Key? key}) : super(key: key);
+  AddCategoryScreen({super.key});
 
   final isEdit = Get.arguments['edit'];
 

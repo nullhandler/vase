@@ -13,7 +13,7 @@ import '../categories/category_model.dart';
 import '../widgets/form_item.dart';
 
 class NewTransaction extends StatelessWidget {
-  NewTransaction({Key? key}) : super(key: key);
+  NewTransaction({super.key});
 
   final _formKey = GlobalKey<FormState>();
 

@@ -9,7 +9,7 @@ import 'package:vase/widgets/heading.dart';
 import 'accounts_model.dart';
 
 class AccountList extends StatelessWidget {
-  const AccountList({Key? key, required this.accountsMap}) : super(key: key);
+  const AccountList({super.key, required this.accountsMap});
 
   final RxMap<AccountType, List<Account>> accountsMap;
 
@@ -63,7 +63,7 @@ class AccountList extends StatelessWidget {
 }
 
 class AccountListItem extends StatelessWidget {
-  const AccountListItem({Key? key, required this.account}) : super(key: key);
+  const AccountListItem({super.key, required this.account});
   final Account account;
 
   @override

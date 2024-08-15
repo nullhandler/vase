@@ -14,7 +14,7 @@ import 'new_transaction.dart';
 import 'trans_controller.dart';
 
 class Transactions extends StatelessWidget {
-  const Transactions({Key? key}) : super(key: key);
+  const Transactions({super.key});
 
   @override
   Widget build(BuildContext context) {

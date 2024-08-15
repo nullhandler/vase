@@ -6,7 +6,7 @@ import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/screens/widgets/tinkwell.dart';
 
 class MonthCalender extends StatelessWidget {
-  const MonthCalender({Key? key}) : super(key: key);
+  const MonthCalender({super.key});
 
   @override
   Widget build(BuildContext context) {
