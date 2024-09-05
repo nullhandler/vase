@@ -12,19 +12,19 @@ class PieChartWidget extends StatelessWidget {
     return AspectRatio(
         aspectRatio: 1.0,
         child: PieChart(PieChartData(
-          sections: _chartSections(sectors),
-          centerSpaceRadius: 80.0,
-        )));
+            sections: _chartSections(sectors),
+            centerSpaceRadius: 40.0,
+            sectionsSpace: 1)));
   }
 
   List<PieChartSectionData> _chartSections(List<Sector> sectors) {
     final List<PieChartSectionData> list = [];
     for (var sector in sectors) {
-      const double radius = 20.0;
+      const double radius = 40.0;
       final data = PieChartSectionData(
-        titlePositionPercentageOffset: 2.6,
+        titlePositionPercentageOffset: 2,
         color: sector.color,
-        value: sector.total,
+        value: sector.amount,
         radius: radius,
         title: sector.title,
       );

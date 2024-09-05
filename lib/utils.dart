@@ -107,7 +107,7 @@ class Utils {
   }
 
   static int getLastDate(DateTime currentDate) {
-    DateTime dateTime = DateTime(currentDate.year, currentDate.month + 1, 0);
+    DateTime dateTime = DateTime(currentDate.year, currentDate.month + 1, 1).subtract(const Duration(seconds: 1));
     return dateTime.millisecondsSinceEpoch;
   }
 
