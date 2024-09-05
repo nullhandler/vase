@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vase/screens/transactions/date_chip.dart';
 import 'package:vase/screens/transactions/new_transaction.dart';
 import 'package:vase/screens/transactions/trans_controller.dart';
 import 'package:vase/text_styles.dart';
+import 'package:vase/widgets/category_icon.dart';
 
 import '../../controllers/db_controller.dart';
 import '../categories/category_model.dart';
@@ -66,19 +66,7 @@ class DateListItem extends StatelessWidget {
                       });
                     }
                   },
-                  leading: CircleAvatar(
-                    child: SizedBox(
-                      width: 40,
-                      height: 20,
-                      child: Icon(
-                        deserializeIcon({
-                          'pack': cat != null ? 'fontAwesomeIcons' : 'material',
-                          'key': cat != null ? cat.icon : 'sync_alt_rounded'
-                        }),
-                        size: 20,
-                      ),
-                    ),
-                  ),
+                  leading: CategoryIcon(icon: cat?.icon ?? 'ban'),
                   title: Text(
                     transaction.desc,
                     style: const TextStyle(fontWeight: FontWeight.bold),

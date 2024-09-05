@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:vase/colors.dart';
+import 'package:vase/extensions.dart';
 import 'package:vase/screens/dashboard/dashboard_controller.dart';
+import 'package:vase/screens/dashboard/dashboard_model.dart';
 import 'package:vase/screens/dashboard/pie_chart.dart';
+import 'package:vase/widgets/category_icon.dart';
 import 'package:vase/widgets/focused_layout.dart';
 import 'package:vase/widgets/wrapper.dart';
 
@@ -32,48 +36,35 @@ class DashboardScreen extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        PieChartWidget(controller.sectors),
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Title',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Text(
-                                'Expense',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: controller.sectors[index].color,
+                        PieChartWidget(controller.getFilteredSectors()),
+                        Card(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              Sector sector = controller.sectors[index];
+                              return ListTile(
+                                onTap: () {
+                                  sector.switchInclusion();
+                                  controller.update();
+                                },
+                                leading: CategoryIcon(
+                                  icon: sector.icon,
+                                  bgColor: sector.include
+                                      ? sector.color
+                                      : AppColors.darkGreyColor,
                                 ),
-                              ),
-                              title: Text(
-                                controller.sectors[index].title
-                              ),
-                              trailing: Text(
-                                controller.sectors[index].total.toString(),
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            );
-                          },
-                          itemCount: controller.sectors.length,
+                                title: Text(sector.title),
+                                subtitle: Text(
+                                    "${sector.share} Items • ${sector.totalPercent(controller.total)}%"),
+                                trailing: Text(
+                                  sector.amount.s,
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                              );
+                            },
+                            itemCount: controller.sectors.length,
+                          ),
                         )
                       ],
                     );
