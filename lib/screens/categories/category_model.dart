@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 List<Category> categoryFromJson(List<Map<String, Object?>> list) =>
     List<Category>.from(
       list.map((x) => Category.fromJson(x)),
-    );
+    )..sort((a, b) => a.categoryName.compareTo(b.categoryName));
 
 String categoryToJson(List<Category> data) =>
     json.encode(List<dynamic>.from(data.map(

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
 import 'package:vase/screens/categories/add_category_controller.dart';
@@ -92,7 +94,8 @@ class AddCategoryScreen extends StatelessWidget {
                             TextButton(
                               onPressed: () async {
                                 Color? selectedColor =
-                                    await showColorSelectionDialog(context);
+                                    await showColorSelectionDialog(context,
+                                        controller.selectedColor.value);
                                 controller.onColorChange(selectedColor);
                               },
                               child: const Text('Click to choose a Color'),
@@ -132,20 +135,59 @@ class AddCategoryScreen extends StatelessWidget {
     );
   }
 
-  Future<Color?> showColorSelectionDialog(BuildContext context) async {
+  Future<Color?> showColorSelectionDialog(
+      BuildContext context, Color oldColor) async {
     Color? selectedColor;
-    return showDialog(
+    TextEditingController textController = TextEditingController();
+    return await showDialog(
       context: context,
-      builder: (_) {
+      builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: const EdgeInsets.all(18.0),
-          title: const Text("Pick a color"),
-          content: MaterialColorPicker(
-              onColorChange: (Color color) {
-                selectedColor = color;
-              },
-              selectedColor:
-                  Get.find<AddCategoryController>().selectedColor.value),
+          scrollable: true,
+          actionsPadding: const EdgeInsets.all(0),
+          titlePadding: const EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.only(top: 16),
+          content: Column(
+            children: [
+              ColorPicker(
+                pickerColor: oldColor,
+                onColorChanged: (newColor) {
+                  selectedColor = newColor;
+                },
+                colorPickerWidth: 300,
+                pickerAreaHeightPercent: 0.7,
+                enableAlpha: false,
+                displayThumbColor: true,
+                paletteType: PaletteType.hsvWithHue,
+                labelTypes: const [],
+                pickerAreaBorderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(2),
+                  topRight: Radius.circular(2),
+                ),
+                hexInputController: textController, // <- here
+                portraitOnly: true,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: CupertinoTextField(
+                  controller: textController,
+                  style: const TextStyle(color: Colors.white),
+                  prefix: const Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Icon(Icons.tag)),
+                  suffix: IconButton(
+                    icon: const Icon(Icons.content_paste_rounded),
+                    onPressed: () => copyToClipboard(textController.text),
+                  ),
+                  maxLength: 9,
+                  inputFormatters: [
+                    UpperCaseTextFormatter(),
+                    FilteringTextInputFormatter.allow(RegExp(kValidHexPattern)),
+                  ],
+                ),
+              )
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: Navigator.of(context).pop,
@@ -161,5 +203,13 @@ class AddCategoryScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  void copyToClipboard(String input) {
+    String textToCopy = input.replaceFirst('#', '').toUpperCase();
+    if (textToCopy.startsWith('FF') && textToCopy.length == 8) {
+      textToCopy = textToCopy.replaceFirst('FF', '');
+    }
+    Clipboard.setData(ClipboardData(text: '#$textToCopy'));
   }
 }

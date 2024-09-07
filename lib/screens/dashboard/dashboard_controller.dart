@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:vase/const.dart';
 import 'package:vase/controllers/db_controller.dart';
+import 'package:vase/enums.dart';
 import 'package:vase/screens/dashboard/dashboard_model.dart';
 import 'package:vase/utils.dart';
 
@@ -10,6 +11,7 @@ class DashboardController extends GetxController {
   RxList<Sector> sectors = RxList.empty();
   DbController dbController = Get.find();
   double total = 0;
+  Rx<VaseState> dashboardState = VaseState.loading.obs;
 
   @override
   void onInit() {
@@ -18,6 +20,7 @@ class DashboardController extends GetxController {
   }
 
   Future<void> fetchSectors() async {
+    dashboardState.value = VaseState.loading;
     var transList = await dbController.db.rawQuery(
       '''SELECT SUM(${Const.trans}.amount) AS total , count(${Const.categories}.category_name) AS share , ${Const.categories}.category_name , 
           ${Const.categories}.color, ${Const.categories}.icon from ${Const.trans} 
@@ -34,8 +37,19 @@ class DashboardController extends GetxController {
       if (double.parse(transaction['total'].toString()) < 0 &&
           transaction['category_name'] != null) {
         Sector s = Sector.fromJson(transList[i]);
-        total += s.amount;
+        if (s.include) total += s.amount;
         sectors.add(s);
+      }
+    }
+    dashboardState.value = VaseState.loaded;
+    update();
+  }
+
+  void recalculateTotal() {
+    total = 0;
+    for (Sector sector in sectors) {
+      if (sector.include) {
+        total += sector.amount;
       }
     }
     update();

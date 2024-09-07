@@ -4,11 +4,14 @@
 
 import 'dart:convert';
 
-Map<int, Account> accountsFromJson(List<Map<String, Object?>> list) =>
-    Map<int, Account>.fromEntries(list.map((x) {
-      Account account = Account.fromJson(x);
-      return MapEntry(account.id!, account);
-    }));
+Map<int, Account> accountsFromJson(List<Map<String, Object?>> list) {
+  final accountList =
+      list.map<Account>((account) => Account.fromJson(account)).toList();
+  accountList.sort((a, b) => a.accountName.compareTo(b.accountName));
+  return Map<int, Account>.fromEntries(accountList.map((account) {
+    return MapEntry(account.id!, account);
+  }));
+}
 
 String accountsToJson(List<Account> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -32,7 +35,7 @@ class Account {
       accountName: json["account_name"],
       accountType: AccountType.values[json["account_type"]],
       parentId: json["parent_id"],
-      isDeleted: json['is_deleted']??0);
+      isDeleted: json['is_deleted'] ?? 0);
 
   Map<String, dynamic> toJson() => {
         if (id != null) "id": id,
