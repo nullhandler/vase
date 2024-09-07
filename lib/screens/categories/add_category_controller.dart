@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:vase/utils.dart';
 
 import '../../const.dart';
 import '../../controllers/db_controller.dart';
@@ -23,6 +24,7 @@ class AddCategoryController extends GetxController {
       preFillCategory(Get.arguments['category']);
     } else {
       categoryType.value = Get.arguments['type'];
+      selectedColor.value = Utils.getNextColor();
     }
   }
 

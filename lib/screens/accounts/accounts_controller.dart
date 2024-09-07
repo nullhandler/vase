@@ -68,6 +68,7 @@ class AccountsController extends GetxController {
         (key, value) => dbController.accounts[key]?.isDeleted == 1);
     List<Account> tempAccountList = dbController.accounts.values.toList();
     tempAccountList.removeWhere((account) => account.isDeleted == 1);
+    tempAccountList.sort((a, b) => a.accountName.compareTo(b.accountName));
     Map<AccountType, List<Account>> temp = groupBy<Account, AccountType>(
         tempAccountList, (account) => account.accountType);
     accountList.value = temp;

@@ -22,6 +22,12 @@ class Utils {
         .toList();
   }
 
+  static Color getNextColor() {
+    int categoriesLength = Get.find<DbController>().categories.length;
+    List<Color> colors = AppColors.categoryColors;
+    return colors[categoriesLength % colors.length];
+  }
+
   static void showBottomSnackBar(
       {required String title, required String message, required Icon ic}) {
     Get.snackbar(
@@ -62,8 +68,7 @@ class Utils {
 
   static Future<bool> importDb() async {
     try {
-      FilePickerResult? result = await FilePicker.platform
-          .pickFiles();
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result != null && result.files.single.path != null) {
         File file = File(result.files.single.path!);
@@ -107,7 +112,8 @@ class Utils {
   }
 
   static int getLastDate(DateTime currentDate) {
-    DateTime dateTime = DateTime(currentDate.year, currentDate.month + 1, 1).subtract(const Duration(seconds: 1));
+    DateTime dateTime = DateTime(currentDate.year, currentDate.month + 1, 1)
+        .subtract(const Duration(seconds: 1));
     return dateTime.millisecondsSinceEpoch;
   }
 
