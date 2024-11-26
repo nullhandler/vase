@@ -15,7 +15,7 @@ class CategoryIcon extends StatelessWidget {
         width: 40,
         height: 20,
         child: Icon(
-          deserializeIcon({'pack': 'fontAwesomeIcons', 'key': icon}),
+          deserializeIcon({'pack': 'fontAwesomeIcons', 'key': icon})?.data,
           size: 20,
         ),
       ),

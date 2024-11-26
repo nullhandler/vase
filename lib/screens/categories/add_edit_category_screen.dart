@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_iconpicker/Models/configuration.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:get/get.dart';
 import 'package:vase/colors.dart';
@@ -62,21 +63,22 @@ class AddCategoryScreen extends StatelessWidget {
                                 duration: const Duration(milliseconds: 300),
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 4.0),
-                                  child: controller.categoryIcon.value,
+                                  child:
+                                      Icon(controller.categoryIcon.value.data),
                                 ),
                               ),
                             ),
                             TextButton(
                               onPressed: () async {
-                                IconData? icon =
-                                    await FlutterIconPicker.showIconPicker(
-                                        context,
+                                IconPickerIcon? icon = await showIconPicker(
+                                    context,
+                                    configuration: const SinglePickerConfiguration(
                                         adaptiveDialog: true,
                                         backgroundColor:
                                             AppColors.darkGreyColor,
                                         iconPackModes: [
-                                      IconPack.fontAwesomeIcons
-                                    ]);
+                                          IconPack.fontAwesomeIcons
+                                        ]));
                                 controller.onCategoryIconChange(icon);
                               },
                               child: const Text('Click to choose an Icon'),

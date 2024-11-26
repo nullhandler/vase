@@ -11,7 +11,11 @@ import 'category_model.dart';
 class AddCategoryController extends GetxController {
   Rx<CategoryType> categoryType = CategoryType.expense.obs;
   final categoryNameController = TextEditingController();
-  Rx<Icon> categoryIcon = const Icon(FontAwesomeIcons.moneyBill).obs;
+  Rx<IconPickerIcon> categoryIcon = const IconPickerIcon(
+          name: "moneyBill",
+          data: FontAwesomeIcons.moneyBill,
+          pack: IconPack.fontAwesomeIcons)
+      .obs;
   final formKey = GlobalKey<FormState>();
   int updateId = 0;
   Category? preFilledCategory;
@@ -37,17 +41,20 @@ class AddCategoryController extends GetxController {
   void preFillCategory(Category category) {
     preFilledCategory = category;
     categoryNameController.text = category.categoryName;
-    categoryIcon.value = Icon(
-        deserializeIcon({'pack': 'fontAwesomeIcons', 'key': category.icon}));
+    final savedIcon =
+        deserializeIcon({'pack': 'fontAwesomeIcons', 'key': category.icon});
+    if (savedIcon != null) {
+      categoryIcon.value = savedIcon;
+    }
     categoryType.value = category.categoryType;
     selectedColor.value = category.color;
     updateId = category.id!;
     update();
   }
 
-  void onCategoryIconChange(IconData? icon) {
+  void onCategoryIconChange(IconPickerIcon? icon) {
     if (icon != null) {
-      categoryIcon.value = Icon(icon);
+      categoryIcon.value = icon;
     }
   }
 
@@ -64,7 +71,7 @@ class AddCategoryController extends GetxController {
             categoryName: categoryNameController.text,
             categoryType: categoryType.value,
             createdAt: DateTime.now(),
-            icon: serializeIcon(categoryIcon.value.icon!)!['key'],
+            icon: categoryIcon.value.name,
             isDeleted: 0,
             color: selectedColor.value),
       );
@@ -80,7 +87,7 @@ class AddCategoryController extends GetxController {
             categoryName: categoryNameController.text,
             categoryType: categoryType.value,
             createdAt: DateTime.now(),
-            icon: serializeIcon(categoryIcon.value.icon!)!['key'],
+            icon: categoryIcon.value.name,
             isDeleted: 0,
             color: selectedColor.value),
       );
